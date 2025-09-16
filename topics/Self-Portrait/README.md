@@ -1,6 +1,6 @@
-# TITLE OF PROJECT
+# When I Look In The Mirror
 
-AUTHOR NAME
+Benjamin Merhi
 
 [View this project online](URL_FOR_THE_RUNNING_PROJECT)
 
