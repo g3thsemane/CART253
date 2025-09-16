@@ -1,6 +1,6 @@
 /**
  * Git Workflow Example
- * Pippin Barr
+* Pippin Barr
  * 
  * Some sample code for playing with version control.
  * Draws a pyramid in the centre of the canvas and a
