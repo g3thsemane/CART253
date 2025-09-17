@@ -17,8 +17,8 @@ let tinyMan = {
         g: 45,
         b: 182,
     },
-    speedX: 0.5, //Dictates how fast tinyMan moves horizontally
-    speedY: 0.5, //Dictates how fast tinyMan moves vertically
+    speedX: 1, //Dictates how fast tinyMan moves horizontally
+    speedY: 1, //Dictates how fast tinyMan moves vertically
 }
 
 let fatBoy = {
@@ -42,7 +42,16 @@ function setup() {
 
 //Brings life to our imagination
 function draw() {
-    background(150, 25, 255)
+
+    // Making a background that changes color based on the positions of tinyMan and fatBoy
+    let r = map(tinyMan.x, 0, width, 0, 255); //Mapping tinyMan's x position to a value between 0 and 255
+    let g = map(fatBoy.y, 0, height, 0, 255); //Mapping fatBoy's y position to a value between 0 and 255
+    let b = map(tinyMan.y + fatBoy.x, 0, width + height, 0, 255); //Mapping the sum of tinyMan's y position and fatBoy's x position to a value between 0 and 255
+
+    background(r, g, b);
+
+
+    // background(150, 25, 255)
 
     //1. Adding "tinyMan" variable to canvas
     push();
@@ -55,12 +64,20 @@ function draw() {
     tinyMan.x = tinyMan.x + tinyMan.speedX; //Updating tinyMan's x position
     tinyMan.y = tinyMan.y + tinyMan.speedY; //Updating tinyMan's y position
 
+    //1.1.1 Make tinyMan's path more random
+    tinyMan.speedX += random(-0.5, 0.5); //Adding a range of -0.5 to 0.5 to tinyMan's speedX
+    tinyMan.speedY += random(-0.5, 0.5); //Adding a range of -0.5 to 0.5 to tinyMan's speedY
+
+    //1.1.2 Constraining tinyMan's speed to prevent it from getting too fast
+    tinyMan.speedX = constrain(tinyMan.speedX, -5, 5); //Constraining tinyMan's speedX to be between -5 and 5
+    tinyMan.speedY = constrain(tinyMan.speedY, -5, 5); //Constraining tinyMan's speedY to be between -5 and 5
+
     //1.2 Regulating tinyMan's speed
     if (tinyMan.x > width || tinyMan.x < 0) { //Analyzing if tinyMan goes off the canvas horizontally
-        tinyMan.speedX = tinyMan.speedX * -1.5; //If so, reverse his direction and double his speed
+        tinyMan.speedX = tinyMan.speedX * -1; //If so, reverse his direction and double his speed
     }
     if (tinyMan.y > height || tinyMan.y < 0) { //Analyzing if tinyMan goes off the canvas vertically
-        tinyMan.speedY = tinyMan.speedY * -1.2;  //If so, reverse his direction and double his speed
+        tinyMan.speedY = tinyMan.speedY * -1;  //If so, reverse his direction and double his speed
     }
 
     //2. Adding "fatBoy" variable to canvas
@@ -81,5 +98,8 @@ function draw() {
     if (fatBoy.y > height || fatBoy.y < 0) {
         fatBoy.speedY = fatBoy.speedY * -1;
     }
+
+    //2.3 Making fatBoy's path more random
+    fatBoy.speedX += random(-0.2, 0.2);
 
 }

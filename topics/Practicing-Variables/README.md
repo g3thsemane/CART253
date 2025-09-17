@@ -1,6 +1,6 @@
-# TITLE OF PROJECT
+# Practicing with Variables
 
-AUTHOR NAME
+Benjamin Merhi
 
 [View this project online](URL_FOR_THE_RUNNING_PROJECT)
 
