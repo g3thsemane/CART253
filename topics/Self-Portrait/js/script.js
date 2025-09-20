@@ -8,6 +8,20 @@
 
 "use strict";
 
+let myHead = {
+    x: 340,
+    y: 340,
+    width: 325,
+    height: 325,
+    fill: {
+        r: 255,
+        g: 227,
+        b: 189,
+    }
+}
+
+//let myPupils = {
+
 /**
  * Preparing my project by creating a canvas to work on
 */
@@ -49,8 +63,8 @@ function draw() {
     ellipse(340, 610, 225, 50)
     pop();
 
-    //Time to add the neck, it will include some shading
-    // because that's how life works
+    //Time to add the neck
+    //because that's how life works
     push();
     noStroke();
     fill(255, 227, 189)
@@ -86,5 +100,16 @@ function draw() {
     fill(255, 255, 255)
     ellipse(340, 538, 40, 15)
     pop();
+
+    //Now for the head portion, which will include the facial features and hair
+    push();
+    noStroke();
+    fill(myHead.fill.r, myHead.fill.g, myHead.fill.b)
+    circle(myHead.x, myHead.y, myHead.width, myHead.height)
+
+
+    myHead.y = mouseY;
+
+    //Eyes
 
 }
