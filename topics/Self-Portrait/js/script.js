@@ -22,11 +22,11 @@ let myHead = {
     }
 }
 
-let hair = {
+let myHair = {
     x: 150,
-    y: 250,
-    width: 340,
-    height: 300,
+    y: 170,
+    width: 390,
+    height: 200,
     fill: {
         r: 64,
         g: 40,
@@ -82,7 +82,7 @@ let eyePupil2 = {
     }
 }
 
-let mouth = {
+let myMouth = {
     x: 315,
     y: 500,
     width: 50,
@@ -93,6 +93,16 @@ let mouth = {
         b: 156,
     }
 }
+
+//Add constants so it doesn't mess up the organization of the face
+
+const headBaseY = myHead.y;
+const myHairOffsetY = myHair.y - headBaseY;
+const eyeWhite1OffsetY = eyeWhite1.y - headBaseY;
+const eyePupil1OffsetY = eyePupil1.y - headBaseY;
+const eyeWhite2OffsetY = eyeWhite2.y - headBaseY;
+const eyePupil2OffsetY = eyePupil2.y - headBaseY;
+const myMouthOffsetY = myMouth.y - headBaseY;
 
 
 /**
@@ -176,56 +186,60 @@ function draw() {
 
     //Now for the head portion, which will include the facial features and hair
     //I am aiming for these to all be attached so they can move together
+
+    //Making sure that it can move
+    myHead.y = mouseY;
+
     push();
 
-    //Hair
-    noStroke();
-    fill(hair.fill.r, hair.fill.g, hair.fill.b)
-    rect(hair.x, hair.y, hair.width, hair.height,)
-
-    hair.y = mouseY
-
-
+    //Head
     noStroke();
     fill(myHead.fill.r, myHead.fill.g, myHead.fill.b)
     circle(myHead.x, myHead.y, myHead.width, myHead.height)
 
-    myHead.y = mouseY;
+
+    //Hair
+    noStroke();
+    fill(myHair.fill.r, myHair.fill.g, myHair.fill.b)
+    rect(myHair.x, myHead.y + myHairOffsetY, myHair.width, myHair.height,)
+
+
 
     //Eye 1
     noStroke();
     fill(eyeWhite1.fill.r, eyeWhite1.fill.g, eyeWhite1.fill.b)
-    rect(eyeWhite1.x, eyeWhite1.y, eyeWhite1.width, eyeWhite1.height)
+    rect(eyeWhite1.x, myHead.y + eyeWhite1OffsetY, eyeWhite1.width, eyeWhite1.height)
 
-    eyeWhite1.y = mouseY;
+
 
     //Pupil 1
     noStroke();
     fill(eyePupil1.fill.r, eyePupil1.fill.g, eyePupil1.fill.b)
-    square(eyePupil1.x, eyePupil1.y, eyePupil1.width, eyePupil1.height)
+    square(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height)
 
-    eyePupil1.y = mouseY;
+
 
     //Eye 2
     noStroke();
     fill(eyeWhite2.fill.r, eyeWhite2.fill.g, eyeWhite2.fill.b)
-    rect(eyeWhite2.x, eyeWhite2.y, eyeWhite2.width, eyeWhite2.height)
+    rect(eyeWhite2.x, myHead.y + eyeWhite2OffsetY, eyeWhite2.width, eyeWhite2.height)
 
-    eyeWhite2.y = mouseY;
+
 
     //Pupil 2
     noStroke();
     fill(eyePupil2.fill.r, eyePupil2.fill.g, eyePupil2.fill.b)
-    square(eyePupil2.x, eyePupil2.y, eyePupil2.width, eyePupil2.height)
+    square(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height)
 
-    eyePupil2.y = mouseY;
 
     //Mouth
     noStroke();
-    fill(mouth.fill.r, mouth.fill.g, mouth.fill.b)
-    rect(mouth.x, mouth.y, mouth.width, mouth.height)
+    fill(myMouth.fill.r, myMouth.fill.g, myMouth.fill.b)
+    rect(myMouth.x, myHead.y + myMouthOffsetY, myMouth.width, myMouth.height)
 
-    mouth.y = mouseY;
+
+
+    pop();
 
 
 }
