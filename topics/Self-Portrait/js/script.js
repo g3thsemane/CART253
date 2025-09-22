@@ -11,10 +11,10 @@
 //Setting up objects to represent different parts of my face
 
 let myHead = {
-    x: 340,
-    y: 420,
+    x: 175,
+    y: 360,
     width: 325,
-    height: 325,
+    height: 215,
     fill: {
         r: 255,
         g: 227,
@@ -25,7 +25,7 @@ let myHead = {
 let myHair = {
     x: 150,
     y: 170,
-    width: 390,
+    width: 375,
     height: 200,
     fill: {
         r: 64,
@@ -55,7 +55,9 @@ let eyePupil1 = {
         r: 0,
         g: 0,
         b: 0,
-    }
+    },
+    speedX: 0.1 // Giving this pupils a speed so they can move
+
 }
 
 let eyeWhite2 = {
@@ -79,7 +81,8 @@ let eyePupil2 = {
         r: 0,
         g: 0,
         b: 0,
-    }
+    },
+    speedX: 0.1 // Giving this pupil a speed so they can move
 }
 
 let myMouth = {
@@ -94,7 +97,43 @@ let myMouth = {
     }
 }
 
-//Add constants so it doesn't mess up the organization of the face
+let myNose = {
+    x: 330,
+    y: 460,
+    width: 20,
+    height: 30,
+    fill: {
+        r: 219,
+        g: 187,
+        b: 149,
+    }
+}
+
+let eyeBrow1 = {
+    x: 250,
+    y: 390,
+    width: 40,
+    height: 10,
+    fill: {
+        r: 64,
+        g: 40,
+        b: 10,
+    }
+}
+
+let eyeBrow2 = {
+    x: 390,
+    y: 390,
+    width: 40,
+    height: 10,
+    fill: {
+        r: 64,
+        g: 40,
+        b: 10,
+    }
+}
+
+//Add constants so it doesn't mess up the organization of the face while moving along the Y axis
 
 const headBaseY = myHead.y;
 const myHairOffsetY = myHair.y - headBaseY;
@@ -103,6 +142,9 @@ const eyePupil1OffsetY = eyePupil1.y - headBaseY;
 const eyeWhite2OffsetY = eyeWhite2.y - headBaseY;
 const eyePupil2OffsetY = eyePupil2.y - headBaseY;
 const myMouthOffsetY = myMouth.y - headBaseY;
+const myNoseOffsetY = myNose.y - headBaseY;
+const eyeBrow1OffsetY = eyeBrow1.y - headBaseY;
+const eyeBrow2OffsetY = eyeBrow2.y - headBaseY;
 
 
 /**
@@ -161,6 +203,12 @@ function draw() {
     ellipse(341, 540, 202, 50)
     pop();
 
+    push();
+    noStroke();
+    fill(255, 0, 0)
+    ellipse(341, 540, 150, 25)
+    pop();
+
     //Cartoon-esque bone in neck
     push();
     noStroke();
@@ -188,15 +236,18 @@ function draw() {
     //I am aiming for these to all be attached so they can move together
 
     //Making sure that it can move
-    myHead.y = mouseY;
+    if (mouseIsPressed) {
+        myHead.y = mouseY;
+    }
 
     push();
 
     //Head
     noStroke();
     fill(myHead.fill.r, myHead.fill.g, myHead.fill.b)
-    circle(myHead.x, myHead.y, myHead.width, myHead.height)
+    rect(myHead.x, myHead.y, myHead.width, myHead.height)
 
+    myHead.y = constrain(myHead.y, 100, 400);
 
     //Hair
     noStroke();
@@ -211,12 +262,17 @@ function draw() {
     rect(eyeWhite1.x, myHead.y + eyeWhite1OffsetY, eyeWhite1.width, eyeWhite1.height)
 
 
-
     //Pupil 1
     noStroke();
     fill(eyePupil1.fill.r, eyePupil1.fill.g, eyePupil1.fill.b)
-    square(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height)
+    rect(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height)
 
+    //Making the pupil move from side to side 
+    eyePupil1.x += eyePupil1.speedX;
+    eyePupil1.x = constrain(eyePupil1.x, 250, 270);
+    if (eyePupil1.x <= 250 || eyePupil1.x >= 270) {
+        eyePupil1.speedX *= -1;
+    }
 
 
     //Eye 2
@@ -229,7 +285,14 @@ function draw() {
     //Pupil 2
     noStroke();
     fill(eyePupil2.fill.r, eyePupil2.fill.g, eyePupil2.fill.b)
-    square(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height)
+    rect(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height)
+
+    //Making the pupil move from side to side
+    eyePupil2.x += eyePupil2.speedX;
+    eyePupil2.x = constrain(eyePupil2.x, 390, 410);
+    if (eyePupil2.x <= 390 || eyePupil2.x >= 410) {
+        eyePupil2.speedX *= -1;
+    }
 
 
     //Mouth
@@ -237,6 +300,20 @@ function draw() {
     fill(myMouth.fill.r, myMouth.fill.g, myMouth.fill.b)
     rect(myMouth.x, myHead.y + myMouthOffsetY, myMouth.width, myMouth.height)
 
+    //Nose
+    noStroke();
+    fill(myNose.fill.r, myNose.fill.g, myNose.fill.b)
+    rect(myNose.x, myHead.y + myNoseOffsetY, myNose.width, myNose.height)
+
+    //Eyebrow 1
+    noStroke();
+    fill(eyeBrow1.fill.r, eyeBrow1.fill.g, eyeBrow1.fill.b)
+    rect(eyeBrow1.x, myHead.y + eyeBrow1OffsetY, eyeBrow1.width, eyeBrow1.height)
+
+    //Eyebrow 2
+    noStroke();
+    fill(eyeBrow2.fill.r, eyeBrow2.fill.g, eyeBrow2.fill.b)
+    rect(eyeBrow2.x, myHead.y + eyeBrow2OffsetY, eyeBrow2.width, eyeBrow2.height)
 
 
     pop();

@@ -8,7 +8,7 @@ Benjamin Merhi
 
 This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
 
-> *The Mayor of Clown Town* is a simulator experience that allows the user to control a small town populated entirely by clowns.
+> "When I Look In The Mirror" is a self portrait which features a blocky depiction of myself, and some level of interractivity for the user
 
 > The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
 
