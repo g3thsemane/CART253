@@ -65,6 +65,9 @@ function draw() {
     if (bigBall.x === 350) {
         bigBall.size += 50
     }
+    else {
+        bigBall.size = bigBall.size - 50
+    }
 
 
 
