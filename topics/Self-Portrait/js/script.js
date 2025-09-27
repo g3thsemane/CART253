@@ -34,6 +34,22 @@ let myHair = {
     }
 }
 
+let hairTop = {
+    x1: 175,
+    y1: 145,
+    x2: 505,
+    y2: 145,
+    x3: 525,
+    y3: 170,
+    x4: 150,
+    y4: 170,
+    fill: {
+        r: 54,
+        g: 33,
+        b: 7,
+    }
+}
+
 let eyeWhite1 = {
     x: 250,
     y: 410,
@@ -133,6 +149,14 @@ let eyeBrow2 = {
     }
 }
 
+//Adding a background variable so that it can change
+let skyShade = {
+    fill: {
+        r: 152,
+        g: 217,
+        b: 227
+    }
+}
 //Add constants so it doesn't mess up the organization of the face while moving along the Y axis
 
 const headBaseY = myHead.y;
@@ -145,7 +169,10 @@ const myMouthOffsetY = myMouth.y - headBaseY;
 const myNoseOffsetY = myNose.y - headBaseY;
 const eyeBrow1OffsetY = eyeBrow1.y - headBaseY;
 const eyeBrow2OffsetY = eyeBrow2.y - headBaseY;
-
+const hairTop1OffsetY = hairTop.y1 - headBaseY;
+const hairTop2OffsetY = hairTop.y2 - headBaseY;
+const hairTop3OffsetY = hairTop.y3 - headBaseY;
+const hairTop4OfssetY = hairTop.y4 - headBaseY;
 
 /**
  * Preparing my project by creating a canvas to work on
@@ -161,8 +188,13 @@ function setup() {
  * giving life to my digital self
 */
 function draw() {
+
     //Starting with the background, a nice calm blue
-    background(152, 217, 227)
+    background(skyShade.fill.r, skyShade.fill.g, skyShade.fill.b);
+
+    skyShade.fill.r = map(myHead.y, 0, height, 0, 255);
+    skyShade.fill.g = myHead.y;
+    skyShade.fill.b = myHead.y
 
 
     //On to the red t-shirt/shoulders which will be placed at
@@ -247,13 +279,16 @@ function draw() {
     fill(myHead.fill.r, myHead.fill.g, myHead.fill.b)
     rect(myHead.x, myHead.y, myHead.width, myHead.height)
 
-    myHead.y = constrain(myHead.y, 100, 400);
 
     //Hair
     noStroke();
     fill(myHair.fill.r, myHair.fill.g, myHair.fill.b)
     rect(myHair.x, myHead.y + myHairOffsetY, myHair.width, myHair.height,)
 
+    //Top of hair
+    noStroke();
+    fill(hairTop.fill.r, hairTop.fill.g, hairTop.fill.b)
+    quad(hairTop.x1, myHead.y + hairTop1OffsetY, hairTop.x2, myHead.y + hairTop2OffsetY, hairTop.x3, myHead.y + hairTop3OffsetY, hairTop.x4, myHead.y + hairTop4OfssetY)
 
 
     //Eye 1
@@ -317,6 +352,5 @@ function draw() {
 
 
     pop();
-
 
 }
