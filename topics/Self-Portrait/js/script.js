@@ -29,6 +29,7 @@ let myHead = {
     }
 }
 
+
 let myHair = {
     x: 150,
     y: 170,
@@ -79,7 +80,7 @@ let eyePupil1 = {
         g: 0,
         b: 0,
     },
-    speedX: 0.1 // Giving this pupils a speed so they can move
+    speedX: 0.1 // Giving this pupil a speed so they can move
 
 }
 
@@ -156,7 +157,7 @@ let eyeBrow2 = {
     }
 }
 
-//Adding a background variable so that it can change
+//Adding a background variable so that it can change colours
 let skyShade = {
     fill: {
         r: 152,
@@ -164,8 +165,8 @@ let skyShade = {
         b: 227
     }
 }
-//Add constants so it doesn't mess up the organization of the face while moving along the Y axis
-
+//Adding constants and offsets so it doesn't mess up the organization of the face while moving along the Y axis
+//Everything will stay attached to the head
 const headBaseY = myHead.y;
 const myHairOffsetY = myHair.y - headBaseY;
 const eyeWhite1OffsetY = eyeWhite1.y - headBaseY;
@@ -180,6 +181,9 @@ const hairTop1OffsetY = hairTop.y1 - headBaseY;
 const hairTop2OffsetY = hairTop.y2 - headBaseY;
 const hairTop3OffsetY = hairTop.y3 - headBaseY;
 const hairTop4OfssetY = hairTop.y4 - headBaseY;
+
+//Adding a constant for the Head, so that it doesn't go below the neck and torso
+const Head_Max_Y = 575;
 
 /**
  * Preparing my project by creating a canvas to work on
@@ -199,14 +203,15 @@ function draw() {
     //Starting with the background, a nice calm blue
     background(skyShade.fill.r, skyShade.fill.g, skyShade.fill.b);
 
-    //Making the background become darker as the myHead.y variable rises
+    //Making the background become darker as the myHead.y variable rises up the canvas
     skyShade.fill.r = map(myHead.y, 0, height, 0, 255);
     skyShade.fill.g = myHead.y;
-    skyShade.fill.b = myHead.y
+    skyShade.fill.b = myHead.y;
 
-    skyShade.fill.r = constrain(skyShade.fill.r, 0, 165)
-    skyShade.fill.g = constrain(skyShade.fill.g, 0, 230)
-    skyShade.fill.b = constrain(skyShade.fill.b, 0, 240)
+    //Adding constrains so the background never becomes white 
+    skyShade.fill.r = constrain(skyShade.fill.r, 0, 165);
+    skyShade.fill.g = constrain(skyShade.fill.g, 0, 230);
+    skyShade.fill.b = constrain(skyShade.fill.b, 0, 240);
 
 
     //On to the red t-shirt/shoulders which will be placed at
@@ -214,37 +219,37 @@ function draw() {
     push();
     noStroke();
     fill(204, 4, 4);
-    rect(45, 630, 590, 100)
+    rect(45, 630, 590, 100);
     pop();
 
     //Creating the shoulders
     push();
     noStroke();
     fill(184, 18, 18);
-    quad(75, 600, 605, 600, 635, 630, 45, 630)
+    quad(75, 600, 605, 600, 635, 630, 45, 630);
     pop();
 
     //Going to add a collar to the shirt so it doesn't
     //look too bizarre, including some skin
     push();
     noStroke();
-    fill(255, 227, 189)
-    ellipse(340, 610, 225, 50)
+    fill(255, 227, 189);
+    ellipse(340, 610, 225, 50);
     pop();
 
     //Time to add the neck
     //because that's how life works
     push();
     noStroke();
-    fill(255, 227, 189)
-    rect(241, 537, 200, 75)
+    fill(255, 227, 189);
+    rect(241, 537, 200, 75);
     pop();
 
     //Interior portion of the neck
     push();
     noStroke();
-    fill(242, 215, 177)
-    ellipse(341, 540, 202, 50)
+    fill(242, 215, 177);
+    ellipse(341, 540, 202, 50);
     pop();
 
     push();
@@ -256,18 +261,18 @@ function draw() {
     //Cartoon-esque bone in neck
     push();
     noStroke();
-    fill(255, 255, 255)
-    rect(320, 478, 40, 60)
+    fill(255, 255, 255);
+    rect(320, 478, 40, 60);
     pop();
 
     push();
     noStroke();
-    fill(255, 255, 255)
-    circle(325, 478, 40)
+    fill(255, 255, 255);
+    circle(325, 478, 40);
 
     push();
     noStroke();
-    fill(255, 255, 255)
+    fill(255, 255, 255);
     circle(355, 478, 40);
 
     push();
@@ -281,86 +286,87 @@ function draw() {
 
     //Making sure that it can move
     if (mouseIsPressed) {
-        myHead.y = mouseY;
-    }
+        const headBarrier = Head_Max_Y - myHead.height;
+        myHead.y = constrain(mouseY, 0, headBarrier);
+    };
 
     push();
 
     //Head
     noStroke();
-    fill(myHead.fill.r, myHead.fill.g, myHead.fill.b)
-    rect(myHead.x, myHead.y, myHead.width, myHead.height)
+    fill(myHead.fill.r, myHead.fill.g, myHead.fill.b);
+    rect(myHead.x, myHead.y, myHead.width, myHead.height);
 
 
     //Hair
     noStroke();
-    fill(myHair.fill.r, myHair.fill.g, myHair.fill.b)
-    rect(myHair.x, myHead.y + myHairOffsetY, myHair.width, myHair.height,)
+    fill(myHair.fill.r, myHair.fill.g, myHair.fill.b);
+    rect(myHair.x, myHead.y + myHairOffsetY, myHair.width, myHair.height,);
 
     //Top of hair
     noStroke();
-    fill(hairTop.fill.r, hairTop.fill.g, hairTop.fill.b)
-    quad(hairTop.x1, myHead.y + hairTop1OffsetY, hairTop.x2, myHead.y + hairTop2OffsetY, hairTop.x3, myHead.y + hairTop3OffsetY, hairTop.x4, myHead.y + hairTop4OfssetY)
+    fill(hairTop.fill.r, hairTop.fill.g, hairTop.fill.b);
+    quad(hairTop.x1, myHead.y + hairTop1OffsetY, hairTop.x2, myHead.y + hairTop2OffsetY, hairTop.x3, myHead.y + hairTop3OffsetY, hairTop.x4, myHead.y + hairTop4OfssetY);
 
 
     //Eye 1
     noStroke();
-    fill(eyeWhite1.fill.r, eyeWhite1.fill.g, eyeWhite1.fill.b)
-    rect(eyeWhite1.x, myHead.y + eyeWhite1OffsetY, eyeWhite1.width, eyeWhite1.height)
+    fill(eyeWhite1.fill.r, eyeWhite1.fill.g, eyeWhite1.fill.b);
+    rect(eyeWhite1.x, myHead.y + eyeWhite1OffsetY, eyeWhite1.width, eyeWhite1.height);
 
 
     //Pupil 1
     noStroke();
-    fill(eyePupil1.fill.r, eyePupil1.fill.g, eyePupil1.fill.b)
-    rect(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height)
+    fill(eyePupil1.fill.r, eyePupil1.fill.g, eyePupil1.fill.b);
+    rect(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height);
 
     //Making the pupil move from side to side 
     eyePupil1.x += eyePupil1.speedX;
     eyePupil1.x = constrain(eyePupil1.x, 250, 270);
     if (eyePupil1.x <= 250 || eyePupil1.x >= 270) {
         eyePupil1.speedX *= -1;
-    }
+    };
 
 
     //Eye 2
     noStroke();
-    fill(eyeWhite2.fill.r, eyeWhite2.fill.g, eyeWhite2.fill.b)
-    rect(eyeWhite2.x, myHead.y + eyeWhite2OffsetY, eyeWhite2.width, eyeWhite2.height)
+    fill(eyeWhite2.fill.r, eyeWhite2.fill.g, eyeWhite2.fill.b);
+    rect(eyeWhite2.x, myHead.y + eyeWhite2OffsetY, eyeWhite2.width, eyeWhite2.height);
 
 
 
     //Pupil 2
     noStroke();
-    fill(eyePupil2.fill.r, eyePupil2.fill.g, eyePupil2.fill.b)
-    rect(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height)
+    fill(eyePupil2.fill.r, eyePupil2.fill.g, eyePupil2.fill.b);
+    rect(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height);
 
     //Making the pupil move from side to side
     eyePupil2.x += eyePupil2.speedX;
     eyePupil2.x = constrain(eyePupil2.x, 390, 410);
     if (eyePupil2.x <= 390 || eyePupil2.x >= 410) {
         eyePupil2.speedX *= -1;
-    }
+    };
 
 
     //Mouth
     noStroke();
-    fill(myMouth.fill.r, myMouth.fill.g, myMouth.fill.b)
-    rect(myMouth.x, myHead.y + myMouthOffsetY, myMouth.width, myMouth.height)
+    fill(myMouth.fill.r, myMouth.fill.g, myMouth.fill.b);
+    rect(myMouth.x, myHead.y + myMouthOffsetY, myMouth.width, myMouth.height);
 
     //Nose
     noStroke();
-    fill(myNose.fill.r, myNose.fill.g, myNose.fill.b)
-    rect(myNose.x, myHead.y + myNoseOffsetY, myNose.width, myNose.height)
+    fill(myNose.fill.r, myNose.fill.g, myNose.fill.b);
+    rect(myNose.x, myHead.y + myNoseOffsetY, myNose.width, myNose.height);
 
     //Eyebrow 1
     noStroke();
-    fill(eyeBrow1.fill.r, eyeBrow1.fill.g, eyeBrow1.fill.b)
-    rect(eyeBrow1.x, myHead.y + eyeBrow1OffsetY, eyeBrow1.width, eyeBrow1.height)
+    fill(eyeBrow1.fill.r, eyeBrow1.fill.g, eyeBrow1.fill.b);
+    rect(eyeBrow1.x, myHead.y + eyeBrow1OffsetY, eyeBrow1.width, eyeBrow1.height);
 
     //Eyebrow 2
     noStroke();
-    fill(eyeBrow2.fill.r, eyeBrow2.fill.g, eyeBrow2.fill.b)
-    rect(eyeBrow2.x, myHead.y + eyeBrow2OffsetY, eyeBrow2.width, eyeBrow2.height)
+    fill(eyeBrow2.fill.r, eyeBrow2.fill.g, eyeBrow2.fill.b);
+    rect(eyeBrow2.x, myHead.y + eyeBrow2OffsetY, eyeBrow2.width, eyeBrow2.height);
 
 
     pop();
