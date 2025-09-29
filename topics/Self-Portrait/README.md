@@ -2,31 +2,29 @@
 
 Benjamin Merhi
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://g3thsemane.github.io/CART253/topics/Self-Portrait/)
 
 ## Description
 
-This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
 
 > "When I Look In The Mirror" is a self portrait which features a blocky depiction of myself, and some level of interractivity for the user
 
-> The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
+> The user can engage with the porgram through pressing and holding the mouse, whilst moving it up and down in order to move the head
 
-> The project is meant to give the user a sense of what it would be the mayor of a town of clowns, eventually getting the sense that clowns are not taking their civic duties seriously.
+> In some ways, this work is a litmus test for the morality and ethics of people that engage with it. By moving the head, you are a killer, which says a lot about you.
 
 ## Screenshot(s)
 
 This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
 
-> ![Image of a clown face](./assets/images/clown.png)
+> ![Program upon startup](./assets/images/selfportrait1.png)
+> ![Program after interraction](./assets/images/selfportrait2.png)
 
 ## Attribution
 
 This bit should attribute any code, assets or other elements used taken from other sources. For example:
 
 > - This project uses [p5.js](https://p5js.org).
-> - The clown image is a capture of the clown from the Apple emoji character set.
-> - The barking sound effect is "single dog bark 1" by crazymonke9 from freesound.org: https://freesound.org/people/crazymonke9/sounds/418107/
 
 ## License
 

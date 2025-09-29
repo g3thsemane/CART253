@@ -3,7 +3,14 @@
  * Benjamin Merhi
  * 
  * This is a digital self-portrait made using the p5js
- * library
+ * library, that involves some user interraction
+ * 
+ * Controls:
+ * -Press and hold mouse to move the head
+ * 
+ * Uses:
+ * p5.js
+ * https://p5js.org
  */
 
 "use strict";
@@ -192,9 +199,14 @@ function draw() {
     //Starting with the background, a nice calm blue
     background(skyShade.fill.r, skyShade.fill.g, skyShade.fill.b);
 
+    //Making the background become darker as the myHead.y variable rises
     skyShade.fill.r = map(myHead.y, 0, height, 0, 255);
     skyShade.fill.g = myHead.y;
     skyShade.fill.b = myHead.y
+
+    skyShade.fill.r = constrain(skyShade.fill.r, 0, 165)
+    skyShade.fill.g = constrain(skyShade.fill.g, 0, 230)
+    skyShade.fill.b = constrain(skyShade.fill.b, 0, 240)
 
 
     //On to the red t-shirt/shoulders which will be placed at
