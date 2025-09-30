@@ -66,6 +66,9 @@ function displayScore() {
     pop();
 }
 
+
+
+
 function lose() {
     gameOver = false
 }
@@ -87,5 +90,3 @@ function mouseMoved() {
         gameOver = true
     }
 }
-
-
