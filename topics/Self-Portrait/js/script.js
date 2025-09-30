@@ -157,7 +157,7 @@ let eyeBrow2 = {
     }
 }
 
-//Adding a background variable so that it can change colours
+//Adding a background variable so that it can change colours as the head rises
 let skyShade = {
     fill: {
         r: 152,
@@ -166,7 +166,7 @@ let skyShade = {
     }
 }
 //Adding constants and offsets so it doesn't mess up the organization of the face while moving along the Y axis
-//Everything will stay attached to the head
+//Offsets will constantly update the position of the different face variables dependant on the position of myHead.y
 const headBaseY = myHead.y;
 const myHairOffsetY = myHair.y - headBaseY;
 const eyeWhite1OffsetY = eyeWhite1.y - headBaseY;
@@ -182,8 +182,8 @@ const hairTop2OffsetY = hairTop.y2 - headBaseY;
 const hairTop3OffsetY = hairTop.y3 - headBaseY;
 const hairTop4OfssetY = hairTop.y4 - headBaseY;
 
-//Adding a constant for the Head, so that it doesn't go below the neck and torso
-const Head_Max_Y = 575;
+//Adding a constant "collision line" for the Head, so that it doesn't go below the neck and torso
+const headMaxY = 575;
 
 /**
  * Preparing my project by creating a canvas to work on
@@ -204,6 +204,7 @@ function draw() {
     background(skyShade.fill.r, skyShade.fill.g, skyShade.fill.b);
 
     //Making the background become darker as the myHead.y variable rises up the canvas
+    //the skyShade.fill.r follows a "map()" function, so that the colour range of skyShade is relative to the length of the canvas. When myHead.Y follows the Y-axis up and down, it is essentially following a path from 0-255 in regards to colors. I found that by doing it this way for red, it prevented the color switch from happening to quickly and more smoothly
     skyShade.fill.r = map(myHead.y, 0, height, 0, 255);
     skyShade.fill.g = myHead.y;
     skyShade.fill.b = myHead.y;
@@ -284,9 +285,10 @@ function draw() {
     //Now for the head portion, which will include the facial features and hair
     //I am aiming for these to all be attached so they can move together
 
-    //Making sure that it can move
+    //Attaching the movement to the mouse, and adding the constrain so that the head does not surpass a certain point on the Y-Axis
+    //Adding headBarrier constant as largest allowed Y for my myHead.y
     if (mouseIsPressed) {
-        const headBarrier = Head_Max_Y - myHead.height;
+        const headBarrier = headMaxY - myHead.height;
         myHead.y = constrain(mouseY, 0, headBarrier);
     };
 
@@ -298,24 +300,24 @@ function draw() {
     rect(myHead.x, myHead.y, myHead.width, myHead.height);
 
 
-    //Hair
+    //Hair with offsets
     noStroke();
     fill(myHair.fill.r, myHair.fill.g, myHair.fill.b);
     rect(myHair.x, myHead.y + myHairOffsetY, myHair.width, myHair.height,);
 
-    //Top of hair
+    //Top of hair with offsets
     noStroke();
     fill(hairTop.fill.r, hairTop.fill.g, hairTop.fill.b);
     quad(hairTop.x1, myHead.y + hairTop1OffsetY, hairTop.x2, myHead.y + hairTop2OffsetY, hairTop.x3, myHead.y + hairTop3OffsetY, hairTop.x4, myHead.y + hairTop4OfssetY);
 
 
-    //Eye 1
+    //Eye 1 with offsets
     noStroke();
     fill(eyeWhite1.fill.r, eyeWhite1.fill.g, eyeWhite1.fill.b);
     rect(eyeWhite1.x, myHead.y + eyeWhite1OffsetY, eyeWhite1.width, eyeWhite1.height);
 
 
-    //Pupil 1
+    //Pupil 1 with offsets
     noStroke();
     fill(eyePupil1.fill.r, eyePupil1.fill.g, eyePupil1.fill.b);
     rect(eyePupil1.x, myHead.y + eyePupil1OffsetY, eyePupil1.width, eyePupil1.height);
@@ -328,14 +330,14 @@ function draw() {
     };
 
 
-    //Eye 2
+    //Eye 2 with offsets
     noStroke();
     fill(eyeWhite2.fill.r, eyeWhite2.fill.g, eyeWhite2.fill.b);
     rect(eyeWhite2.x, myHead.y + eyeWhite2OffsetY, eyeWhite2.width, eyeWhite2.height);
 
 
 
-    //Pupil 2
+    //Pupil 2 with offsets
     noStroke();
     fill(eyePupil2.fill.r, eyePupil2.fill.g, eyePupil2.fill.b);
     rect(eyePupil2.x, myHead.y + eyePupil2OffsetY, eyePupil2.width, eyePupil2.height);
@@ -348,22 +350,22 @@ function draw() {
     };
 
 
-    //Mouth
+    //Mouth with offsets
     noStroke();
     fill(myMouth.fill.r, myMouth.fill.g, myMouth.fill.b);
     rect(myMouth.x, myHead.y + myMouthOffsetY, myMouth.width, myMouth.height);
 
-    //Nose
+    //Nose with offsets
     noStroke();
     fill(myNose.fill.r, myNose.fill.g, myNose.fill.b);
     rect(myNose.x, myHead.y + myNoseOffsetY, myNose.width, myNose.height);
 
-    //Eyebrow 1
+    //Eyebrow 1 with offsets 
     noStroke();
     fill(eyeBrow1.fill.r, eyeBrow1.fill.g, eyeBrow1.fill.b);
     rect(eyeBrow1.x, myHead.y + eyeBrow1OffsetY, eyeBrow1.width, eyeBrow1.height);
 
-    //Eyebrow 2
+    //Eyebrow 2 with offsets
     noStroke();
     fill(eyeBrow2.fill.r, eyeBrow2.fill.g, eyeBrow2.fill.b);
     rect(eyeBrow2.x, myHead.y + eyeBrow2OffsetY, eyeBrow2.width, eyeBrow2.height);

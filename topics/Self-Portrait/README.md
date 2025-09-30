@@ -13,6 +13,8 @@ Benjamin Merhi
 
 > In some ways, this work is a litmus test for the morality and ethics of people that engage with it. By moving the head, you are a killer, which says a lot about you.
 
+> Used the map() function for the first time in order to change the background dependant on the the position of myHead variable. Used Offsets for the first time in order to keep all the head components attached properly during movement
+
 ## Screenshot(s)
 
 This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
@@ -25,6 +27,7 @@ This bit should have some images of the program running so that the reader has a
 This bit should attribute any code, assets or other elements used taken from other sources. For example:
 
 > - This project uses [p5.js](https://p5js.org).
+> - As well as the reference [p5.js](https://p5js.org/reference/)
 
 ## License
 
