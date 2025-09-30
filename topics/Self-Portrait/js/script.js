@@ -80,7 +80,7 @@ let eyePupil1 = {
         g: 0,
         b: 0,
     },
-    speedX: 0.1 // Giving this pupil a speed so they can move
+    speedX: 0.1 // Giving this pupil a speed so it can move
 
 }
 
@@ -106,7 +106,7 @@ let eyePupil2 = {
         g: 0,
         b: 0,
     },
-    speedX: 0.1 // Giving this pupil a speed so they can move
+    speedX: 0.1 // Giving this pupil a speed so it can move
 }
 
 let myMouth = {
@@ -165,8 +165,9 @@ let skyShade = {
         b: 227
     }
 }
-//Adding constants and offsets so it doesn't mess up the organization of the face while moving along the Y axis
+//Adding constant offsets so it doesn't mess up the organization of the face while moving along the Y axis
 //Offsets will constantly update the position of the different face variables dependant on the position of myHead.y
+//"headBaseY" will serve as the main point of reference for the other moving parts
 const headBaseY = myHead.y;
 const myHairOffsetY = myHair.y - headBaseY;
 const eyeWhite1OffsetY = eyeWhite1.y - headBaseY;
@@ -183,7 +184,7 @@ const hairTop3OffsetY = hairTop.y3 - headBaseY;
 const hairTop4OfssetY = hairTop.y4 - headBaseY;
 
 //Adding a constant "collision line" for the Head, so that it doesn't go below the neck and torso
-const headMaxY = 575;
+//const headMaxY = 575;
 
 /**
  * Preparing my project by creating a canvas to work on
@@ -221,10 +222,8 @@ function draw() {
     noStroke();
     fill(204, 4, 4);
     rect(45, 630, 590, 100);
-    pop();
 
     //Creating the shoulders
-    push();
     noStroke();
     fill(184, 18, 18);
     quad(75, 600, 605, 600, 635, 630, 45, 630);
@@ -236,24 +235,20 @@ function draw() {
     noStroke();
     fill(255, 227, 189);
     ellipse(340, 610, 225, 50);
-    pop();
+
 
     //Time to add the neck
     //because that's how life works
-    push();
     noStroke();
     fill(255, 227, 189);
     rect(241, 537, 200, 75);
-    pop();
 
     //Interior portion of the neck
-    push();
+    //push();
     noStroke();
     fill(242, 215, 177);
     ellipse(341, 540, 202, 50);
-    pop();
 
-    push();
     noStroke();
     fill(255, 0, 0)
     ellipse(341, 540, 150, 25)
@@ -264,7 +259,6 @@ function draw() {
     noStroke();
     fill(255, 255, 255);
     rect(320, 478, 40, 60);
-    pop();
 
     push();
     noStroke();
@@ -284,6 +278,9 @@ function draw() {
 
     //Now for the head portion, which will include the facial features and hair
     //I am aiming for these to all be attached so they can move together
+
+    //Adding a constant "collision line" for the head, so that it doesn't go below the neck and torso
+    const headMaxY = 575;
 
     //Attaching the movement to the mouse, and adding the constrain so that the head does not surpass a certain point on the Y-Axis
     //Adding headBarrier constant as largest allowed Y for my myHead.y
