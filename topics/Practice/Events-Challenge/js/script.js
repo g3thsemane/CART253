@@ -70,23 +70,17 @@ function displayScore() {
 
 
 function lose() {
-    gameOver = false
+    gameOver = true
 }
 
 function keyPressed() {
-    if (keyPressed) {
-        gameOver = true
-    }
+    lose()
 }
 
 function mouseClicked() {
-    if (mouseClicked) {
-        gameOver = true
-    }
+    lose()
 }
 
 function mouseMoved() {
-    if (mouseMoved) {
-        gameOver = true
-    }
+    lose()
 }
