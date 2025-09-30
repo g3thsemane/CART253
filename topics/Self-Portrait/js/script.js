@@ -306,7 +306,7 @@ function draw() {
     const headMaxY = 575;
 
     //Attaching the movement to the mouse, and adding the constrain so that the head does not surpass a certain point on the Y-Axis
-    //Adding headBarrier constant as largest allowed Y for my myHead.y
+    //Adding headBarrier constant as largest allowed Y for my myHead.y heightwise 
     if (mouseIsPressed) {
         const headBarrier = headMaxY - myHead.height;
         myHead.y = constrain(mouseY, 0, headBarrier);
@@ -392,4 +392,9 @@ function draw() {
 
     pop();
 
+
+}
+
+function mouseReleased() {
+    myHead.y = 360
 }
