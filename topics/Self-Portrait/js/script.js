@@ -391,10 +391,9 @@ function draw() {
 
 
     pop();
-
-
 }
 
+//Assuring that once the mouse is released, myHead falls back to its original position
 function mouseReleased() {
     myHead.y = 360
 }
