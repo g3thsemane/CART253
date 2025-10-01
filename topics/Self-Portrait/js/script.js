@@ -397,3 +397,4 @@ function draw() {
 function mouseReleased() {
     myHead.y = 360
 }
+

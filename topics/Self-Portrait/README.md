@@ -17,20 +17,15 @@ Benjamin Merhi
 
 ## Screenshot(s)
 
-This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
-
 > ![Program upon startup](./assets/images/selfportrait1.png)
 > ![Program after interraction](./assets/images/selfportrait2.png)
 
 ## Attribution
 
-This bit should attribute any code, assets or other elements used taken from other sources. For example:
-
 > - This project uses [p5.js](https://p5js.org).
 > - As well as the reference [p5.js](https://p5js.org/reference/)
+> - Daniel Shiffman/The Coding Train, p5.js YouTube tutorials [The Coding Train](https://www.youtube.com/@TheCodingTrain)
 
 ## License
-
-This bit should include the license you want to apply to your work. For example:
 
 > This project is licensed under a Creative Commons Attribution ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en)) license with the exception of libraries and other components with their own licenses.
