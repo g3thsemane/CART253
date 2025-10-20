@@ -29,7 +29,7 @@ const frog = {
         x: undefined,
         y: 480,
         size: 20,
-        speed: 20,
+        speed: 35,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
@@ -94,11 +94,13 @@ function startScreen() {
     textSize(40);
     fill(0);
     textFont('Courier New');
+    textStyle(BOLD);
 
     //Title
     text("Frogfrogfrog", width / 2, 200);
 
     //Prompt
+    textStyle(NORMAL);
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 40);
 
@@ -114,9 +116,11 @@ function instructionsScreen() {
     textFont('Courier New');
 
     //Instructions Title
+    textStyle(BOLD);
     text("Instructions", width / 2, 100);
 
     //Actual Instructions
+    textStyle(NORMAL);
     textSize(20);
     textWrap(WORD);
     const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies";
@@ -160,6 +164,14 @@ function drawFly() {
     noStroke();
     fill("#000000");
     ellipse(fly.x, fly.y, fly.size);
+    pop();
+
+    //Adding modifications to make the fly look more like a fly by adding wings
+    push();
+    fill("#ffffffff");
+    noStroke();
+    ellipse(fly.x - 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
+    ellipse(fly.x + 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
     pop();
 }
 
@@ -229,6 +241,17 @@ function drawFrog() {
     fill("#00ff00");
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
+    pop();
+
+    //Adding modifications to make the frog look more like a frog by adding eyes
+    push();
+    fill("#ffffff");
+    noStroke();
+    ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 6);
+    ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 6);
+    fill("#000000");
+    ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 8);
+    ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 8);
     pop();
 }
 function preload() {
