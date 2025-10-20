@@ -52,6 +52,7 @@ let whichScreen = "start";
 //Varbiables for sound effects
 let flyAte;
 let yumYum;
+let rainSong;
 
 
 /**
@@ -257,6 +258,7 @@ function drawFrog() {
 function preload() {
     flyAte = loadSound('assets/sounds/flyAte.wav');
     yumYum = loadSound('assets/sounds/yumYum.mp3');
+    rainSong = loadSound('assets/sounds/rainSong.ogg');
 }
 
 /**
@@ -283,7 +285,17 @@ function checkTongueFlyOverlap() {
  */
 function mousePressed() {
 
-    //Changing the screens upon clicking the mouse 
+    //Initialzing rainSong to play once game has began
+    if (typeof userStartAudio === 'function') {
+        userStartAudio();
+    }
+
+    //Plays rainSong and loops it
+    if (rainSong && !rainSong.isPlaying()) {
+        rainSong.loop();
+    }
+
+    //Changing the screens upon clicking the mouse
     if (whichScreen === "start") {
         whichScreen = "instructions";
     } else if (whichScreen === "instructions") {
