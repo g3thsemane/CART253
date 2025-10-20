@@ -41,7 +41,9 @@ const fly = {
     x: 0,
     y: 200, // Will be random
     size: 10,
-    speed: 3
+    //Adding speedX and speedY for modifications to the fly's flight path
+    speedX: 3,
+    speedY: 1,
 };
 
 //Varialbe to track screens
@@ -102,6 +104,8 @@ function startScreen() {
 
 }
 
+//Instructions screen
+
 function instructionsScreen() {
     background("#87ceeb");
     textAlign(CENTER, CENTER);
@@ -118,6 +122,8 @@ function instructionsScreen() {
     const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies";
     const boxW = 500;
     text(instr, width / 2 - boxW / 2, height / 2, boxW);
+    textSize(20);
+    text("Click to continue", width / 2, 350);
 
 }
 
@@ -126,8 +132,20 @@ function instructionsScreen() {
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
-    // Move the fly
-    fly.x += fly.speed;
+    // Move the fly along the X axis
+    fly.x += fly.speedX;
+    //Randomizing the fly's horizontal movement speed for more dynamic flight patterns
+    fly.speedX += random(-0.5, 0.5);
+    //Adding a constrain so the fly does not become absurdly quick, between speed = 2 and speed = 10
+    fly.speedX = constrain(fly.speedX, 2, 15);
+
+    //Move the fly along the Y axis
+    fly.y += fly.speedY;
+    //Randomizing the fly's vertical movement speed for more dynamic flight patterns
+    fly.speedY += random(-0.5, 0.5);
+    //Adding a constrain so the fly does not become absurdly quick, between speed = 0.1 and speed = 2
+    fly.speedY = constrain(fly.speedY, -1, 2)
+
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
