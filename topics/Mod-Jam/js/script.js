@@ -47,8 +47,10 @@ const fly = {
 //Varialbe to track screens
 let whichScreen = "start";
 
-//Varbiable for sound effects
+//Varbiables for sound effects
 let flyAte;
+let yumYum;
+
 
 /**
  * Creates the canvas and initializes the fly
@@ -213,6 +215,7 @@ function drawFrog() {
 }
 function preload() {
     flyAte = loadSound('assets/sounds/flyAte.wav');
+    yumYum = loadSound('assets/sounds/yumYum.mp3');
 }
 
 /**
@@ -227,6 +230,7 @@ function checkTongueFlyOverlap() {
         // Reset the fly
         resetFly();
         flyAte.play();
+        yumYum.play();
         // Bring back the tongue
         frog.tongue.state = "inbound";
 
