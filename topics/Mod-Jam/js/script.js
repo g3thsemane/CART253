@@ -48,7 +48,7 @@ const fly = {
 let whichScreen = "start";
 
 //Varbiable for sound effects
-let flyAte = loadSound('assets/sounds/flyAte.wav')
+let flyAte;
 
 /**
  * Creates the canvas and initializes the fly
@@ -69,14 +69,12 @@ function draw() {
     drawFrog();
     checkTongueFlyOverlap();
 
-    //Creating the if statements to for the different screens: Start, Instructions, Game, and Game Over
+    //Creating the if statements to for the different screens: Start, Instructions, and Game Over. After many trials and tribulations, it was learn that the actual "game screen" has to be left out in order for the program to work properly.
 
     if (whichScreen === "start") {
         startScreen();
     } else if (whichScreen === "instructions") {
         instructionsScreen();
-    } else if (whichScreen === "game") {
-        gameScreen();
     } else if (whichScreen === "gameover") {
         gameoverScreen();
     }
@@ -85,19 +83,21 @@ function draw() {
 //Implementing the different screens functions below, and the order/cause of their appearance
 
 //Beginning with the Start Screen, features the title of the game and a prompt to click to start. Upon clicking, it will lead the user to the instructions screen by using an if statement.
+
 function startScreen() {
     background("#87ceeb");
     textAlign(CENTER, CENTER);
     textSize(40);
     fill(0);
     textFont('Courier New');
+
+    //Title
     text("Frogfrogfrog", width / 2, 200);
+
+    //Prompt
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 40);
 
-    if (mouseIsPressed) {
-        whichScreen = "Instructions";
-    }
 }
 
 function instructionsScreen() {
@@ -106,9 +106,17 @@ function instructionsScreen() {
     textSize(30);
     fill(0);
     textFont('Courier New');
+
+    //Instructions Title
     text("Instructions", width / 2, 100);
+
+    //Actual Instructions
     textSize(20);
-    text("Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies", width / 2, height / 2);
+    textWrap(WORD);
+    const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies";
+    const boxW = 500;
+    text(instr, width / 2 - boxW / 2, height / 2, boxW);
+
 }
 
 /**
@@ -203,6 +211,9 @@ function drawFrog() {
     ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
 }
+function preload() {
+    flyAte = loadSound('assets/sounds/flyAte.wav');
+}
 
 /**
  * Handles the tongue overlapping the fly
@@ -215,6 +226,7 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // Reset the fly
         resetFly();
+        flyAte.play();
         // Bring back the tongue
         frog.tongue.state = "inbound";
 
@@ -225,7 +237,18 @@ function checkTongueFlyOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
+
+    //Changing the screens upon clicking the mouse 
+    if (whichScreen === "start") {
+        whichScreen = "instructions";
+    } else if (whichScreen === "instructions") {
+        whichScreen = "game";
+    } else if (whichScreen === "game") {
+
+    }
+
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
+
     }
 }
