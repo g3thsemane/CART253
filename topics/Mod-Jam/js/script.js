@@ -44,6 +44,12 @@ const fly = {
     speed: 3
 };
 
+//Varialbe to track screens
+let whichScreen = "start";
+
+//Varbiable for sound effects
+let flyAte = loadSound('assets/sounds/flyAte.wav')
+
 /**
  * Creates the canvas and initializes the fly
  */
@@ -62,6 +68,47 @@ function draw() {
     moveTongue();
     drawFrog();
     checkTongueFlyOverlap();
+
+    //Creating the if statements to for the different screens: Start, Instructions, Game, and Game Over
+
+    if (whichScreen === "start") {
+        startScreen();
+    } else if (whichScreen === "instructions") {
+        instructionsScreen();
+    } else if (whichScreen === "game") {
+        gameScreen();
+    } else if (whichScreen === "gameover") {
+        gameoverScreen();
+    }
+}
+
+//Implementing the different screens functions below, and the order/cause of their appearance
+
+//Beginning with the Start Screen, features the title of the game and a prompt to click to start. Upon clicking, it will lead the user to the instructions screen by using an if statement.
+function startScreen() {
+    background("#87ceeb");
+    textAlign(CENTER, CENTER);
+    textSize(40);
+    fill(0);
+    textFont('Courier New');
+    text("Frogfrogfrog", width / 2, 200);
+    textSize(20);
+    text("Click to Start", width / 2, height / 2 + 40);
+
+    if (mouseIsPressed) {
+        whichScreen = "Instructions";
+    }
+}
+
+function instructionsScreen() {
+    background("#87ceeb");
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill(0);
+    textFont('Courier New');
+    text("Instructions", width / 2, 100);
+    textSize(20);
+    text("Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies", width / 2, height / 2);
 }
 
 /**
@@ -170,6 +217,7 @@ function checkTongueFlyOverlap() {
         resetFly();
         // Bring back the tongue
         frog.tongue.state = "inbound";
+
     }
 }
 
