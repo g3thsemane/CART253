@@ -54,6 +54,8 @@ let flyAte;
 let yumYum;
 let rainSong;
 
+//Variable for the score
+let score = 0;
 
 /**
  * Creates the canvas and initializes the fly
@@ -63,6 +65,13 @@ function setup() {
 
     // Give the fly its first random position
     resetFly();
+}
+
+//Preload function load sound files before the program begins
+function preload() {
+    flyAte = loadSound('assets/sounds/flyAte.wav');
+    yumYum = loadSound('assets/sounds/yumYum.mp3');
+    rainSong = loadSound('assets/sounds/rainSong.ogg');
 }
 
 function draw() {
@@ -82,6 +91,15 @@ function draw() {
         instructionsScreen();
     } else if (whichScreen === "gameover") {
         gameoverScreen();
+    }
+
+    //Displaying the score at the top left of the screen, only during the game
+    if (whichScreen === "game") {
+        fill(0);
+        textSize(20);
+        textAlign(LEFT, TOP);
+        textFont('Courier New');
+        text("Score: " + score, 10, 10);
     }
 }
 
@@ -132,6 +150,11 @@ function instructionsScreen() {
 
 }
 
+function gameoverScreen() {
+    background(0);
+    textAlign(CENTER, CENTER);
+}
+
 /**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
@@ -167,6 +190,10 @@ function drawFly() {
     ellipse(fly.x, fly.y, fly.size);
     pop();
 
+    //Randomizing the fly's size for more variation
+    fly.size += random(-0.2, 0.2);
+    fly.size = constrain(fly.size, 3, 15);
+
     //Adding modifications to make the fly look more like a fly by adding wings
     push();
     fill("#ffffffff");
@@ -188,7 +215,10 @@ function resetFly() {
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
-    frog.body.x = mouseX;
+
+    //Adding a constrain to prevent the frog from going off screen
+    frog.body.x = constrain(mouseX, frog.body.size / 6, width - frog.body.size / 6);
+
 }
 
 /**
@@ -246,19 +276,18 @@ function drawFrog() {
 
     //Adding modifications to make the frog look more like a frog by adding eyes
     push();
+
+    //Eyes
     fill("#ffffff");
     noStroke();
     ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 6);
     ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 6);
+
+    //Pupils
     fill("#000000");
     ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 8);
     ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 8);
     pop();
-}
-function preload() {
-    flyAte = loadSound('assets/sounds/flyAte.wav');
-    yumYum = loadSound('assets/sounds/yumYum.mp3');
-    rainSong = loadSound('assets/sounds/rainSong.ogg');
 }
 
 /**
@@ -271,11 +300,14 @@ function checkTongueFlyOverlap() {
     const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
         // Reset the fly
-        resetFly();
+        resetFly()
+        //Cue sound effects upon eating a fly
         flyAte.play();
         yumYum.play();
         // Bring back the tongue
         frog.tongue.state = "inbound";
+        //Increase the score by 1 upon eating a fly
+        score += 1;
 
     }
 }
