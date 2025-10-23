@@ -23,7 +23,7 @@ function setup() {
 function draw() {
     background(0);
 
-    //Drawing a circle that changes colour depending on mouse position
+    //Drawing a circle that changes colour,width and height based on mouse position
     push();
     noStroke();
     fill(mouseX, 0, mouseY);
