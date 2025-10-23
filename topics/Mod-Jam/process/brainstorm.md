@@ -1,0 +1,23 @@
+Mod Jam Ideas, Benjamin Merhi
+
+-Frog has a 1/500 chance of releasing 10 tongues
+-Flies increase in speed as more are caught
+-Adding a point system where every time a fly is caught it’s +1 point, and every time a fly is missed it’s -1 point
+-Flies come from different directions, left/right, top/bottom
+-Variations in size between flies
+-Perhaps if your score goes in the negatives you lose
+-As you reach certain point milestones the background changes colour
+-Flies don’t go in a static/straight path
+-Every now and then there will be a red fly that will serve as a “bomb fly” that if caught, explodes the frog and causes an immediate loss
+-Adding a pause button
+-Sometimes multiple flies will make an appearance, in a “V” formation, for coolness reasons
+-A golden fly has a 1/100 chance of appearing, when caught it gives the frog increased tongue speed for the next 3 rounds
+-After a certain amounts of points is passed, the frog will also shoot lasers out of its eyes
+-Tongue can ricochet off the edge of the canvas
+-Potentially adding a boss fight at a certain point, a fly that tries attacking you, a health bar will have to be added
+-Adding a barrier on certain levels, forcing the user to use the ricochet to reach a fly
+-An upgrade where the frog shoots cannon balls instead of using the tongue. Cannon balls will have a certain blast radius that will absolutely decimate any given fly, regardless of their might.
+-Flies have a rare chance of dodging attacks, if an attack is dodged the user will have to re attempt catching the fly. Dodges are rare and will never been done consecutively.
+-A wasp will sometimes fly across the screen, if caught one point is lost
+-Adding sound effects for every modification. Bomb fly will have a certain sound, wasp will have a sound, etc.
+-Fog/clouds have a  chance of appearing, obstructing the users view
