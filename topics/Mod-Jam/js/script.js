@@ -150,6 +150,8 @@ function instructionsScreen() {
 
 }
 
+//Game Over screen
+
 function gameoverScreen() {
     background(0);
     textAlign(CENTER, CENTER);
@@ -308,6 +310,9 @@ function checkTongueFlyOverlap() {
         frog.tongue.state = "inbound";
         //Increase the score by 1 upon eating a fly
         score += 1;
+        frog.body.size += 2; //Making the frog grow bigger upon eating a fly
+        frog.tongue.speed += 0.5; //Making the tongue faster upon eating a fly
+
 
     }
 }
