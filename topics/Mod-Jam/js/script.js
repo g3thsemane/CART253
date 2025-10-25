@@ -53,6 +53,7 @@ let whichScreen = "start";
 let flyAte;
 let yumYum;
 let rainSong;
+let img1;
 
 //Variable for the score
 let score = 0;
@@ -67,11 +68,12 @@ function setup() {
     resetFly();
 }
 
-//Preload function load sound files before the program begins
+//Preload function load sound and image files before the program begins
 function preload() {
     flyAte = loadSound('assets/sounds/flyAte.wav');
     yumYum = loadSound('assets/sounds/yumYum.mp3');
     rainSong = loadSound('assets/sounds/rainSong.ogg');
+    img1 = loadImage('assets/thirdcircle.webp');
 }
 
 function draw() {
@@ -155,6 +157,12 @@ function instructionsScreen() {
 function gameoverScreen() {
     background(0);
     textAlign(CENTER, CENTER);
+    img1.resize(640, 480);
+    image(img1, 0, 0);
+    textSize(30);
+    fill(255);
+    textFont('Courier New');
+    textStyle(BOLD);
 }
 
 /**
@@ -303,19 +311,29 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // Reset the fly
         resetFly()
+
         //Cue sound effects upon eating a fly
         flyAte.play();
         yumYum.play();
+
         // Bring back the tongue
         frog.tongue.state = "inbound";
-        //Increase the score by 1 upon eating a fly
-        score += 1;
-        frog.body.size += 2; //Making the frog grow bigger upon eating a fly
+
+        //Increase the score by 1 upon eating a fly, once the score reaches 50, the score will start to decrease if a fly is eaten, bringing you closer to the 3rd circle of hell
+        score += 10;
+
+        if (score >= 50) {
+            whichScreen = "gameover";
+        }
+
+        frog.body.size += 1; //Making the frog grow bigger upon eating a fly
         frog.tongue.speed += 0.5; //Making the tongue faster upon eating a fly
 
 
     }
 }
+
+
 
 /**
  * Launch the tongue on click (if it's not launched yet)
