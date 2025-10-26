@@ -16,7 +16,8 @@ Modifications added:
 -Variation in fly sizes, some are bigger and some are smaller
 -Added wings to the fly, and eyes to the frog
 -Increased the frog tongue speed
--Added a title screen, instructions screen, and game over screen
+-Added a title screen, instructions screen, and game over screen     
+-A scoring system that goes up at first, but then goes down
 -Added a background song
 -Added sound effects for when the fly is eaten
 
