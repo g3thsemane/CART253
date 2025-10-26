@@ -54,6 +54,7 @@ let flyAte;
 let yumYum;
 let rainSong;
 let img1;
+let laughEvil;
 
 //Variable for the score
 let score = 0;
@@ -82,7 +83,9 @@ function preload() {
     //Background song
     rainSong = loadSound('assets/sounds/rainSong.ogg');
     //Image for game over screen
-    img1 = loadImage('assets/thirdcircle.webp');
+    img1 = loadImage('assets/images/thirdcircle.webp');
+    //Evil laugh when game over
+    laughEvil = loadSound('assets/sounds/laughEvil.wav');
 }
 
 function draw() {
@@ -366,6 +369,8 @@ function checkTongueFlyOverlap() {
                 score = 0;
                 gameoverFade = 0;
                 whichScreen = "gameover";
+                rainSong.stop()
+                laughEvil.play()
             }
         }
     }
