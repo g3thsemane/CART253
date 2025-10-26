@@ -352,7 +352,7 @@ function checkTongueFlyOverlap() {
 
         //Increasing the score upon eating a fly, with a maximum score of 30, after which the score will start decreasing until it reaches 0, leading to the game over screen
         if (!scoreMax) {
-            score += 1;
+            score += 5;
             if (score >= 30) {
                 score = 30;
                 scoreMax = true; //Setting scoreMax to true once the maximum score is reached
@@ -360,7 +360,7 @@ function checkTongueFlyOverlap() {
         }
 
         else {
-            score -= 1;
+            score -= 5;
             //Ensuring the game is over once a score of  0 is reached
             if (score <= 0) {
                 score = 0;
@@ -407,6 +407,7 @@ function mousePressed() {
 function keyPressed() {
     if (whichScreen === "gameover") {
         score = 0;
+        scoreMax = false;
         frog.body.size = 150;
         frog.tongue.speed = 35;
         frog.tongue.y = 480;

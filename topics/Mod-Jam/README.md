@@ -8,6 +8,8 @@ Benjamin Merhi
 
 This is a modification of Pippin Barr's "FROGFROGFROG" game. In this version the frog is introduced to the third layer of hell if he is too gluttonous. 
 
+In this game, the frog is allowed to eat up to 30 flies, if the frog continues eating after that it's quite fair to say he is being gluttonous. If flies are eaten after the 30 point threshold, points will be deducted all the way until 0. Once at 0 points, you are transported to the third circle of hell where people guilty of gluttony go to suffer. There is no absolving in this froggy frog world.
+
 Modifications added:
 
 -Altered fly movement, direction and speed are randomized in order to give them a more "fly-like" flight path
