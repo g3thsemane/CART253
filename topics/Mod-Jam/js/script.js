@@ -64,6 +64,7 @@ let gameoverFade = 0;
 //Variable to track if the maximum number of flies has been eaten, in order to commence the descent into hell
 let scoreMax = false;
 
+
 /**
  * Creates the canvas and initializes the fly
  */
@@ -284,6 +285,7 @@ function moveTongue() {
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
         }
+
     }
 }
 
@@ -347,20 +349,21 @@ function checkTongueFlyOverlap() {
         // Bring back the tongue
         frog.tongue.state = "inbound";
 
-        frog.body.size += 3; //Making the frog grow bigger upon eating a fly
+        frog.body.size += 4; //Making the frog grow bigger upon eating a fly
         frog.tongue.speed += 0.5; //Making the tongue faster upon eating a fly
 
-        //Increasing the score upon eating a fly, with a maximum score of 30, after which the score will start decreasing until it reaches 0, leading to the game over screen
+
+        //Increasing the score upon eating a fly, with a maximum score of 20, after which the score will start decrease to, leading to the game over screen
         if (!scoreMax) {
-            score += 5;
-            if (score >= 30) {
-                score = 30;
+            score += 1;
+            if (score >= 20) {
+                score = 20;
                 scoreMax = true; //Setting scoreMax to true once the maximum score is reached
             }
         }
 
         else {
-            score -= 5;
+            score -= 20;
             //Ensuring the game is over once a score of  0 is reached
             if (score <= 0) {
                 score = 0;
@@ -369,6 +372,7 @@ function checkTongueFlyOverlap() {
             }
         }
     }
+
 }
 
 
@@ -399,7 +403,6 @@ function mousePressed() {
 
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
-
     }
 }
 
