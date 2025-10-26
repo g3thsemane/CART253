@@ -6,14 +6,19 @@ Benjamin Merhi
 
 ## Description
 
-This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
+This is a modification of Pippin Barr's "FROGFROGFROG" game. In this version the frog is introduced to the third layer of hell if he is too gluttonous. 
 
-> *The Mayor of Clown Town* is a simulator experience that allows the user to control a small town populated entirely by clowns.
+Modifications added:
 
-> The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
+-Altered fly movement, direction and speed are randomized in order to give them a more "fly-like" flight path
+-Variation in fly sizes, some are bigger and some are smaller
+-Added wings to the fly, and eyes to the frog
+-Increased the frog tongue speed
+-Added a title screen, instructions screen, and game over screen
+-Added a background song
+-Added sound effects for when the fly is eaten
 
-> The project is meant to give the user a sense of what it would be the mayor of a town of clowns, eventually getting the sense that clowns are not taking their civic duties seriously.
-
+     
 ## Screenshot(s)
 
 This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:

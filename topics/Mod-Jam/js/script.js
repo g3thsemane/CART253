@@ -58,21 +58,30 @@ let img1;
 //Variable for the score
 let score = 0;
 
+//Variable to let the gameover screen fade in
+let gameoverFade = 0;
+
+//Variable to track if the maximum number of flies has been eaten, in order to commence the descent into hell
+let scoreMax = false;
+
 /**
  * Creates the canvas and initializes the fly
  */
 function setup() {
     createCanvas(640, 480);
-
     // Give the fly its first random position
     resetFly();
 }
 
 //Preload function load sound and image files before the program begins
 function preload() {
+    //Sound when a fly is ate
     flyAte = loadSound('assets/sounds/flyAte.wav');
+    //Sound frog makes when fly is ate
     yumYum = loadSound('assets/sounds/yumYum.mp3');
+    //Background song
     rainSong = loadSound('assets/sounds/rainSong.ogg');
+    //Image for game over screen
     img1 = loadImage('assets/thirdcircle.webp');
 }
 
@@ -92,7 +101,10 @@ function draw() {
     } else if (whichScreen === "instructions") {
         instructionsScreen();
     } else if (whichScreen === "gameover") {
-        gameoverScreen();
+        //Adding the fade-in effect for the gameoverscreen
+        gameoverFade = min(gameoverFade + 5, 255);
+        gameoverScreen(gameoverFade);
+
     }
 
     //Displaying the score at the top left of the screen, only during the game
@@ -103,6 +115,8 @@ function draw() {
         textFont('Courier New');
         text("Score: " + score, 10, 10);
     }
+
+
 }
 
 //Implementing the different screens functions below, and the order/cause of their appearance
@@ -152,17 +166,31 @@ function instructionsScreen() {
 
 }
 
-//Game Over screen
+//Game Over screen, making it accept the fade effect
+function gameoverScreen(fade) {
 
-function gameoverScreen() {
-    background(0);
-    textAlign(CENTER, CENTER);
-    img1.resize(640, 480);
+    //Setting the background to black with the fade effect
+    background(0, fade);
+
+
+    //Applying the fade effect to the image
+    tint(255, fade)
+
+    //Inserting Centering the image
     image(img1, 0, 0);
+
+    //Resizing the image to fit the canvas
+    img1.resize(640, 480);
+
+    //Adding text with fade effect
+    textAlign(CENTER, CENTER);
+    fill(0, fade);
     textSize(30);
-    fill(255);
+    fill(74, 1, 3);
     textFont('Courier New');
     textStyle(BOLD);
+    textSize(40);
+    text("Click Any Key To Restart", 320, 460);
 }
 
 /**
@@ -319,19 +347,30 @@ function checkTongueFlyOverlap() {
         // Bring back the tongue
         frog.tongue.state = "inbound";
 
-        //Increase the score by 1 upon eating a fly, once the score reaches 50, the score will start to decrease if a fly is eaten, bringing you closer to the 3rd circle of hell
-        score += 10;
-
-        if (score >= 50) {
-            whichScreen = "gameover";
-        }
-
-        frog.body.size += 1; //Making the frog grow bigger upon eating a fly
+        frog.body.size += 3; //Making the frog grow bigger upon eating a fly
         frog.tongue.speed += 0.5; //Making the tongue faster upon eating a fly
 
+        //Increasing the score upon eating a fly, with a maximum score of 30, after which the score will start decreasing until it reaches 0, leading to the game over screen
+        if (!scoreMax) {
+            score += 1;
+            if (score >= 30) {
+                score = 30;
+                scoreMax = true; //Setting scoreMax to true once the maximum score is reached
+            }
+        }
 
+        else {
+            score -= 1;
+            //Ensuring the game is over once a score of  0 is reached
+            if (score <= 0) {
+                score = 0;
+                gameoverFade = 0;
+                whichScreen = "gameover";
+            }
+        }
     }
 }
+
 
 
 
@@ -355,12 +394,25 @@ function mousePressed() {
         whichScreen = "instructions";
     } else if (whichScreen === "instructions") {
         whichScreen = "game";
-    } else if (whichScreen === "game") {
-
+    } else if (whichScreen === "gameover") {
     }
 
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
 
+    }
+}
+
+//Key pressed function in order to restart the game upon game over, all variables are reset to their original values
+function keyPressed() {
+    if (whichScreen === "gameover") {
+        score = 0;
+        frog.body.size = 150;
+        frog.tongue.speed = 35;
+        frog.tongue.y = 480;
+        frog.tongue.state = "idle";
+        resetFly();
+        gameoverFade = 0;
+        whichScreen = "game";
     }
 }
