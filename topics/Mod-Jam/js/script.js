@@ -46,6 +46,19 @@ const fly = {
     speedY: 1,
 };
 
+//Creating a secondly fly variable that will forgive some sins 
+const flyForgiveness = {
+
+    x: 0,
+    y: 175,
+    size: 10,
+
+    speedX: 4,
+    speedY: 2,
+};
+
+
+
 //Varialbe to track screens
 let whichScreen = "start";
 
@@ -93,10 +106,13 @@ function draw() {
     background("#87ceeb");
     moveFly();
     drawFly();
+    moveFlyForgiveness();
+    drawFlyForgivness();
     moveFrog();
     moveTongue();
     drawFrog();
     checkTongueFlyOverlap();
+    checkTongueFlyForgivenessOverlap();
 
     //Creating the if statements to for the different screens: Start, Instructions, and Game Over. After many trials and tribulations, it was learn that the actual "game screen" has to be left out in order for the program to work properly.
 
@@ -196,6 +212,36 @@ function gameoverScreen(fade) {
     textSize(40);
     text("Click Any Key To Restart", 320, 460);
 }
+
+function moveFlyForgiveness() {
+    flyForgiveness.x += flyForgiveness.speedX;
+
+    if (flyForgiveness.x > width) {
+        resetFlyForgiveness();
+    }
+}
+
+function resetFlyForgiveness() {
+    flyForgiveness.x = 0;
+    flyForgiveness.y = random(5, 175)
+}
+
+function drawFlyForgivness() {
+    push();
+    noStroke();
+    fill("#ffe100ff");
+    ellipse(flyForgiveness.x, flyForgiveness.y, flyForgiveness.size);
+    pop();
+
+    //Adding modifications to make the fly look more like a fly by adding wings
+    push();
+    fill("#ffffffff");
+    noStroke();
+    ellipse(flyForgiveness.x - 3, flyForgiveness.y - 5, flyForgiveness.size / 1.5, flyForgiveness.size / 4);
+    ellipse(flyForgiveness.x + 3, flyForgiveness.y - 5, flyForgiveness.size / 1.5, flyForgiveness.size / 4);
+    pop();
+}
+
 
 /**
  * Moves the fly according to its speed
@@ -372,10 +418,24 @@ function checkTongueFlyOverlap() {
                 score = 0;
                 gameoverFade = 0;
                 whichScreen = "gameover";
+                //Game music stops when game over 
                 rainSong.stop()
+                //Evil laugh plays when game over
                 laughEvil.play()
             }
         }
+    }
+
+}
+
+function checkTongueFlyForgivenessOverlap() {
+    // Get distance from tongue to fly
+    const d = dist(frog.tongue.x, frog.tongue.y, flyForgiveness.x, flyForgiveness.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + flyForgiveness.size / 2);
+
+    if (eaten) {
+        score -= 5
     }
 
 }
