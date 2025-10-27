@@ -49,7 +49,7 @@ const fly = {
 //Creating a new array for the fly, so that there can be multiple flies on screen
 let flies = [];
 //Declaring the amount of possible flies
-const nFlies = 6;
+const nFlies = 10;
 
 //Creating a secondly fly variable that will forgive some sins. eating this fly will deduct points. This fly follows the original design of Pippin's fly
 const flyForgiveness = {
@@ -440,7 +440,8 @@ function checkTongueFliesOverlap() {
         const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
         const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
         if (eaten) {
-            // Reset this fly
+
+            //Reset Fly
             fly.x = 0;
             fly.y = random(0, 300);
 
@@ -467,7 +468,9 @@ function checkTongueFliesOverlap() {
                     laughEvil.play();
                 }
             }
-            break; // Only eat one fly per tongue launch
+
+            //End loop, prevents multiple flies from being eaten
+            break;
         }
     }
 }
