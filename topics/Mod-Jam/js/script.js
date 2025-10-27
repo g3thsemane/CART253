@@ -29,7 +29,7 @@ const frog = {
         x: undefined,
         y: 480,
         size: 20,
-        speed: 35,
+        speed: 30,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
@@ -46,14 +46,19 @@ const fly = {
     speedY: 1,
 };
 
-//Creating a secondly fly variable that will forgive some sins 
+//Creating a new array for the fly, so that there can be multiple flies on screen
+let flies = [];
+//Declaring the amount of possible flies
+const nFlies = 6;
+
+//Creating a secondly fly variable that will forgive some sins. eating this fly will deduct points. This fly follows the original design of Pippin's fly
 const flyForgiveness = {
 
     x: 0,
     y: 175,
     size: 10,
 
-    speedX: 4,
+    speedX: 8,
     speedY: 2,
 };
 
@@ -84,8 +89,23 @@ let scoreMax = false;
  */
 function setup() {
     createCanvas(640, 480);
+
     // Give the fly its first random position
     resetFly();
+
+    flies = [];
+
+    //Loop in order to create the amount of flies asked. Since nFlies = 6, there will be 6 loops in order to make 6 flies
+    for (let i = 0; i < nFlies; i++) {
+        flies.push({
+            x: 0,
+            y: random(0, 300),
+            size: 10,//random(3, 15),
+            speedX: 3,//random(2, 6),
+            speedY: 1,//random(-1, 2)
+        });
+    }
+
 }
 
 //Preload function load sound and image files before the program begins
@@ -104,14 +124,14 @@ function preload() {
 
 function draw() {
     background("#87ceeb");
-    moveFly();
-    drawFly();
+    moveFlies();
+    drawFlies();
     moveFlyForgiveness();
     drawFlyForgivness();
     moveFrog();
     moveTongue();
     drawFrog();
-    checkTongueFlyOverlap();
+    checkTongueFliesOverlap();
     checkTongueFlyForgivenessOverlap();
 
     //Creating the if statements to for the different screens: Start, Instructions, and Game Over. After many trials and tribulations, it was learn that the actual "game screen" has to be left out in order for the program to work properly.
@@ -137,6 +157,12 @@ function draw() {
     }
 
 
+    //Making the tongue of the frog launch automatically rather than relying on mousePressed
+    if (whichScreen === "game" && frog.tongue.state === "idle") {
+        frog.tongue.state = "outbound";
+    }
+
+
 }
 
 //Implementing the different screens functions below, and the order/cause of their appearance
@@ -152,7 +178,7 @@ function startScreen() {
     textStyle(BOLD);
 
     //Title
-    text("Frogfrogfrog", width / 2, 200);
+    text("DANTE'S FROG", width / 2, 200);
 
     //Prompt
     textStyle(NORMAL);
@@ -178,7 +204,7 @@ function instructionsScreen() {
     textStyle(NORMAL);
     textSize(20);
     textWrap(WORD);
-    const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies";
+    const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies. Remember: Gluttony is a sin";
     const boxW = 500;
     text(instr, width / 2 - boxW / 2, height / 2, boxW);
     textSize(20);
@@ -213,6 +239,8 @@ function gameoverScreen(fade) {
     text("Click Any Key To Restart", 320, 460);
 }
 
+
+//Functions for the second fly that I added, these follow the same code as the original fly with some minor tweaks
 function moveFlyForgiveness() {
     flyForgiveness.x += flyForgiveness.speedX;
 
@@ -221,11 +249,13 @@ function moveFlyForgiveness() {
     }
 }
 
+//Reset the fly of forgivness
 function resetFlyForgiveness() {
     flyForgiveness.x = 0;
     flyForgiveness.y = random(5, 175)
 }
 
+//Drawing the fly of forgiveness
 function drawFlyForgivness() {
     push();
     noStroke();
@@ -242,53 +272,77 @@ function drawFlyForgivness() {
     pop();
 }
 
+//Check the tongue and fly of forgiveness overlap
+function checkTongueFlyForgivenessOverlap() {
+    // Get distance from tongue to fly
+    const d = dist(frog.tongue.x, frog.tongue.y, flyForgiveness.x, flyForgiveness.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + flyForgiveness.size / 2);
 
-/**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
- */
-function moveFly() {
-    // Move the fly along the X axis
-    fly.x += fly.speedX;
-    //Randomizing the fly's horizontal movement speed for more dynamic flight patterns
-    fly.speedX += random(-0.5, 0.5);
-    //Adding a constrain so the fly does not become absurdly quick, between speed = 2 and speed = 10
-    fly.speedX = constrain(fly.speedX, 2, 15);
+    if (eaten) {
+        resetFlyForgiveness();
 
-    //Move the fly along the Y axis
-    fly.y += fly.speedY;
-    //Randomizing the fly's vertical movement speed for more dynamic flight patterns
-    fly.speedY += random(-0.5, 0.5);
-    //Adding a constrain so the fly does not become absurdly quick, between speed = 0.1 and speed = 2
-    fly.speedY = constrain(fly.speedY, -1, 2)
+        score -= 5
 
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
+        frog.tongue.state = "inbound";
+    }
+
+}
+
+
+
+//Moving multiple flies
+function moveFlies() {
+    for (let fly of flies) {
+
+        //Speed for X-Axis
+        fly.x += fly.speedX;
+
+        //Randomizing the speed of the flies on the X-Axis
+        fly.speedX += random(-0.5, 0.5);
+
+        //Constraining the speed of the flies so that they don't get too quick
+        fly.speedX = constrain(fly.speedX, 2, 15);
+
+        //Speed for Y-Axis
+        fly.y += fly.speedY;
+
+        //Randomizing the speed of the flies on the Y-Axis
+        fly.speedY += random(-0.5, 0.5);
+
+        //Constraining the speed of the flies so that they don't get too quick
+        fly.speedY = constrain(fly.speedY, -1, 2);
+
+
+        //Resets the fly if it surpasses the canvas
+        if (fly.x > width) {
+            fly.x = 0;
+            fly.y = random(0, 300);
+        }
     }
 }
 
-/**
- * Draws the fly as a black circle
- */
-function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
 
-    //Randomizing the fly's size for more variation
-    fly.size += random(-0.2, 0.2);
-    fly.size = constrain(fly.size, 3, 15);
 
-    //Adding modifications to make the fly look more like a fly by adding wings
-    push();
-    fill("#ffffffff");
-    noStroke();
-    ellipse(fly.x - 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
-    ellipse(fly.x + 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
-    pop();
+//Function to draw the multiple flies
+function drawFlies() {
+    for (let fly of flies) {
+        push();
+        noStroke();
+        fill("#000000");
+        ellipse(fly.x, fly.y, fly.size);
+        pop();
+
+        fly.size += random(-0.2, 0.2);
+        fly.size = constrain(fly.size, 3, 15);
+
+        push();
+        fill("#ffffffff");
+        noStroke();
+        ellipse(fly.x - 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
+        ellipse(fly.x + 3, fly.y - 5, fly.size / 1.5, fly.size / 4);
+        pop();
+    }
 }
 
 /**
@@ -379,69 +433,44 @@ function drawFrog() {
     pop();
 }
 
-/**
- * Handles the tongue overlapping the fly
- */
-function checkTongueFlyOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        // Reset the fly
-        resetFly()
-
-        //Cue sound effects upon eating a fly
-        flyAte.play();
-        yumYum.play();
-
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
-
-        frog.body.size += 4; //Making the frog grow bigger upon eating a fly
-        frog.tongue.speed += 0.5; //Making the tongue faster upon eating a fly
 
 
-        //Increasing the score upon eating a fly, with a maximum score of 20, after which the score will start decrease to, leading to the game over screen
-        if (!scoreMax) {
-            score += 1;
-            if (score >= 20) {
-                score = 20;
-                scoreMax = true; //Setting scoreMax to true once the maximum score is reached
+function checkTongueFliesOverlap() {
+    for (let fly of flies) {
+        const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
+        const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
+        if (eaten) {
+            // Reset this fly
+            fly.x = 0;
+            fly.y = random(0, 300);
+
+            flyAte.play();
+            yumYum.play();
+            frog.tongue.state = "inbound";
+
+            //frog.body.size += 4;
+            frog.tongue.speed += 0.5;
+
+            if (!scoreMax) {
+                score += 1;
+                if (score >= 20) {
+                    score = 20;
+                    scoreMax = true;
+                }
+            } else {
+                score -= 20;
+                if (score <= 0) {
+                    score = 0;
+                    gameoverFade = 0;
+                    whichScreen = "gameover";
+                    rainSong.stop();
+                    laughEvil.play();
+                }
             }
-        }
-
-        else {
-            score -= 20;
-            //Ensuring the game is over once a score of  0 is reached
-            if (score <= 0) {
-                score = 0;
-                gameoverFade = 0;
-                whichScreen = "gameover";
-                //Game music stops when game over 
-                rainSong.stop()
-                //Evil laugh plays when game over
-                laughEvil.play()
-            }
+            break; // Only eat one fly per tongue launch
         }
     }
-
 }
-
-function checkTongueFlyForgivenessOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, flyForgiveness.x, flyForgiveness.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + flyForgiveness.size / 2);
-
-    if (eaten) {
-        score -= 5
-    }
-
-}
-
-
-
 
 /**
  * Launch the tongue on click (if it's not launched yet)
@@ -466,9 +495,6 @@ function mousePressed() {
     } else if (whichScreen === "gameover") {
     }
 
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
-    }
 }
 
 //Key pressed function in order to restart the game upon game over, all variables are reset to their original values
