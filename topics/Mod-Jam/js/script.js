@@ -56,7 +56,7 @@ const flyForgiveness = {
 
     x: 0,
     y: 175,
-    size: 10,
+    size: 5,
 
     speedX: 8,
     speedY: 2,
@@ -93,16 +93,19 @@ function setup() {
     // Give the fly its first random position
     resetFly();
 
+    //Array, as declared earlier
     flies = [];
 
-    //Loop in order to create the amount of flies asked. Since nFlies = 6, there will be 6 loops in order to make 6 flies
+    //Introducing a loop that will "repeat" the amount of flies I want present on my canvas. As long as "i" is less than nFlies(10), there will be one fly added through the i++
     for (let i = 0; i < nFlies; i++) {
+
+        //Push in order to add to the array, until loop is complete
         flies.push({
             x: 0,
             y: random(0, 300),
-            size: 10,//random(3, 15),
-            speedX: 3,//random(2, 6),
-            speedY: 1,//random(-1, 2)
+            size: 10,
+            speedX: 3,
+            speedY: 1,
         });
     }
 
@@ -110,6 +113,7 @@ function setup() {
 
 //Preload function load sound and image files before the program begins
 function preload() {
+
     //Sound when a fly is ate
     flyAte = loadSound('assets/sounds/flyAte.wav');
     //Sound frog makes when fly is ate
@@ -123,6 +127,7 @@ function preload() {
 }
 
 function draw() {
+
     background("#87ceeb");
     moveFlies();
     drawFlies();
@@ -153,7 +158,7 @@ function draw() {
         textSize(20);
         textAlign(LEFT, TOP);
         textFont('Courier New');
-        text("Score: " + score, 10, 10);
+        text("SIN: " + score, 10, 10);
     }
 
 
@@ -190,6 +195,7 @@ function startScreen() {
 //Instructions screen
 
 function instructionsScreen() {
+
     background("#87ceeb");
     textAlign(CENTER, CENTER);
     textSize(30);
@@ -242,6 +248,7 @@ function gameoverScreen(fade) {
 
 //Functions for the second fly that I added, these follow the same code as the original fly with some minor tweaks
 function moveFlyForgiveness() {
+
     flyForgiveness.x += flyForgiveness.speedX;
 
     if (flyForgiveness.x > width) {
@@ -251,6 +258,7 @@ function moveFlyForgiveness() {
 
 //Reset the fly of forgivness
 function resetFlyForgiveness() {
+
     flyForgiveness.x = 0;
     flyForgiveness.y = random(5, 175)
 }
@@ -274,16 +282,21 @@ function drawFlyForgivness() {
 
 //Check the tongue and fly of forgiveness overlap
 function checkTongueFlyForgivenessOverlap() {
+
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, flyForgiveness.x, flyForgiveness.y);
+
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + flyForgiveness.size / 2);
 
+    //If statement for eating a forgiveness fly
     if (eaten) {
         resetFlyForgiveness();
 
-        score -= 5
+        //When eaten, a point is removed delaying your trip to the third circle of hell
+        score -= 1
 
+        //Retracts tongue when eaten
         frog.tongue.state = "inbound";
     }
 
@@ -326,14 +339,20 @@ function moveFlies() {
 
 //Function to draw the multiple flies
 function drawFlies() {
+
+    //As "fly" is the same as the rest of the flies in the array, this draws all the flies
     for (let fly of flies) {
+
         push();
         noStroke();
         fill("#000000");
         ellipse(fly.x, fly.y, fly.size);
         pop();
 
+        //Randomizing the size of the flies as they spawn in
         fly.size += random(-0.2, 0.2);
+
+        //Constraining the size of the flies to ensure that they do not grow too big
         fly.size = constrain(fly.size, 3, 15);
 
         push();
@@ -449,22 +468,32 @@ function checkTongueFliesOverlap() {
             yumYum.play();
             frog.tongue.state = "inbound";
 
-            //frog.body.size += 4;
+
             frog.tongue.speed += 0.5;
 
+
+            //If the score is under 20, eating a fly counts for one point. Relies on my scoreMax boolean as listed at the beginning
             if (!scoreMax) {
+
+                //By default the score increases by 1 point
                 score += 1;
+
+                //If the score has reached 20, the max score(scoreMax) has been reached
                 if (score >= 20) {
                     score = 20;
                     scoreMax = true;
                 }
-            } else {
+            }
+
+            //As a result of the max score being reached, 20 points are deducted bringing you to 0 points, which is the required value for the game to be over.
+            else {
                 score -= 20;
                 if (score <= 0) {
                     score = 0;
                     gameoverFade = 0;
                     whichScreen = "gameover";
                     rainSong.stop();
+                    //The evil laugh plays
                     laughEvil.play();
                 }
             }
