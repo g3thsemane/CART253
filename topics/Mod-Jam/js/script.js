@@ -83,6 +83,9 @@ let gameoverFade = 0;
 //Variable to track if the maximum number of flies has been eaten, in order to commence the descent into hell
 let scoreMax = false;
 
+//Array for rain 
+//  let = rain[];
+
 
 /**
  * Creates the canvas and initializes the fly
