@@ -52,7 +52,7 @@ function createBall() {
         y: 200,
         size: 20,
         // Colour
-        fill: "#000000",
+        fill: "#c663eeff",
         // Movement
         velocity: {
             x: random(-5, 5),
@@ -124,7 +124,7 @@ function drawBalls() {
     }
 }
 
-mousePressed(); {
+function mousePressed() {
 
     balls.push(createBall());
 
