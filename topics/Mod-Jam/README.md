@@ -46,11 +46,15 @@ some are bigger and some are smaller
 Sound when a fly is eaten(made by fly)
 Sound when a fly is eaten(made by frog)
 
+-Added evil laugh when game over
+
 -Added borders to the canvas so the frog can no longer go offscreen 
 
 -Added a special yellow fly that keeps the frog alive for longer
 
 -Added an array and loop to generate multiple flies
+
+-Added rain
 
      
 ## Screenshot(s)
@@ -59,8 +63,6 @@ Sound when a fly is eaten(made by frog)
 
 
 ## Attribution
-
-This bit should attribute any code, assets or other elements used taken from other sources. For example:
 
 > - This project uses [p5.js](https://p5js.org).
 
@@ -77,6 +79,8 @@ This bit should attribute any code, assets or other elements used taken from oth
 > - ehagan, "timer and score example", (https://editor.p5js.org/ehagan/sketches/15a_Ih3-F)
 
 > - "holySound.mp3": https://soundeffectgenerator.org/sound-effects/holy-sound-effect
+
+> - kelsierose94 "rain", https://editor.p5js.org/kelsierose94/sketches/MU2Y21aG0
 
 ## License
 

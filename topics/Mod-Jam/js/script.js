@@ -114,8 +114,10 @@ function setup() {
         });
     }
 
-    //Loop
+    //Loop to create rain, up to 200 drops.
     for (let i = 0; i < 200; i++) {
+
+        //Calls on drawDrop() in order to make a rain drop and add it to the array
         drops[i] = new drawDrop();
     }
 
@@ -358,6 +360,7 @@ function checkTongueFlyForgivenessOverlap() {
         //Retracts tongue when eaten
         frog.tongue.state = "inbound";
 
+        //Play holy sound effect
         holySound.play();
     }
 
