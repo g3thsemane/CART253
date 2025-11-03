@@ -73,6 +73,7 @@ let yumYum;
 let rainSong;
 let img1;
 let laughEvil;
+let holySound;
 
 //Variable for the score
 let score = 0;
@@ -84,7 +85,7 @@ let gameoverFade = 0;
 let scoreMax = false;
 
 //Array for rain 
-//  let = rain[];
+//let = rain[];
 
 
 /**
@@ -127,6 +128,8 @@ function preload() {
     img1 = loadImage('assets/images/thirdcircle.webp');
     //Evil laugh when game over
     laughEvil = loadSound('assets/sounds/laughEvil.wav');
+    //Sound for fly of forgiveness
+    holySound = loadSound('assets/sounds/holySound.mp3')
 }
 
 function draw() {
@@ -178,7 +181,7 @@ function draw() {
 //Beginning with the Start Screen, features the title of the game and a prompt to click to start. Upon clicking, it will lead the user to the instructions screen by using an if statement.
 
 function startScreen() {
-    background("#87ceeb");
+    background("#81282bff");
     textAlign(CENTER, CENTER);
     textSize(40);
     fill(0);
@@ -199,7 +202,7 @@ function startScreen() {
 
 function instructionsScreen() {
 
-    background("#87ceeb");
+    background("#81282bff");
     textAlign(CENTER, CENTER);
     textSize(30);
     fill(0);
@@ -213,7 +216,7 @@ function instructionsScreen() {
     textStyle(NORMAL);
     textSize(20);
     textWrap(WORD);
-    const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies. Remember: Gluttony is a sin";
+    const instr = "Move the frog with the mouse. Avoid eating more than 20 flies to prevent your descent into hell. Yellow fly removes a sin, keeping you alive for longer";
     const boxW = 500;
     text(instr, width / 2 - boxW / 2, height / 2, boxW);
     textSize(20);
@@ -301,6 +304,8 @@ function checkTongueFlyForgivenessOverlap() {
 
         //Retracts tongue when eaten
         frog.tongue.state = "inbound";
+
+        holySound.play();
     }
 
 }
@@ -544,5 +549,9 @@ function keyPressed() {
         resetFly();
         gameoverFade = 0;
         whichScreen = "game";
+        rainSong.play()
+        if (rainSong && !rainSong.isPlaying()) {
+            rainSong.loop();
+        }
     }
 }

@@ -77,6 +77,7 @@ This bit should attribute any code, assets or other elements used taken from oth
 
 > - ehagan, "timer and score example", (https://editor.p5js.org/ehagan/sketches/15a_Ih3-F)
 
+> - "holySound.mp3": https://soundeffectgenerator.org/sound-effects/holy-sound-effect
 
 ## License
 
