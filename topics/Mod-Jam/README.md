@@ -7,6 +7,7 @@ Benjamin Merhi
 ## Description
 
 This Project is a modification of Pippin Barr's "frogfrogfrog" desktop game, titled "Dante's Frog". This project builds off of the work of Barr, altering certain parameters and functions of the game, as well as introducing the third circle of hell. With this mod the frog becomes far too gluttonous, automatically sticking his tongue out to eat flies. The user msut control the frog to avoid eating more than 20 flies, a special yellow fly is present that when consumed absolves some sin. The score becomes sin, and you want to keep the frog out of the third circle of hell for as long as possible.
+The game is definitely much harder now, and it's quite difficult to stay out of hell, but that's pretty much how real life is anyways.
 
 For context, the third circle of hell is where people who have committed the sin of gluttony wind up in Dante Ahligieri's book "Inferno".
 
@@ -15,7 +16,6 @@ Score to reach in order to lose: >20
 Regular fly: +1 point
 
 Yellow fly: -1 point
-
 
 
 Modifications added:
