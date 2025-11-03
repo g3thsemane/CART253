@@ -56,7 +56,7 @@ const flyForgiveness = {
 
     x: 0,
     y: 175,
-    size: 5,
+    size: 9,
 
     speedX: 8,
     speedY: 2,
@@ -256,6 +256,9 @@ function gameoverScreen(fade) {
 function moveFlyForgiveness() {
 
     flyForgiveness.x += flyForgiveness.speedX;
+
+    flyForgiveness.speedX += random(-0.5, 0.5)
+    flyForgiveness.speedX = constrain(flyForgiveness.speedX, 2, 15)
 
     if (flyForgiveness.x > width) {
         resetFlyForgiveness();
