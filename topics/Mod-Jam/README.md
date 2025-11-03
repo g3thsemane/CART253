@@ -64,16 +64,21 @@ This bit should have some images of the program running so that the reader has a
 This bit should attribute any code, assets or other elements used taken from other sources. For example:
 
 > - This project uses [p5.js](https://p5js.org).
-> - All Credits to Consumer Softproducts for the following "Cruelty Squad" sound effects: 
-"flyAte.wav"
-"rainSong.ogg"
-"yumYum.mp3"
-"laughEvil.wav"
 
-> - 
+> - All Credits to Consumer Softproducts for the following "Cruelty Squad" sound effects: 
+    "flyAte.wav"
+    "rainSong.ogg"
+    "yumYum.mp3"
+    "laughEvil.wav"
+
+> - Pippin Barr, "frogfrogfrog"
+
+> - msboyles, "Start Screen/End Screen" Example, (https://editor.p5js.org/msboyles/sketches/nDSJ6Ew2Mc)
+
+> - ehagan, "timer and score example", (https://editor.p5js.org/ehagan/sketches/15a_Ih3-F)
+
 
 ## License
 
-This bit should include the license you want to apply to your work. For example:
 
 > This project is licensed under a Creative Commons Attribution ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en)) license with the exception of libraries and other components with their own licenses.
