@@ -84,8 +84,8 @@ let gameoverFade = 0;
 //Variable to track if the maximum number of flies has been eaten, in order to commence the descent into hell
 let scoreMax = false;
 
-//Array for rain 
-//let = rain[];
+//Empty array for rain 
+let drops = [];
 
 
 /**
@@ -100,6 +100,7 @@ function setup() {
     //Array, as declared earlier
     flies = [];
 
+
     //Introducing a loop that will "repeat" the amount of flies I want present on my canvas. As long as "i" is less than nFlies(10), there will be one fly added through the i++
     for (let i = 0; i < nFlies; i++) {
 
@@ -111,6 +112,11 @@ function setup() {
             speedX: 3,
             speedY: 1,
         });
+    }
+
+    //Loop
+    for (let i = 0; i < 200; i++) {
+        drops[i] = new drawDrop();
     }
 
 }
@@ -171,8 +177,21 @@ function draw() {
     //Making the tongue of the frog launch automatically rather than relying on mousePressed
     if (whichScreen === "game" && frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
-    }
+    };
 
+    //Enabling the rain drops once the game screen has been reached
+    if (whichScreen === "game") {
+
+        //Loop for rain drops
+        for (let i = 0; i < 200; i++) {
+
+            //Rendering the rain on the canvas
+            drops[i].show();
+
+            //Update the drops position every frame
+            drops[i].update();
+        };
+    };
 
 }
 
@@ -251,6 +270,37 @@ function gameoverScreen(fade) {
     text("Click Any Key To Restart", 320, 460);
 }
 
+
+//Function to draw the rain drop(s) and all the varying parameters
+function drawDrop() {
+
+    //"this" used as placeholder for a "drop"
+    //In essence this = drawDrop/drops
+    this.x = random(0, width);
+    this.y = random(0, -height);
+
+    //Drawing the rain drop
+    this.show = function () {
+
+        noStroke();
+        fill(0, 0, 190);
+        ellipse(this.x, this.y, random(1, 5), random(1, 5));
+    }
+
+    //Updates the speed & gravity of the drops every frame
+    this.update = function () {
+
+        this.speed = random(5, 10);
+        this.gravity = 1.05;
+        this.y = this.y + this.speed * this.gravity;
+
+        //Resets the raindrops 
+        if (this.y > height) {
+            this.y = random(0, -height);
+            this.gravity = 0;
+        }
+    }
+}
 
 //Functions for the second fly that I added, these follow the same code as the original fly with some minor tweaks
 function moveFlyForgiveness() {

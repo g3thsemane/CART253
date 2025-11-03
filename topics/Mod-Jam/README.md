@@ -55,8 +55,7 @@ Sound when a fly is eaten(made by frog)
      
 ## Screenshot(s)
 
-This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
-
+[Gameplay Screenshot](assets/images/gampeplay.png)
 
 
 ## Attribution
