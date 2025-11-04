@@ -59,7 +59,7 @@ Sound when a fly is eaten(made by frog)
      
 ## Screenshot(s)
 
-[Gameplay Screenshot](assets/images/gampeplay.png)
+[Gameplay Screenshot](assets/images/gameplay.png)
 
 
 ## Attribution
