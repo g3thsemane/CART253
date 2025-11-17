@@ -62,7 +62,7 @@ function mousePressed() {
     let carModel = random(carModels);
     let dinosaur = random(dinosaurs);
 
-    // Combine them into a new car name
+    
 
     carName = carModel + " " + dinosaur;
 

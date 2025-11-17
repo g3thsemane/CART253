@@ -1,0 +1,16 @@
+Benjamin Merhi
+
+Mod Jam Response, CART 253 
+
+
+Dyna Benaziza, Sleepy Frog, Project: [https://dynabenaziza-beep.github.io/cart-253-/mod-jam%20/]
+
+Sleepy Frog by Dyna Benaziza is a straightforward, yet strong addition to the Frogfrogfrog template. Starting with the title screen, I enjoy the overall design and how you must press the frog to start. The environment in the actual game feels more lively, with the addition of some water, a sky with a sun, and what I believe to be a skyline. While these environmental improvements are simple, I find they can add a lot to the/a game. The game no longer feels as flat, and there is a depth which while it has no effect on the actual gameplay, is more soothing to look at. In terms of the game play, I can appreciate the inclusion of an "enemy" in the bee, forcing the player to plan their moves more tactically. The use of three hearts as a health bar is definitely a classic in video games, and I like seeing it employed in this mod. Looking at the code, it's interesting to see the different manner in which the screens are accessed, this one relying on boolean logic.
+
+Daniel Michurov, Dark Flies, Project: [https://cakeallen.github.io/cart253/mod-jam/index.html]
+
+In Dark Flies by Daniel Michurov, a grim medevial theme makes itself apparent, and greatly shifts the attitude and air of the game. The game is set against a dark, foggy backdrop, alongside what appaears to be cathedrals. The theme is quite nice, giving it a remarkable appearance that stays true to the name of the game. The removal of the ability to keep the frog moving while the tongue is launched adds a layer of difficulty to the game, which resulted in me having to calculate the launches more precisely, as due to the hunger bar, every second counts. Along with the stamina bar, the user must be very cautious, ensuring that a hit is imminent so as to not end your life by accident. The game is won through the consumption of the five runes which spell out "DECAY", and although I am unsure of the word's context, I find it is a nice and creative way to lead to victory. Given that flies increase in speed with every rune consumed, coupled with the two health bars, Dark Flies is definitely a step up in difficulty from the base game.
+
+Emmet Walthers, Frog Dude: The Game, Project: [https://emmettwalthers.github.io/cart253/Topics/mod-jam/]
+
+A game I fondly remember playing in my youth was Mario Party on my Nintendo DS, it's arcade feeling and poppy aesthetic always captivated me. I find that Frog Dude by Emmet Walthers holds similar qualities. The title screen was nicely done, the unique font animated to turn back and forth is quite cool. When loading into the game the first thing that caught my attention was the cheery soundtrack playing, which is mainly what reminded me of Mario Party DS. The lane system and arrow key usage is an interesting way to change the game's layout, and is sort of similar to Galaga or Space Invaders. The sound effect when a fly is eaten is also a nice touch. While simple, there is a sort of amusement to be had with this mod.
