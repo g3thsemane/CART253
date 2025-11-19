@@ -118,15 +118,15 @@ function setup() {
 function preload() {
 
     //Sound when a fly is ate
-    flyAte = loadSound('ASSETS/Sounds/flyAte.wav');
+    flyAte = loadSound('assets/sounds/flyAte.wav');
     //Sound frog makes when fly is ate
-    yumYum = loadSound('ASSETS/Sounds/yumYum.mp3');
+    yumYum = loadSound('assets/sounds/yumYum.mp3');
     //Background song
-    rainSong = loadSound('ASSETS/Sounds/rainSong.ogg');
+    rainSong = loadSound('assets/sounds/rainSong.ogg');
     //Image for game over screen
-    img1 = loadImage('ASSETS/Images/thirdcircle.webp');
+    img1 = loadImage('assets/images/thirdcircle.webp');
     //Evil laugh when game over
-    laughEvil = loadSound('ASSETS/Sounds/laughEvil.wav');
+    laughEvil = loadSound('assets/sounds/laughEvil.wav');
 }
 
 function draw() {
