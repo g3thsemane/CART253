@@ -56,7 +56,7 @@ const flyForgiveness = {
 
     x: 0,
     y: 175,
-    size: 5,
+    size: 9,
 
     speedX: 8,
     speedY: 2,
@@ -73,6 +73,7 @@ let yumYum;
 let rainSong;
 let img1;
 let laughEvil;
+let holySound;
 
 //Variable for the score
 let score = 0;
@@ -83,8 +84,8 @@ let gameoverFade = 0;
 //Variable to track if the maximum number of flies has been eaten, in order to commence the descent into hell
 let scoreMax = false;
 
-//Array for rain 
-//  let = rain[];
+//Empty array for rain 
+let drops = [];
 
 
 /**
@@ -99,6 +100,7 @@ function setup() {
     //Array, as declared earlier
     flies = [];
 
+
     //Introducing a loop that will "repeat" the amount of flies I want present on my canvas. As long as "i" is less than nFlies(10), there will be one fly added through the i++
     for (let i = 0; i < nFlies; i++) {
 
@@ -110,6 +112,13 @@ function setup() {
             speedX: 3,
             speedY: 1,
         });
+    }
+
+    //Loop to create rain, up to 200 drops.
+    for (let i = 0; i < 200; i++) {
+
+        //Calls on drawDrop() in order to make a rain drop and add it to the array
+        drops[i] = new drawDrop();
     }
 
 }
@@ -127,6 +136,8 @@ function preload() {
     img1 = loadImage('assets/images/thirdcircle.webp');
     //Evil laugh when game over
     laughEvil = loadSound('assets/sounds/laughEvil.wav');
+    //Sound for fly of forgiveness
+    holySound = loadSound('assets/sounds/holySound.mp3')
 }
 
 function draw() {
@@ -168,8 +179,21 @@ function draw() {
     //Making the tongue of the frog launch automatically rather than relying on mousePressed
     if (whichScreen === "game" && frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
-    }
+    };
 
+    //Enabling the rain drops once the game screen has been reached
+    if (whichScreen === "game") {
+
+        //Loop for rain drops
+        for (let i = 0; i < 200; i++) {
+
+            //Rendering the rain on the canvas
+            drops[i].show();
+
+            //Update the drops position every frame
+            drops[i].update();
+        };
+    };
 
 }
 
@@ -178,7 +202,7 @@ function draw() {
 //Beginning with the Start Screen, features the title of the game and a prompt to click to start. Upon clicking, it will lead the user to the instructions screen by using an if statement.
 
 function startScreen() {
-    background("#87ceeb");
+    background("#81282bff");
     textAlign(CENTER, CENTER);
     textSize(40);
     fill(0);
@@ -199,7 +223,7 @@ function startScreen() {
 
 function instructionsScreen() {
 
-    background("#87ceeb");
+    background("#81282bff");
     textAlign(CENTER, CENTER);
     textSize(30);
     fill(0);
@@ -213,7 +237,7 @@ function instructionsScreen() {
     textStyle(NORMAL);
     textSize(20);
     textWrap(WORD);
-    const instr = "Move the frog along the X-axis with your mouse, and click the mouse to launch the tongue and catch the flies. Remember: Gluttony is a sin";
+    const instr = "Move the frog with the mouse. Avoid eating more than 20 flies to prevent your descent into hell. Yellow fly removes a sin, keeping you alive for longer";
     const boxW = 500;
     text(instr, width / 2 - boxW / 2, height / 2, boxW);
     textSize(20);
@@ -249,10 +273,44 @@ function gameoverScreen(fade) {
 }
 
 
+//Function to draw the rain drop(s) and all the varying parameters
+function drawDrop() {
+
+    //"this" used as placeholder for a "drop"
+    //In essence this = drawDrop/drops
+    this.x = random(0, width);
+    this.y = random(0, -height);
+
+    //Drawing the rain drop
+    this.show = function () {
+
+        noStroke();
+        fill(0, 0, 190);
+        ellipse(this.x, this.y, random(1, 5), random(1, 5));
+    }
+
+    //Updates the speed & gravity of the drops every frame
+    this.update = function () {
+
+        this.speed = random(5, 10);
+        this.gravity = 1.05;
+        this.y = this.y + this.speed * this.gravity;
+
+        //Resets the raindrops 
+        if (this.y > height) {
+            this.y = random(0, -height);
+            this.gravity = 0;
+        }
+    }
+}
+
 //Functions for the second fly that I added, these follow the same code as the original fly with some minor tweaks
 function moveFlyForgiveness() {
 
     flyForgiveness.x += flyForgiveness.speedX;
+
+    flyForgiveness.speedX += random(-0.5, 0.5)
+    flyForgiveness.speedX = constrain(flyForgiveness.speedX, 2, 15)
 
     if (flyForgiveness.x > width) {
         resetFlyForgiveness();
@@ -301,6 +359,9 @@ function checkTongueFlyForgivenessOverlap() {
 
         //Retracts tongue when eaten
         frog.tongue.state = "inbound";
+
+        //Play holy sound effect
+        holySound.play();
     }
 
 }
@@ -544,5 +605,9 @@ function keyPressed() {
         resetFly();
         gameoverFade = 0;
         whichScreen = "game";
+        rainSong.play()
+        if (rainSong && !rainSong.isPlaying()) {
+            rainSong.loop();
+        }
     }
 }
