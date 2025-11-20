@@ -163,7 +163,7 @@ function checkTongueFlyOverlap() {
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
+    const eaten = (d < frog.tongue.size/2 + fly.size/2);
     if (eaten) {
         // Reset the fly
         resetFly();

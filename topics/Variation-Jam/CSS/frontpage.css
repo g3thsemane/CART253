@@ -6,15 +6,17 @@ body {
     height: 100%;
 }
 
+
 body {
 
-    background-color: black;
+    /*Declaring font for index*/
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 0
 }
 
 .nav-list {
 
+    /*Styling the navigation bar: centering it, making it vertical, etc. */
     list-style: none;
     margin: 0;
     padding: 0;
@@ -30,6 +32,7 @@ body {
 
 .nav-list a {
 
+    /*Styling the text in the nav bar, giving each line more space and declaring white as the colour */
     display: block;
     padding: 15px 20px;
     text-decoration: none;
@@ -40,6 +43,7 @@ body {
 
 .nav-list a:hover {
 
+    /*Adding a hover element to the nav bar text, so that when the cursor is over a specific option, it is encased in a grey box */
     background-color: rgba(101, 99, 99, 0.3);
     border-radius: 16px;
 }
@@ -47,6 +51,8 @@ body {
 
 
 .aurora-container {
+
+    /*Container for the animated background of the page */
     position: relative;
     min-height: 100vh;
     overflow: hidden;
@@ -58,26 +64,30 @@ body {
 
 
 .aurora-container::before {
+
+    /*Actually creating the content of the background. It is comprised of numerous radial gradients in each corner of the screen. Made to move on "loop" */
     content: "";
     position: absolute;
     inset: -20%;
 
 
     background:
-        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.6), transparent 55%),
-        radial-gradient(circle at 100% 0%, rgba(244, 114, 182, 0.6), transparent 55%),
-        radial-gradient(circle at 0% 100%, rgba(52, 211, 153, 0.6), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.6), transparent 55%);
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.6), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.6), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.6), transparent 55%);
 
     filter: blur(80px);
     opacity: 0.8;
-    animation: auroraMove 24s linear infinite;
+    animation: auroraMove 18s linear infinite;
     pointer-events: none;
 
 }
 
 
 @keyframes auroraMove {
+
+    /*Frames of the animation, changing the scale of each radial gradient */
     0% {
         transform: translate3d(0, 0, 0) scale(1);
     }
