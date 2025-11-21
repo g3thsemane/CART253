@@ -22,6 +22,25 @@
                 "radius": 10
             }
         },
-        {}
+        {
+            "type": "blueplane",
+            "color": "#4A90E2",
+            "scale": 1.0,
+            "body": {
+                "width": 18,
+                "length": 60
+            },
+            "wings": {
+                "depth": 12,
+                "span": 50
+            },
+            "tail": {
+                "depth": 10,
+                "span": 20
+            },
+            "propeller": {
+                "radius": 8
+            }
+        }
     ]
 }
