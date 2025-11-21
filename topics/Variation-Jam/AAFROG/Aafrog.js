@@ -17,7 +17,6 @@
 
 // Our frog
 const frog = {
-    // The frog's body has a position and size
     body: {
         x: 320,
         y: 720,
@@ -33,12 +32,7 @@ const frog = {
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
-const fly = {
-    x: 0,
-    y: 200, // Will be random
-    size: 10,
-    speed: 3
-};
+
 
 
 //Variable to hold plane data
@@ -56,8 +50,8 @@ let greenPlane;
  */
 function preload() {
 
-    //Load plane data from JSON file
-    planeData = loadJSON("ASSETS/Data/AAfrog.json");
+    //Load plane data from JSON file (assets are at project root)
+    planeData = loadJSON("../ASSETS/Data/AAfrog.json");
 }
 
 /**
@@ -65,10 +59,10 @@ function preload() {
  */
 function setup() {
     createCanvas(840, 680);
-
-    // Give the fly its first random position
-    resetFly();
-
+    // Tailplane (horizontal rear wing)
+    rectMode(CENTER);
+    //Angle mode in degrees for plane propeller rotation
+    angleMode(DEGREES);
     //Assign individual plane variables to their respective data from the JSON file and certain properties
     redPlane = {
 
@@ -97,20 +91,21 @@ function setup() {
         speed: 9
     }
 
-    resetFly();
+
 }
 
+/**
+ * Draws the background, and the various functions which make up the program
+ */
 function draw() {
     background("#87ceeb");
-    moveFly();
+
 
     moveFrog();
     moveTongue();
     drawFrog();
-    checkTongueFlyOverlap();
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
-
 }
 
 /**
@@ -122,6 +117,7 @@ function movePlanes() {
     redPlane.x += redPlane.speed;
     bluePlane.x += bluePlane.speed;
     greenPlane.x += greenPlane.speed;
+
 }
 
 /**
@@ -148,11 +144,14 @@ function drawPlanes(plane, x, y) {
 
     //Window of the plane
     fill(0, 50);
-    ellipse(0, -body.length * 0.15, body.width * 0.08, body.length * 0.3);
+    ellipse(0, -body.length * 0.15, body.width * 0.8, body.length * 0.3);
 
     //Wings of the plane 
     fill(plane.color);
     rect(0, -body.length * 0.05, wings.span, wings.depth, 4);
+
+    //Tail 
+    rect(0, body.length * 0.3, tail.span, tail.depth, 4);
 
     //Tail Fin
     rect(0, body.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
@@ -173,20 +172,12 @@ function drawPlanes(plane, x, y) {
     pop();
 }
 
-function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
-}
-
 
 /** 
  * Resets the fly to the left with a random y
  */
 function resetPlanes() {
 
-
-    fly.x = 0;
-    fly.y = random(0, 300);
 }
 
 /**
@@ -224,6 +215,8 @@ function moveTongue() {
     }
 }
 
+
+
 /**
  * Displays the tongue (tip and line connection) and the frog (body)
  */
@@ -245,21 +238,6 @@ function drawFrog() {
     pop();
 }
 
-/**
- * Handles the tongue overlapping the fly
- */
-function checkTongueFlyOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        // Reset the fly
-        resetFly();
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
-    }
-}
 
 /**
  * Launch the tongue on click (if it's not launched yet)
