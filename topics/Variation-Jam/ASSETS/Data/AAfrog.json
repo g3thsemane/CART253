@@ -62,5 +62,12 @@
                 "radius": 7
             }
         }
+    ],
+    "frog": [
+        {
+            "type": "aafrog",
+            "color": "#A3CB5B",
+            "size": 150
+        }
     ]
 }

@@ -1,13 +1,13 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Anti-Aircraft Frog
+ * Benjamin Merhi
  * 
- * A game of catching flies with your frog-tongue
+ * A game where a frog shoots rockets in order to destroy planes
  * 
  * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch flies
+ * - Move frog with mouse
+ * - Click to launch rockets
+ * - Destroy planes to score points 
  * 
  * Made with p5
  * https://p5js.org/
@@ -20,7 +20,7 @@ const frog = {
     // The frog's body has a position and size
     body: {
         x: 320,
-        y: 520,
+        y: 720,
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
@@ -34,23 +34,52 @@ const frog = {
     }
 };
 
-// Our fly
-// Has a position, size, and speed of horizontal movement
-const fly = {
-    x: 0,
-    y: 200, // Will be random
-    size: 10,
-    speed: 3
-};
+
+//Variable to hold plane data
+let planeData;
+
+//Variables to hold the specific, individual planes
+let redPlane;
+let bluePlane;
+let greenPlane;
+
+
 
 /**
- * Creates the canvas and initializes the fly
+ * Preloads assets to ensure they appear in the program. Includes data, images, and sounds. 
+ */
+function preload() {
+
+    //Load plane data from JSON file
+    planeData = loadJSON("ASSETS/Data/AAfrog.json");
+}
+
+/**
+ * Creates the canvas, and assigning our plane variables to their respective data from the JSON file
  */
 function setup() {
-    createCanvas(640, 480);
+    createCanvas(840, 680);
 
     // Give the fly its first random position
     resetFly();
+
+    //Assign individual plane variables to their respective data from the JSON file and certain properties
+    redPlane = {
+        //Since the red plane is the first plane in the JSON file, it is at index 0
+        data: planeData.planes[0],
+        //Assigning a negative X so that it begins off screen
+        x: -100,
+        //The plane will be at a random
+        y: random(20, 300),
+        speed: 5
+    };
+
+    bluePlane = {
+        data: planeData.planes[1],
+        x: -100,
+        y: random(50, 300),
+        speed: 7
+    }
 }
 
 function draw() {
@@ -141,12 +170,7 @@ function drawFrog() {
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
-    // Draw the rest of the tongue
-    push();
-    stroke("#ff0000");
-    strokeWeight(frog.tongue.size);
-    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
+
 
     // Draw the frog's body
     push();
