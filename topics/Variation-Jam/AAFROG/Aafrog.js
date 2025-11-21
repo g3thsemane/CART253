@@ -33,6 +33,12 @@ const frog = {
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
+const fly = {
+    x: 0,
+    y: 200, // Will be random
+    size: 10,
+    speed: 3
+};
 
 
 //Variable to hold plane data
@@ -68,35 +74,26 @@ function setup() {
 
         //Since the red plane is the first plane in the JSON file, it is at index 0
         data: planeData.planes[0],
-
         //Assigning a negative X so that it begins off screen
         x: -10,
-
         //The plane will be at a random
         y: random(20, 300),
-
         speed: 5
     };
 
     bluePlane = {
 
         data: planeData.planes[1],
-
         x: -10,
-
         y: random(50, 300),
-
         speed: 7
     }
 
     greenPlane = {
 
         data: planeData.planes[2],
-
         x: -10,
-
         y: random(20, 300),
-
         speed: 9
     }
 }
@@ -109,29 +106,69 @@ function draw() {
     moveTongue();
     drawFrog();
     checkTongueFlyOverlap();
+    movePlanes();
+    drawPlanes(redPlane.data, redPlane.x, redPlane.y);
+
 }
 
 /**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
+ * Function in order to move the planes across the screen
  */
 function movePlanes() {
 
     //Moving the planes by adding the speed to their X position
     redPlane.x += redPlane.speed;
-
     bluePlane.x += bluePlane.speed;
-
     greenPlane.x += greenPlane.speed;
 }
 
 /**
- * Function in order to draw the plane on the canvas, will be available for all planes
+ * Function in order to draw the plane on the canvas, will be available/reusable for all planes
  */
 function drawPlanes(plane, x, y) {
 
     push();
 
+    translate(x, y);
+
+    //Matching the scale from the JSON file
+    scale(plane.scale || 1);
+
+    const body = plane.body;
+    const wings = plane.wings;
+    const tail = plane.tail
+    const prop = plane.propeller;
+
+    //Body of the plane
+    noStroke();
+    fill(plane.color);
+    rect(0, 0, body.width, body.length, 6);
+
+    //Window of the plane
+    fill(0, 50);
+    ellipse(0, -body.length * 0.15, body.width * 0.08, body.length * 0.3);
+
+    //Wings of the plane 
+    fill(plane.color);
+    rect(0, -body.length * 0.05, wings.span, wings.depth, 4);
+
+    //Tail Fin
+    rect(0, fus.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
+
+    //Propeller 
+    const noseY = -fus.length / 2;
+    fill(80);
+    ellipse(0, noseY, prop.radius * 1.2, prop.radius * 1.2);
+
+    //Spin propeller blades
+    stroke(80);
+    strokeWeight(2);
+    const angle = frameCount * 20;
+    const bladeLen = prop.radius * 2;
+
+    line(0, noseY, bladeLen * cos(angle), noseY + bladeLen * sin(angle));
+    line(0, noseY, bladeLen * cos(angle + 180), noseY + bladeLen * sin(angle + 180));
+    pop();
 }
 
 
