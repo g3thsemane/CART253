@@ -78,8 +78,10 @@ function setup() {
     bluePlane = {
 
         data: planeData.planes[1],
-        x: -10,
-        y: random(50, 300),
+        //x: -10,
+        //y: random(50, 300),
+        x: random(20, 500),
+        y: -10,
         speed: 7
     }
 
@@ -98,6 +100,7 @@ function setup() {
  * Draws the background, and the various functions which make up the program
  */
 function draw() {
+
     background("#87ceeb");
 
 
@@ -114,24 +117,30 @@ function draw() {
 function movePlanes() {
 
     //Moving the planes by adding the speed to their X position
-    redPlane.x += redPlane.speed;
+    redPlane.y += redPlane.speed;
     bluePlane.x += bluePlane.speed;
     greenPlane.x += greenPlane.speed;
 
     //Reset when the plane passes the width of the canvas
-    if (redPlane.x > width + 200) {
+    //if (redPlane.x > width + 200) {
+    // resetPlanes();
+    //}
+
+    if (redPlane.y > height) {
         resetPlanes();
     }
-
 }
 
 /** 
- * Resets the fly to the left with a random y
+ * Resets the fly to original position
  */
 function resetPlanes() {
 
-    redPlane.x = -10;
-    redPlane.y = random(20, 300);
+    // redPlane.x = -10;
+    //redPlane.y = random(20, 300); 
+
+    redPlane.x = random(20, 500);
+    redPlane.y = -10
 
 }
 
@@ -148,6 +157,7 @@ function drawPlanes(plane, x, y) {
     //Rotating the place to appear more logical
     rotate(180);
 
+    //Constant varaibles pertaining to different parts of the plane
     const body = plane.body;
     const wings = plane.wings;
     const tail = plane.tail
