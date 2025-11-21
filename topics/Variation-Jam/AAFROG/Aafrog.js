@@ -65,27 +65,46 @@ function setup() {
 
     //Assign individual plane variables to their respective data from the JSON file and certain properties
     redPlane = {
+
         //Since the red plane is the first plane in the JSON file, it is at index 0
         data: planeData.planes[0],
+
         //Assigning a negative X so that it begins off screen
-        x: -100,
+        x: -10,
+
         //The plane will be at a random
         y: random(20, 300),
+
         speed: 5
     };
 
     bluePlane = {
+
         data: planeData.planes[1],
-        x: -100,
+
+        x: -10,
+
         y: random(50, 300),
+
         speed: 7
+    }
+
+    greenPlane = {
+
+        data: planeData.planes[2],
+
+        x: -10,
+
+        y: random(20, 300),
+
+        speed: 9
     }
 }
 
 function draw() {
     background("#87ceeb");
     moveFly();
-    drawFly();
+
     moveFrog();
     moveTongue();
     drawFrog();
@@ -96,30 +115,32 @@ function draw() {
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
-function moveFly() {
-    // Move the fly
-    fly.x += fly.speed;
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
-    }
+function movePlanes() {
+
+    //Moving the planes by adding the speed to their X position
+    redPlane.x += redPlane.speed;
+
+    bluePlane.x += bluePlane.speed;
+
+    greenPlane.x += greenPlane.speed;
 }
 
 /**
- * Draws the fly as a black circle
+ * Function in order to draw the plane on the canvas, will be available for all planes
  */
-function drawFly() {
+function drawPlanes(plane, x, y) {
+
     push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
+
 }
 
-/**
+
+/** 
  * Resets the fly to the left with a random y
  */
-function resetFly() {
+function resetPlanes() {
+
+
     fly.x = 0;
     fly.y = random(0, 300);
 }
