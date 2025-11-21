@@ -32,7 +32,7 @@
             },
             "wings": {
                 "depth": 12,
-                "span": 50
+                "span": 55
             },
             "tail": {
                 "depth": 10,
@@ -40,6 +40,26 @@
             },
             "propeller": {
                 "radius": 8
+            }
+        },
+        {
+            "type": "greenplane",
+            "color": "#6D8B36",
+            "scale": 0.8,
+            "body": {
+                "width": 16,
+                "length": 55
+            },
+            "wings": {
+                "depth": 10,
+                "span": 50
+            },
+            "tail": {
+                "depth": 8,
+                "span": 18
+            },
+            "propeller": {
+                "radius": 7
             }
         }
     ]
