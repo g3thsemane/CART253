@@ -118,6 +118,21 @@ function movePlanes() {
     bluePlane.x += bluePlane.speed;
     greenPlane.x += greenPlane.speed;
 
+    //Reset when the plane passes the width of the canvas
+    if (redPlane.x > width + 200) {
+        resetPlanes();
+    }
+
+}
+
+/** 
+ * Resets the fly to the left with a random y
+ */
+function resetPlanes() {
+
+    redPlane.x = -10;
+    redPlane.y = random(20, 300);
+
 }
 
 /**
@@ -126,11 +141,12 @@ function movePlanes() {
 function drawPlanes(plane, x, y) {
 
     push();
-
+    //Alters the origin to the plane's position
     translate(x, y);
-
     //Matching the scale from the JSON file
     scale(plane.scale || 1);
+    //Rotating the place to appear more logical
+    rotate(180);
 
     const body = plane.body;
     const wings = plane.wings;
@@ -172,13 +188,6 @@ function drawPlanes(plane, x, y) {
     pop();
 }
 
-
-/** 
- * Resets the fly to the left with a random y
- */
-function resetPlanes() {
-
-}
 
 /**
  * Moves the frog to the mouse position on x
