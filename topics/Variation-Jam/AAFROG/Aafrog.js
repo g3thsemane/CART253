@@ -96,6 +96,8 @@ function setup() {
         y: random(20, 300),
         speed: 9
     }
+
+    resetFly();
 }
 
 function draw() {
@@ -153,10 +155,10 @@ function drawPlanes(plane, x, y) {
     rect(0, -body.length * 0.05, wings.span, wings.depth, 4);
 
     //Tail Fin
-    rect(0, fus.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
+    rect(0, body.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
 
     //Propeller 
-    const noseY = -fus.length / 2;
+    const noseY = -body.length / 2;
     fill(80);
     ellipse(0, noseY, prop.radius * 1.2, prop.radius * 1.2);
 
@@ -169,6 +171,11 @@ function drawPlanes(plane, x, y) {
     line(0, noseY, bladeLen * cos(angle), noseY + bladeLen * sin(angle));
     line(0, noseY, bladeLen * cos(angle + 180), noseY + bladeLen * sin(angle + 180));
     pop();
+}
+
+function resetFly() {
+    fly.x = 0;
+    fly.y = random(0, 300);
 }
 
 
