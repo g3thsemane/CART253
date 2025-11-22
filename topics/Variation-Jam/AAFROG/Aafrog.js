@@ -157,7 +157,6 @@ function movePlanes() {
 }
 
 
-
 /** 
  * Resets the red plane to original position, relies on movePlanes function
  */
@@ -168,12 +167,31 @@ function resetRedPlane() {
 }
 
 /**
- * Resets the blue plane to original position, relies on movePlanes function
+ * Resets the blue plane to original position, relies on movePlanes function. 
  */
 function resetBluePlane() {
 
     bluePlane.x = random(20, 820);
     bluePlane.y = -150
+}
+
+/**
+ * Function to gather the radius of the planes for collision purposes. Will be treating the plane as a circle, and returning its radius based on the length of the constants that make up the plane such as the body, wings, etc.
+ */
+function planeRadius(plane) {
+
+    //Main & largest components of the plane
+    const body = plane.body;
+    const wings = plane.wings;
+
+    const s = planeData.scale || 1;
+
+    //Calculating the half length of the span and length in order to accquire a radius. Body and wings are multiplied by the scale, so it's accurate, and then halved for the radius.
+    const halfLength = (body.length * s) / 2;
+    const halfSpan = (wings.span * s) / 2;
+
+    //Using the larger of the length or the span to return a radius the cover the entire plane
+    return max(halfLength, halfSpan);
 }
 
 /**
