@@ -72,7 +72,7 @@ function setup() {
         //Since the red plane is the first plane in the JSON file, it is at index 0
         data: planeData.planes[0],
         //Assigning a negative Y so that it begins off screen
-        y: -20,
+        y: -200,
         //The plane will be at a random X position in the canvas
         x: random(20, 820),
         speed: 2
@@ -82,14 +82,14 @@ function setup() {
 
         data: planeData.planes[1],
         x: random(20, 820),
-        y: -10,
+        y: -100,
         speed: 4
     }
 
     greenPlane = {
 
         data: planeData.planes[2],
-        x: -10,
+        x: -100,
         y: random(20, 300),
         speed: 9
     }
@@ -148,10 +148,10 @@ function movePlanes() {
     greenPlane.y += greenPlane.speed;
 
     //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
-    if (redPlane.y > height) {
+    if (redPlane.y > height + 50) {
         resetRedPlane();
     }
-    if (bluePlane.y > height) {
+    if (bluePlane.y > height + 20) {
         resetBluePlane();
     }
 }
@@ -164,7 +164,7 @@ function movePlanes() {
 function resetRedPlane() {
 
     redPlane.x = random(20, 820);
-    redPlane.y = -10
+    redPlane.y = -150
 }
 
 /**
@@ -173,7 +173,7 @@ function resetRedPlane() {
 function resetBluePlane() {
 
     bluePlane.x = random(20, 820);
-    bluePlane.y = -20
+    bluePlane.y = -150
 }
 
 /**
@@ -303,7 +303,7 @@ function drawFrog() {
 
     //Adding a belly to the frog
     push();
-    fill("#a2fca2ff");
+    fill("#ecee88ff");
     noStroke();
     ellipse(frog.body.x, frog.body.y - 5, frog.body.size / 1.5, frog.body.size / 1.8);
     pop();
