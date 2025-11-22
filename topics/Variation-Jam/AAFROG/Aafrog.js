@@ -71,21 +71,19 @@ function setup() {
 
         //Since the red plane is the first plane in the JSON file, it is at index 0
         data: planeData.planes[0],
-        //Assigning a negative X so that it begins off screen
-        x: -10,
-        //The plane will be at a random
-        y: random(20, 300),
-        speed: 5
+        //Assigning a negative Y so that it begins off screen
+        y: -20,
+        //The plane will be at a random X position in the canvas
+        x: random(20, 820),
+        speed: 2
     };
 
     bluePlane = {
 
         data: planeData.planes[1],
-        //x: -10,
-        //y: random(50, 300),
-        x: random(20, 500),
+        x: random(20, 820),
         y: -10,
-        speed: 7
+        speed: 4
     }
 
     greenPlane = {
@@ -95,8 +93,6 @@ function setup() {
         y: random(20, 300),
         speed: 9
     }
-
-
 }
 
 /**
@@ -112,6 +108,7 @@ function draw() {
     drawFrog();
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
+    drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
 
     //If statement to handle the different screens
     if (whichScreen === "start") {
@@ -125,18 +122,18 @@ function draw() {
 function startScreen() {
     background("#ffffffff");
     textAlign(CENTER, CENTER);
-    textSize(40);
+    textSize(60);
     fill(0);
     textFont('IMPACT');
     textStyle(BOLD);
 
     //Title
-    text("ANTI-AIRCRAFT FROG", width / 2, 200);
+    text("ANTI-AIRCRAFT FROG", width / 2, height / 2);
 
     //Prompt
     textStyle(NORMAL);
     textSize(20);
-    text("Click to Start", width / 2, height / 2 + 40);
+    text("Click to Start", width / 2, height / 2 + 80);
 
 }
 
@@ -147,32 +144,36 @@ function movePlanes() {
 
     //Moving the planes by adding the speed to their X position
     redPlane.y += redPlane.speed;
-    bluePlane.x += bluePlane.speed;
-    greenPlane.x += greenPlane.speed;
+    bluePlane.y += bluePlane.speed;
+    greenPlane.y += greenPlane.speed;
 
-    //Reset when the plane passes the width of the canvas
-    //if (redPlane.x > width + 200) {
-    // resetPlanes();
-    //}
-
+    //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
     if (redPlane.y > height) {
-        resetPlanes();
+        resetRedPlane();
+    }
+    if (bluePlane.y > height) {
+        resetBluePlane();
     }
 }
 
 
 
 /** 
- * Resets the fly to original position
+ * Resets the red plane to original position, relies on movePlanes function
  */
-function resetPlanes() {
+function resetRedPlane() {
 
-    // redPlane.x = -10;
-    //redPlane.y = random(20, 300); 
-
-    redPlane.x = random(20, 500);
+    redPlane.x = random(20, 820);
     redPlane.y = -10
+}
 
+/**
+ * Resets the blue plane to original position, relies on movePlanes function
+ */
+function resetBluePlane() {
+
+    bluePlane.x = random(20, 820);
+    bluePlane.y = -20
 }
 
 /**
@@ -185,7 +186,7 @@ function drawPlanes(plane, x, y) {
     translate(x, y);
     //Matching the scale from the JSON file
     scale(plane.scale || 1);
-    //Rotating the place to appear more logical
+    //Rotating the place to appear more logical when moving
     rotate(180);
 
     //Constant varaibles pertaining to different parts of the plane
@@ -268,7 +269,7 @@ function moveTongue() {
 
 
 /**
- * Displays the tongue (tip and line connection) and the frog (body)
+ * Displays the various parts of the frog
  */
 function drawFrog() {
     // Draw the tongue tip

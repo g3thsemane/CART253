@@ -27,16 +27,16 @@
             "color": "#4A90E2",
             "scale": 1.0,
             "body": {
-                "width": 18,
+                "width": 14,
                 "length": 60
             },
             "wings": {
                 "depth": 12,
-                "span": 55
+                "span": 60
             },
             "tail": {
                 "depth": 10,
-                "span": 20
+                "span": 25
             },
             "propeller": {
                 "radius": 8
