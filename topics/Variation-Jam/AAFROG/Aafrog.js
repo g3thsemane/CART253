@@ -19,7 +19,7 @@
 const frog = {
     body: {
         x: 320,
-        y: 720,
+        y: 700,
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
@@ -42,6 +42,9 @@ let planeData;
 let redPlane;
 let bluePlane;
 let greenPlane;
+
+//Variable for the different screens of the game
+let whichScreen = "start";
 
 
 
@@ -103,12 +106,38 @@ function draw() {
 
     background("#87ceeb");
 
-
+    //Calling various functions to make up the game
     moveFrog();
     moveTongue();
     drawFrog();
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
+
+    //If statement to handle the different screens
+    if (whichScreen === "start") {
+        startScreen();
+    }
+}
+
+/**
+ * Function for the creatin of the start screen
+ */
+function startScreen() {
+    background("#ffffffff");
+    textAlign(CENTER, CENTER);
+    textSize(40);
+    fill(0);
+    textFont('IMPACT');
+    textStyle(BOLD);
+
+    //Title
+    text("ANTI-AIRCRAFT FROG", width / 2, 200);
+
+    //Prompt
+    textStyle(NORMAL);
+    textSize(20);
+    text("Click to Start", width / 2, height / 2 + 40);
+
 }
 
 /**
@@ -130,6 +159,8 @@ function movePlanes() {
         resetPlanes();
     }
 }
+
+
 
 /** 
  * Resets the fly to original position
@@ -247,13 +278,49 @@ function drawFrog() {
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
-
-
     // Draw the frog's body
     push();
-    fill("#00ff00");
+    fill("#044904ff");
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
+    pop();
+
+    //Adding modifications to make the frog look more like a frog by adding eyes, pupils, a stomach, and a smile
+    push();
+
+    //Eyes
+    fill("#ffffff");
+    noStroke();
+    ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 6);
+    ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 6);
+
+    //Pupils
+    fill("#000000");
+    ellipse(frog.body.x - 30, frog.body.y - 65, frog.body.size / 8);
+    ellipse(frog.body.x + 30, frog.body.y - 65, frog.body.size / 8);
+    pop();
+
+    //Adding a belly to the frog
+    push();
+    fill("#a2fca2ff");
+    noStroke();
+    ellipse(frog.body.x, frog.body.y - 5, frog.body.size / 1.5, frog.body.size / 1.8);
+    pop();
+
+    //Adding a smile to the frog
+    push();
+    noFill();
+    stroke("#000000");
+    strokeWeight(4);
+    arc(frog.body.x, frog.body.y - 40, frog.body.size / 4, frog.body.size / 5, 20, 160);
+    pop();
+
+    //Adding nostrils to the frog
+    push();
+    fill("#000000");
+    noStroke();
+    ellipse(frog.body.x - 10, frog.body.y - 50, frog.body.size / 30);
+    ellipse(frog.body.x + 10, frog.body.y - 50, frog.body.size / 30);
     pop();
 }
 
@@ -264,5 +331,9 @@ function drawFrog() {
 function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
+    }
+
+    if (whichScreen === "start") {
+        whichScreen = "game";
     }
 }
