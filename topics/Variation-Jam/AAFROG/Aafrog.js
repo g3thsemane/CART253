@@ -46,6 +46,12 @@ let greenPlane;
 //Variable for the different screens of the game
 let whichScreen = "start";
 
+//Empty array for clouds
+let clouds = [];
+
+//Timer regarding the spawning of clouds
+
+
 
 
 /**
@@ -116,6 +122,8 @@ function draw() {
     if (whichScreen === "start") {
         startScreen();
     }
+
+
 }
 
 /**
@@ -137,6 +145,22 @@ function startScreen() {
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 80);
 
+}
+
+/**
+ * Creating a cloud that is pushed into the clouds array
+ */
+function createCloud() {
+
+    let cloud = {
+
+        x: -100,
+        y: random(20, 120),
+        size: random(40, 100),
+        speed: random(0.3, 1.2),
+        //Random transparency/opacity
+        alpha: random(60, 200);
+    };
 }
 
 /**
