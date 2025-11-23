@@ -50,7 +50,7 @@ let whichScreen = "start";
 let clouds = [];
 
 //Timer regarding the spawning of clouds
-
+let cloudSpawner = 0;
 
 
 
@@ -95,9 +95,9 @@ function setup() {
     greenPlane = {
 
         data: planeData.planes[2],
-        x: -100,
-        y: random(20, 300),
-        speed: 9
+        x: random(20, 300),
+        y: -150,
+        speed: 4.5
     }
 }
 
@@ -115,6 +115,7 @@ function draw() {
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
+    drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
 
     checkCollision();
 
@@ -123,7 +124,35 @@ function draw() {
         startScreen();
     }
 
+    //Cloud spawn logic, calls the creatCloud function 
+    cloudSpawner--;
+    if (cloudSpawner <= 0) {
+        createCloud();
+        //The cloud will spawn every 40 to 150 frames 
+        cloudSpawner = int(random(40, 150));
+    };
 
+
+    //Array going downwards, to not break the loop and in correspondance with the clouds.splice()
+    for (let i = clouds.length - 1; i >= 0; i--) {
+
+        let c = clouds[i];
+
+        c.x += c.speed;
+
+        //Drawing the clouds
+        push();
+        fill(255, 255, 255, c.alpha);
+        noStroke();
+        ellipse(c.x, c.y, c.size * 1.4, c.size);
+        ellipse(c.x + c.size * 0.4, c.y - 10, c.size, c.size * 0.7);
+        ellipse(c.x + c.size * 0.8, c.y, c.size * 1.2, c.size * 0.8);
+
+        //Removes the cloud when it passes the width and reinserts it into the array
+        if (c.x > width + 100) {
+            clouds.splice(i, 1);
+        }
+    }
 }
 
 /**
@@ -159,8 +188,11 @@ function createCloud() {
         size: random(40, 100),
         speed: random(0.3, 1.2),
         //Random transparency/opacity
-        alpha: random(60, 200);
+        alpha: random(60, 200)
     };
+
+    //Actually pushing the cloud variable into the array
+    clouds.push(cloud);
 }
 
 /**
@@ -179,6 +211,9 @@ function movePlanes() {
     }
     if (bluePlane.y > height + 20) {
         resetBluePlane();
+    }
+    if (greenPlane.y > height + 20) {
+        resetGreenPlane();
     }
 }
 
@@ -199,6 +234,12 @@ function resetBluePlane() {
 
     bluePlane.x = random(20, 820);
     bluePlane.y = -150
+}
+
+function resetGreenPlane() {
+
+    greenPlane.x = random(20, 820)
+    greenPlane.y = -215
 }
 
 /**
@@ -253,6 +294,12 @@ function checkCollision() {
     //Blue plane
     if (planeHit(frog.rocket, bluePlane)) {
         resetBluePlane();
+        frog.rocket.state = "inbound"
+    }
+
+    //Green plane
+    if (planeHit(frog.rocket, greenPlane)) {
+        resetGreenPlane();
         frog.rocket.state = "inbound"
     }
 }
