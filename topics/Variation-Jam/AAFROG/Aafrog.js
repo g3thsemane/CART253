@@ -89,7 +89,7 @@ function setup() {
         data: planeData.planes[1],
         x: random(20, 820),
         y: -100,
-        speed: 4
+        speed: 3
     }
 
     greenPlane = {
@@ -136,6 +136,7 @@ function draw() {
     //Array going downwards, to not break the loop and in correspondance with the clouds.splice()
     for (let i = clouds.length - 1; i >= 0; i--) {
 
+        //For namesake purposes. Writing c is easier than clouds[i]
         let c = clouds[i];
 
         c.x += c.speed;
@@ -181,6 +182,7 @@ function startScreen() {
  */
 function createCloud() {
 
+    //A cloud that will make up the clouds in the array
     let cloud = {
 
         x: -100,
@@ -315,7 +317,7 @@ function drawPlanes(plane, x, y) {
     translate(x, y);
     //Matching the scale from the JSON file
     scale(plane.scale || 1);
-    //Rotating the place to appear more logical when moving
+    //Rotating the plane to appear more logical when moving
     rotate(180);
 
     //Constant varaibles pertaining to different parts of the plane
@@ -361,10 +363,25 @@ function drawPlanes(plane, x, y) {
 
 
 /**
- * Moves the frog to the mouse position on x
+ * Moves the frog with the "A" and "D"
  */
 function moveFrog() {
-    frog.body.x = mouseX;
+
+    //Assigning a speed to the key movement
+    const speed = 9
+
+    //When the "A" is down, negative speed is produced, bringing the frog to the left
+    if (keyIsDown(65)) {
+        frog.body.x -= speed;
+    }
+
+    //When the "D" is down, positive speed is produced, bringing the frog to the right
+    if (keyIsDown(68)) {
+        frog.body.x += speed;
+    }
+
+    //Preventing the frog from leaving the canvas with a constrain 
+    frog.body.x = constrain(frog.body.x, 0, width)
 }
 
 /**
