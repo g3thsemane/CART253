@@ -110,6 +110,8 @@ function draw() {
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
 
+    checkCollision();
+
     //If statement to handle the different screens
     if (whichScreen === "start") {
         startScreen();
@@ -212,6 +214,25 @@ function planeHit(rocket, planeInstance) {
     return d <= rocketRadius + planeRad;
 
 }
+
+/**
+ * Checking the collisions of the rocket and plane, and giving the collision a result
+ */
+function checkCollision() {
+
+    //Collision for the red plane, causes rocket to return and resets plane
+    if (planeHit(frog.rocket, redPlane)) {
+        resetRedPlane();
+        frog.rocket.state = "inbound"
+    }
+
+    //Blue plane
+    if (planeHit(frog.rocket, bluePlane)) {
+        resetBluePlane();
+        frog.rocket.state = "inbound"
+    }
+}
+
 
 /**
  * Function in order to draw the plane on the canvas, will be available/reusable for all planes
