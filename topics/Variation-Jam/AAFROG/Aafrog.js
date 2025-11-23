@@ -22,13 +22,13 @@ const frog = {
         y: 700,
         size: 150
     },
-    // The frog's tongue has a position, size, speed, and state
-    tongue: {
+    // The frog's rocket has a position, size, speed, and state
+    rocket: {
         x: undefined,
         y: 480,
         size: 20,
         speed: 20,
-        // Determines how the tongue moves each frame
+        // Determines how the rocket moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
@@ -104,7 +104,7 @@ function draw() {
 
     //Calling various functions to make up the game
     moveFrog();
-    moveTongue();
+    moverocket();
     drawFrog();
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
@@ -195,6 +195,25 @@ function planeRadius(plane) {
 }
 
 /**
+ * Detection of rocket and plane overlap. planeInstance refers to an individual plane.
+ */
+function planeHit(rocket, planeInstance) {
+
+    //Rocket radius acquisition
+    const rocketRadius = rocket.size / 2;
+
+    //Plane radius
+    const planeRad = planeRadius(planeInstance.data);
+
+    //Overlap verification
+    const d = dist(rocket.x, rocket.y, planeInstance.x, planeInstance.y);
+
+    //True or false return, dependant on overlap detection
+    return d <= rocketRadius + planeRad;
+
+}
+
+/**
  * Function in order to draw the plane on the canvas, will be available/reusable for all planes
  */
 function drawPlanes(plane, x, y) {
@@ -257,29 +276,29 @@ function moveFrog() {
 }
 
 /**
- * Handles moving the tongue based on its state
+ * Handles moving the rocket based on its state
  */
-function moveTongue() {
-    // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
-    // If the tongue is idle, it doesn't do anything
-    if (frog.tongue.state === "idle") {
+function moverocket() {
+    // rocket matches the frog's x
+    frog.rocket.x = frog.body.x;
+    // If the rocket is idle, it doesn't do anything
+    if (frog.rocket.state === "idle") {
         // Do nothing
     }
-    // If the tongue is outbound, it moves up
-    else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
-        if (frog.tongue.y <= 0) {
-            frog.tongue.state = "inbound";
+    // If the rocket is outbound, it moves up
+    else if (frog.rocket.state === "outbound") {
+        frog.rocket.y += -frog.rocket.speed;
+        // The rocket bounces back if it hits the top
+        if (frog.rocket.y <= 0) {
+            frog.rocket.state = "inbound";
         }
     }
-    // If the tongue is inbound, it moves down
-    else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += frog.tongue.speed;
-        // The tongue stops if it hits the bottom
-        if (frog.tongue.y >= height) {
-            frog.tongue.state = "idle";
+    // If the rocket is inbound, it moves down
+    else if (frog.rocket.state === "inbound") {
+        frog.rocket.y += frog.rocket.speed;
+        // The rocket stops if it hits the bottom
+        if (frog.rocket.y >= height) {
+            frog.rocket.state = "idle";
         }
     }
 }
@@ -290,11 +309,11 @@ function moveTongue() {
  * Displays the various parts of the frog
  */
 function drawFrog() {
-    // Draw the tongue tip
+    // Draw the rocket tip
     push();
     fill("#ff0000");
     noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
+    ellipse(frog.rocket.x, frog.rocket.y, frog.rocket.size);
     pop();
 
     // Draw the frog's body
@@ -345,11 +364,11 @@ function drawFrog() {
 
 
 /**
- * Launch the tongue on click (if it's not launched yet)
+ * Launch the rocket on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
+    if (frog.rocket.state === "idle") {
+        frog.rocket.state = "outbound";
     }
 
     if (whichScreen === "start") {
