@@ -112,18 +112,21 @@ function setup() {
  */
 function draw() {
 
+    //Giving the canvas a background
     background("#87ceeb");
 
-    //Calling various functions to make up the game
+    //Game logic functions
     moveFrog();
     moveRocket();
-    drawFrog();
     movePlanes();
+    checkCollision();
+
+    //Draw functions, to make things appear
+    drawFrog();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
 
-    checkCollision();
 
     //If statement to handle the different screens
     if (whichScreen === "start") {
@@ -259,7 +262,8 @@ function planeRadius(plane) {
     const body = plane.body;
     const wings = plane.wings;
 
-    const s = planeData.scale || 1;
+    //Scale matches JSON file data
+    const s = plane.scale || 1;
 
     //Calculating the half length of the span and length in order to accquire a radius. Body and wings are multiplied by the scale, so it's accurate, and then halved for the radius.
     const halfLength = (body.length * s) / 2;
@@ -296,19 +300,22 @@ function checkCollision() {
     //Collision for the red plane, causes rocket to return and resets plane
     if (planeHit(frog.rocket, redPlane)) {
         resetRedPlane();
-        frog.rocket.state = "inbound"
+        frog.rocket.state = "idle"
+        frog.rocket.traveled = 0;
     }
 
     //Blue plane
     if (planeHit(frog.rocket, bluePlane)) {
         resetBluePlane();
-        frog.rocket.state = "inbound"
+        frog.rocket.state = "idle"
+        frog.rocket.traveled = 0;
     }
 
     //Green plane
     if (planeHit(frog.rocket, greenPlane)) {
         resetGreenPlane();
-        frog.rocket.state = "inbound"
+        frog.rocket.state = "idle"
+        frog.rocket.traveled = 0;
     }
 }
 
@@ -399,9 +406,6 @@ function moveRocket() {
     const rocketX = frog.body.x
     const rocketY = frog.body.y
 
-
-    // rocket matches the frog's x
-    frog.rocket.x = frog.body.x;
     // If the rocket is idle, it doesn't do anything
     if (frog.rocket.state === "idle") {
         //Positioning the rocket in the frog
@@ -420,7 +424,7 @@ function moveRocket() {
 
         //Despawning the rocket if it leaves the canvas, or when it has reached the max distance
         if (frog.rocket.y < 0 || frog.rocket.y > height || frog.rocket.x < 0 || frog.rocket.x > width || frog.rocket.traveled >= frog.rocket.maxDistance) {
-            frog.rocket.state = "inbound";
+            frog.rocket.state = "idle";
             frog.rocket.traveled = 0;
         }
     }
@@ -497,11 +501,39 @@ function mousePressed() {
         whichScreen = "game";
     }
 
-    //Firing the tongue and accquiring distance of mouse and mouth,
+    //Firing the tongue and acquiring direction for launch,
+    if (whichScreen === "game" && frog.rocket.state === "idle") {
 
+        //Determining where rocket launches from using constants that match the frog body
+        const mouthX = frog.body.x
+        const mouthY = frog.body.y - 40;
 
-    if (frog.rocket.state === "idle") {
-        frog.rocket.state = "outbound";
+        //Acquiring direction of the mouse to the mouth so that launch goes from mouth to mouse
+        let dx = mouseX - mouthX
+        let dy = mouseY - mouthY
+
+        //Using Pythagorean to actually acquire the distance
+        const d = sqrt(dx * dx + dy * dy);
+
+        //Vector normalized through division, resulting in a vector length of 1. Helps in directional consistency of the projectile regardless of mouse position
+        if (d > 0) {
+            dx /= d;
+            dy /= d;
+        }
+
+        //Rocket starting position
+        frog.rocket.x = mouthX;
+        frog.rocket.y = mouthY;
+
+        //Rocket movement
+        frog.rocket.vx = dx * frog.rocket.speed;
+        frog.rocket.vy = dy * frog.rocket.speed;
+
+        //Reset travel distance after every shot
+        frog.rocket.traveled = 0;
+
+        //Firing the rocket
+        frog.rocket.state = "outbound"
     }
 
 }
