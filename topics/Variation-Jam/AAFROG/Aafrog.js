@@ -22,14 +22,20 @@ const frog = {
         y: 700,
         size: 150
     },
-    // The frog's rocket has a position, size, speed, and state
+    // The frog's rocket has a position, size, speed, and state. Will be modified so that it is treated more like a projectile
     rocket: {
         x: undefined,
         y: 480,
         size: 20,
         speed: 20,
+        //X and Y velocities
+        vx: 0,
+        vy: 0,
+        //Maximum reach of a given
+        maxDistance: 800,
+        traveled: 0,
         // Determines how the rocket moves each frame
-        state: "idle" // State can be: idle, outbound, inbound
+        state: "idle"
     }
 };
 
@@ -110,7 +116,7 @@ function draw() {
 
     //Calling various functions to make up the game
     moveFrog();
-    moverocket();
+    moveRocket();
     drawFrog();
     movePlanes();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
@@ -385,31 +391,40 @@ function moveFrog() {
 }
 
 /**
- * Handles moving the rocket based on its state
+ * Handles moving the rocket based on its state. Rocket will be treated as a projectile
  */
-function moverocket() {
+function moveRocket() {
+
+    //Constants for matching the location of the rocket to the frog's body so that when idle, it is stored "in" the body
+    const rocketX = frog.body.x
+    const rocketY = frog.body.y
+
+
     // rocket matches the frog's x
     frog.rocket.x = frog.body.x;
     // If the rocket is idle, it doesn't do anything
     if (frog.rocket.state === "idle") {
-        // Do nothing
+        //Positioning the rocket in the frog
+        frog.rocket.x = rocketX;
+        frog.rocket.y = rocketY;
+        //0 distance if rocket is idle
+        frog.rocket.traveled = 0;
     }
     // If the rocket is outbound, it moves up
     else if (frog.rocket.state === "outbound") {
-        frog.rocket.y += -frog.rocket.speed;
-        // The rocket bounces back if it hits the top
-        if (frog.rocket.y <= 0) {
+
+        //When fired/outbound, velocity and speed are counted for
+        frog.rocket.x += frog.rocket.vx;
+        frog.rocket.y += frog.rocket.vy;
+        frog.rocket.traveled += frog.rocket.speed;
+
+        //Despawning the rocket if it leaves the canvas, or when it has reached the max distance
+        if (frog.rocket.y < 0 || frog.rocket.y > height || frog.rocket.x < 0 || frog.rocket.x > width || frog.rocket.traveled >= frog.rocket.maxDistance) {
             frog.rocket.state = "inbound";
+            frog.rocket.traveled = 0;
         }
     }
-    // If the rocket is inbound, it moves down
-    else if (frog.rocket.state === "inbound") {
-        frog.rocket.y += frog.rocket.speed;
-        // The rocket stops if it hits the bottom
-        if (frog.rocket.y >= height) {
-            frog.rocket.state = "idle";
-        }
-    }
+
 }
 
 
@@ -473,14 +488,20 @@ function drawFrog() {
 
 
 /**
- * Launch the rocket on click (if it's not launched yet)
+ * Launch the rocket on mouse click, and cycle through game screens
  */
 function mousePressed() {
+
+    //Transfer from start screen to game
+    if (whichScreen === "start") {
+        whichScreen = "game";
+    }
+
+    //Firing the tongue and accquiring distance of mouse and mouth,
+
+
     if (frog.rocket.state === "idle") {
         frog.rocket.state = "outbound";
     }
 
-    if (whichScreen === "start") {
-        whichScreen = "game";
-    }
 }
