@@ -59,6 +59,12 @@ let clouds = [];
 //Timer regarding the spawning of clouds
 let cloudSpawner = 0;
 
+//Empty array for bombs
+let bombs = [];
+
+//Timer for bombs
+let bombTimer = 0;
+
 
 
 /**
@@ -115,8 +121,8 @@ function setup() {
 
         data: planeData.planes[3],
         x: random(20, 300),
-        y: -100,
-        speed: 3
+        y: -2500,
+        speed: 1.5
     }
 }
 
@@ -132,14 +138,17 @@ function draw() {
     moveFrog();
     moveRocket();
     movePlanes();
+    moveBombs();
     checkCollision();
 
     //Draw functions, to make things appear
     drawFrog();
+    drawBombs();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
     drawPlanes(yellowPlane.data, yellowPlane.x, yellowPlane.y)
+
 
 
     //If statement to handle the different screens
@@ -220,68 +229,7 @@ function createCloud() {
     clouds.push(cloud);
 }
 
-/**
- * Function in order to move the planes across the screen
- */
-function movePlanes() {
 
-    //Moving the planes by adding the speed to their X position
-    redPlane.y += redPlane.speed;
-    bluePlane.y += bluePlane.speed;
-    greenPlane.y += greenPlane.speed;
-    yellowPlane.y += yellowPlane.speed;
-
-    //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
-    if (redPlane.y > height + 50) {
-        resetRedPlane();
-    }
-    if (bluePlane.y > height + 20) {
-        resetBluePlane();
-    }
-    if (greenPlane.y > height + 20) {
-        resetGreenPlane();
-    }
-    if (yellowPlane.y > height + 50) {
-        resetYellowPlane();
-    }
-}
-
-
-/** 
- * Resets the red plane to original position, relies on movePlanes function
- */
-function resetRedPlane() {
-
-    redPlane.x = random(20, 820);
-    redPlane.y = -150
-}
-
-/**
- * Resets the blue plane to original position, relies on movePlanes function. 
- */
-function resetBluePlane() {
-
-    bluePlane.x = random(20, 820);
-    bluePlane.y = -150
-}
-
-/**
- * Resets the green plane to original position, relies on movePlanes fucntion
- */
-function resetGreenPlane() {
-
-    greenPlane.x = random(20, 820)
-    greenPlane.y = -215
-}
-
-/**
- * Resets the yellow plane to original position, relies on movePlanes fucntion
- */
-function resetYellowPlane() {
-
-    yellowPlane.x = random(20, 820)
-    yellowPlane.y = -215
-}
 
 /**
  * Function to gather the radius of the planes for collision purposes. Will be treating the plane as a circle, and returning its radius based on the length of the constants that make up the plane such as the body, wings, etc.
@@ -295,12 +243,12 @@ function planeRadius(plane) {
     //Scale matches JSON file data
     const s = plane.scale || 1;
 
-    //Calculating the half length of the span and length in order to accquire a radius. Body and wings are multiplied by the scale, so it's accurate, and then halved for the radius.
-    const halfLength = (body.length * s) / 2;
-    const halfSpan = (wings.span * s) / 2;
+    //Calculating the quarter length of the span and length in order to accquire a radius. Body and wings are multiplied by the scale, so it's accurate, and then quartered for the radius.
+    const quartLength = (body.length * s) / 4;
+    const quartSpan = (wings.span * s) / 4;
 
     //Using the larger of the length or the span to return a radius the cover the entire plane
-    return max(halfLength, halfSpan);
+    return max(quartLength, quartSpan);
 }
 
 /**
@@ -356,59 +304,113 @@ function checkCollision() {
     }
 }
 
+/**
+ * Function to create a bomb and push it into the arrray
+ */
+function dropBomb() {
+
+    //Creating a constant for the bomb
+    const bomb = {
+
+        x: redPlane.x,
+        y: redPlane.y,
+        size: 20,
+        speed: 4,
+    }
+
+    //Pushing it into the array
+    bombs.push(bomb);
+
+    //Making sure that bombs only drop if the plane is near the canvas
+    if (redPlane.y < -50 || redPlane.y > height + 50) return;
+}
+
+/** 
+ * Resets the red plane to original position, relies on movePlanes function
+ */
+function resetRedPlane() {
+
+    redPlane.x = random(20, 820);
+    redPlane.y = -200
+}
 
 /**
- * Function in order to draw the plane on the canvas, will be available/reusable for all planes
+ * Resets the blue plane to original position, relies on movePlanes function. 
  */
-function drawPlanes(plane, x, y) {
+function resetBluePlane() {
 
-    push();
-    //Alters the origin to the plane's position
-    translate(x, y);
-    //Matching the scale from the JSON file
-    scale(plane.scale || 1);
-    //Rotating the plane to appear more logical when moving
-    rotate(180);
+    bluePlane.x = random(20, 820);
+    bluePlane.y = -150
+}
 
-    //Constant varaibles pertaining to different parts of the plane
-    const body = plane.body;
-    const wings = plane.wings;
-    const tail = plane.tail
-    const prop = plane.propeller;
+/**
+ * Resets the green plane to original position, relies on movePlanes fucntion
+ */
+function resetGreenPlane() {
 
-    //Body of the plane
-    noStroke();
-    fill(plane.color);
-    rect(0, 0, body.width, body.length, 6);
+    greenPlane.x = random(20, 820)
+    greenPlane.y = -275
+}
 
-    //Window of the plane
-    fill(0, 50);
-    ellipse(0, -body.length * 0.15, body.width * 0.8, body.length * 0.3);
+/**
+ * Resets the yellow plane to original position, relies on movePlanes fucntion
+ */
+function resetYellowPlane() {
 
-    //Wings of the plane 
-    fill(plane.color);
-    rect(0, -body.length * 0.05, wings.span, wings.depth, 4);
+    yellowPlane.x = random(20, 820)
+    yellowPlane.y = -2000
+}
 
-    //Tail 
-    rect(0, body.length * 0.3, tail.span, tail.depth, 4);
+function moveBombs() {
 
-    //Tail Fin
-    rect(0, body.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
+    //Backwards loop
+    for (let i = bombs.length - 1; i >= 0; i--) {
 
-    //Propeller 
-    const noseY = -body.length / 2;
-    fill(80);
-    ellipse(0, noseY, prop.radius * 1.2, prop.radius * 1.2);
+        //Constant attached to indexes in array, for easier writing purposes
+        const b = bombs[i];
 
-    //Spin propeller blades
-    stroke(80);
-    strokeWeight(2);
-    const angle = frameCount * 20;
-    const bladeLen = prop.radius * 2;
+        //Speed of the bombs
+        b.y += b.speed;
 
-    line(0, noseY, bladeLen * cos(angle), noseY + bladeLen * sin(angle));
-    line(0, noseY, bladeLen * cos(angle + 180), noseY + bladeLen * sin(angle + 180));
-    pop();
+        //Removing the bomb if it goes off of the screen 
+        if (b.y > height + b.size) {
+            bombs.splice(i, 1)
+        }
+    }
+}
+
+/**
+ * Function in order to move the planes across the screen
+ */
+function movePlanes() {
+
+    //Moving the planes by adding the speed to their X position
+    redPlane.y += redPlane.speed;
+    bluePlane.y += bluePlane.speed;
+    greenPlane.y += greenPlane.speed;
+    yellowPlane.y += yellowPlane.speed;
+
+    //Timer & logic for bomb dropping
+    bombTimer--;
+    if (bombTimer <= 0) {
+        dropBomb();
+        //Dropping a bomb every 20-65 frames
+        bombTimer = int(random(20, 65));
+    }
+
+    //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
+    if (redPlane.y > height + 50) {
+        resetRedPlane();
+    }
+    if (bluePlane.y > height + 20) {
+        resetBluePlane();
+    }
+    if (greenPlane.y > height + 20) {
+        resetGreenPlane();
+    }
+    if (yellowPlane.y > height + 50) {
+        resetYellowPlane();
+    }
 }
 
 
@@ -468,7 +470,83 @@ function moveRocket() {
 
 }
 
+/**
+ * Function to draw the bombs from the array
+ */
+function drawBombs() {
 
+    //Drawing for the individual bombs in the array
+    for (let b of bombs) {
+
+        push();
+        noStroke();
+
+        //Main body of the bomb
+        fill(0);
+        ellipse(b.x, b.y, b.size, b.size);
+        //Fuse cap
+        fill(30);
+        ellipse(b.x, b.y - b.size * 0.4, b.size * 0.4, b.size * 0.4);
+        //Ignited fuse
+        fill(255, 165, 0);
+        ellipse(b.x, b.y - b.size * 0.6, b.size * 0.2, b.size * 0.2);
+        pop();
+    }
+}
+
+/**
+ * Function in order to draw the plane on the canvas, will be available/reusable for all planes
+ */
+function drawPlanes(plane, x, y) {
+
+    push();
+    //Alters the origin to the plane's position
+    translate(x, y);
+    //Matching the scale from the JSON file
+    scale(plane.scale || 1);
+    //Rotating the plane to appear more logical when moving
+    rotate(180);
+
+    //Constant varaibles pertaining to different parts of the plane
+    const body = plane.body;
+    const wings = plane.wings;
+    const tail = plane.tail
+    const prop = plane.propeller;
+
+    //Body of the plane
+    noStroke();
+    fill(plane.color);
+    rect(0, 0, body.width, body.length, 6);
+
+    //Window of the plane
+    fill(0, 50);
+    ellipse(0, -body.length * 0.15, body.width * 0.8, body.length * 0.3);
+
+    //Wings of the plane 
+    fill(plane.color);
+    rect(0, -body.length * 0.05, wings.span, wings.depth, 4);
+
+    //Tail 
+    rect(0, body.length * 0.3, tail.span, tail.depth, 4);
+
+    //Tail Fin
+    rect(0, body.length * 0.3 - tail.depth * 0.8, tail.span * 0.3, tail.depth * 0.8);
+
+    //Propeller 
+    const noseY = -body.length / 2;
+    fill(80);
+    ellipse(0, noseY, prop.radius * 1.2, prop.radius * 1.2);
+
+    //Spin propeller blades
+    stroke(80);
+    strokeWeight(2);
+    const angle = frameCount * 20;
+    const bladeLen = prop.radius * 1.5;
+
+    line(0, noseY, bladeLen * cos(angle), noseY + bladeLen * sin(angle));
+    line(0, noseY, bladeLen * cos(angle + 180), noseY + bladeLen * sin(angle + 180));
+    pop();
+}
 
 /**
  * Displays the various parts of the frog

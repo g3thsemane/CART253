@@ -68,18 +68,18 @@
             "scale": 1.5,
             "body": {
                 "width": 22,
-                "length": 105
+                "length": 100
             },
             "wings": {
                 "depth": 20,
-                "span": 102
+                "span": 112
             },
             "tail": {
                 "depth": 14,
                 "span": 37
             },
             "propeller": {
-                "radius": 11
+                "radius": 10
             }
         }
     ],
