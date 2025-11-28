@@ -142,6 +142,7 @@ function draw() {
     checkCollision();
 
     //Draw functions, to make things appear
+    drawSun()
     drawFrog();
     drawBombs();
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
@@ -186,6 +187,19 @@ function draw() {
             clouds.splice(i, 1);
         }
     }
+}
+
+/**
+ * SUN
+ */
+function drawSun() {
+
+    //Drawing a sun in the corner
+    push();
+    noStroke();
+    fill("#FFDE21");
+    ellipse(0, 0, 100);
+    pop();
 }
 
 /**
@@ -470,6 +484,8 @@ function moveRocket() {
 
 }
 
+
+
 /**
  * Function to draw the bombs from the array
  */
@@ -482,7 +498,7 @@ function drawBombs() {
         noStroke();
 
         //Main body of the bomb
-        fill(0);
+        fill(50);
         ellipse(b.x, b.y, b.size, b.size);
         //Fuse cap
         fill(30);
