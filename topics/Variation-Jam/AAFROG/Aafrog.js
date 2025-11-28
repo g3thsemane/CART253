@@ -48,6 +48,7 @@ let planeData;
 let redPlane;
 let bluePlane;
 let greenPlane;
+let yellowPlane;
 
 //Variable for the different screens of the game
 let whichScreen = "start";
@@ -73,20 +74,23 @@ function preload() {
  * Creates the canvas, and assigning our plane variables to their respective data from the JSON file
  */
 function setup() {
+
+    //Creates our canvas to work on
     createCanvas(840, 680);
     // Tailplane (horizontal rear wing)
     rectMode(CENTER);
     //Angle mode in degrees for plane propeller rotation
     angleMode(DEGREES);
+
     //Assign individual plane variables to their respective data from the JSON file and certain properties
     redPlane = {
 
         //Since the red plane is the first plane in the JSON file, it is at index 0
         data: planeData.planes[0],
         //Assigning a negative Y so that it begins off screen
-        y: -200,
-        //The plane will be at a random X position in the canvas
         x: random(20, 820),
+        //The plane will be at a random X position in the canvas
+        y: -200,
         speed: 2
     };
 
@@ -94,16 +98,25 @@ function setup() {
 
         data: planeData.planes[1],
         x: random(20, 820),
-        y: -100,
+        y: -185,
         speed: 3
     }
 
     greenPlane = {
 
         data: planeData.planes[2],
-        x: random(20, 300),
-        y: -150,
+        x: random(20, 820),
+        y: -175,
         speed: 4.5
+    }
+
+
+    yellowPlane = {
+
+        data: planeData.planes[3],
+        x: random(20, 300),
+        y: -100,
+        speed: 3
     }
 }
 
@@ -126,6 +139,7 @@ function draw() {
     drawPlanes(redPlane.data, redPlane.x, redPlane.y);
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
+    drawPlanes(yellowPlane.data, yellowPlane.x, yellowPlane.y)
 
 
     //If statement to handle the different screens
@@ -215,6 +229,7 @@ function movePlanes() {
     redPlane.y += redPlane.speed;
     bluePlane.y += bluePlane.speed;
     greenPlane.y += greenPlane.speed;
+    yellowPlane.y += yellowPlane.speed;
 
     //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
     if (redPlane.y > height + 50) {
@@ -225,6 +240,9 @@ function movePlanes() {
     }
     if (greenPlane.y > height + 20) {
         resetGreenPlane();
+    }
+    if (yellowPlane.y > height + 50) {
+        resetYellowPlane();
     }
 }
 
@@ -247,10 +265,22 @@ function resetBluePlane() {
     bluePlane.y = -150
 }
 
+/**
+ * Resets the green plane to original position, relies on movePlanes fucntion
+ */
 function resetGreenPlane() {
 
     greenPlane.x = random(20, 820)
     greenPlane.y = -215
+}
+
+/**
+ * Resets the yellow plane to original position, relies on movePlanes fucntion
+ */
+function resetYellowPlane() {
+
+    yellowPlane.x = random(20, 820)
+    yellowPlane.y = -215
 }
 
 /**
@@ -314,6 +344,13 @@ function checkCollision() {
     //Green plane
     if (planeHit(frog.rocket, greenPlane)) {
         resetGreenPlane();
+        frog.rocket.state = "idle"
+        frog.rocket.traveled = 0;
+    }
+
+    //Yellow Plane
+    if (planeHit(frog.rocket, yellowPlane)) {
+        resetYellowPlane();
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
     }
@@ -439,7 +476,7 @@ function moveRocket() {
 function drawFrog() {
     // Draw the rocket tip
     push();
-    fill("#ff0000");
+    fill("#464646ff");
     noStroke();
     ellipse(frog.rocket.x, frog.rocket.y, frog.rocket.size);
     pop();

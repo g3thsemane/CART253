@@ -61,6 +61,26 @@
             "propeller": {
                 "radius": 7
             }
+        },
+        {
+            "type": "yellowplane",
+            "color": "#E6CC00",
+            "scale": 1.5,
+            "body": {
+                "width": 22,
+                "length": 105
+            },
+            "wings": {
+                "depth": 20,
+                "span": 102
+            },
+            "tail": {
+                "depth": 14,
+                "span": 37
+            },
+            "propeller": {
+                "radius": 11
+            }
         }
     ],
     "frog": [
