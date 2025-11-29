@@ -143,6 +143,7 @@ function draw() {
     movePlanes();
     moveBombs();
     checkCollision();
+    bombFrogCollision()
 
     //Draw functions, to make things appear
     drawSun()
@@ -334,6 +335,32 @@ function checkCollision() {
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
         score += 1;
+    }
+}
+
+/**
+ * Function to check collision between the bombs and the frog
+ */
+function bombFrogCollision() {
+
+    //Radius of frog
+    const frogRadius = frog.body.size / 2;
+
+    for (let i = bombs.length - 1; i >= 0; i--) {
+
+        const b = bombs[i];
+
+        //Radius of bomb
+        const bombRadius = b.size / 2;
+
+        //Acquiring distance between bomb and frog
+        const d = dist(b.x, b.y, frog.body.x, frog.body.y);
+
+        //If statement for collision
+        if (d <= frogRadius + bombRadius) {
+
+            bombs.splice(i, 1);
+        }
     }
 }
 
