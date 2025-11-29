@@ -65,6 +65,9 @@ let bombs = [];
 //Timer for bombs
 let bombTimer = 0;
 
+//Variable for score
+let score = 0;
+
 
 
 /**
@@ -155,6 +158,16 @@ function draw() {
     //If statement to handle the different screens
     if (whichScreen === "start") {
         startScreen();
+    }
+
+    //Displaying the score at the top left of the screen, only during the game
+    if (whichScreen === "game") {
+        fill(0);
+        textSize(20);
+        textAlign(LEFT, TOP);
+        textFont('Arial');
+        textStyle(BOLD);
+        text("SCORE: " + score, 10, 10);
     }
 
     //Cloud spawn logic, calls the creatCloud function 
@@ -292,8 +305,11 @@ function checkCollision() {
     //Collision for the red plane, causes rocket to return and resets plane
     if (planeHit(frog.rocket, redPlane)) {
         resetRedPlane();
+        //Rocket returns to the frog
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
+        //Plus one point
+        score += 1;
     }
 
     //Blue plane
@@ -301,6 +317,7 @@ function checkCollision() {
         resetBluePlane();
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
+        score += 1;
     }
 
     //Green plane
@@ -308,6 +325,7 @@ function checkCollision() {
         resetGreenPlane();
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
+        score += 1;
     }
 
     //Yellow Plane
@@ -315,6 +333,7 @@ function checkCollision() {
         resetYellowPlane();
         frog.rocket.state = "idle"
         frog.rocket.traveled = 0;
+        score += 1;
     }
 }
 
@@ -415,15 +434,20 @@ function movePlanes() {
     //If the plane passes the height of the canvas, call on the resetPlanes function. Separate if statements for each plane
     if (redPlane.y > height + 50) {
         resetRedPlane();
+        //Remove a point
+        score -= 3;
     }
     if (bluePlane.y > height + 20) {
         resetBluePlane();
+        score -= 1;
     }
     if (greenPlane.y > height + 20) {
         resetGreenPlane();
+        score -= 1;
     }
     if (yellowPlane.y > height + 50) {
         resetYellowPlane();
+        score -= 15;
     }
 }
 
