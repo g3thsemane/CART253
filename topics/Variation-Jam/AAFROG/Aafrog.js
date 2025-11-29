@@ -5,9 +5,10 @@
  * A game where a frog shoots rockets in order to destroy planes
  * 
  * Instructions:
- * - Move frog with mouse
+ * - Move frog with A and D keys
  * - Click to launch rockets
  * - Destroy planes to score points 
+ * - Avoid bombs
  * 
  * Made with p5
  * https://p5js.org/
@@ -367,13 +368,16 @@ function bombFrogCollision() {
 /**
  * Function to create a bomb and push it into the arrray
  */
-function dropBomb() {
+function dropBomb(plane) {
+
+    //Making sure that bombs only drop if the plane is near the canvas
+    if (plane.y < -200 || plane.y > height + 100) return;
 
     //Creating a constant for the bomb
     const bomb = {
 
-        x: redPlane.x,
-        y: redPlane.y,
+        x: plane.x,
+        y: plane.y,
         size: 20,
         speed: 4,
     }
@@ -382,7 +386,9 @@ function dropBomb() {
     bombs.push(bomb);
 
     //Making sure that bombs only drop if the plane is near the canvas
-    if (redPlane.y < -50 || redPlane.y > height + 50) return;
+    if (plane.y < -50 || plane.y > height + 50) return;
+
+
 }
 
 /** 
@@ -453,7 +459,8 @@ function movePlanes() {
     //Timer & logic for bomb dropping
     bombTimer--;
     if (bombTimer <= 0) {
-        dropBomb();
+        dropBomb(redPlane);
+        dropBomb(yellowPlane);
         //Dropping a bomb every 20-65 frames
         bombTimer = int(random(20, 65));
     }
