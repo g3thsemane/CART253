@@ -69,6 +69,11 @@ let bombTimer = 0;
 //Variable for score
 let score = 0;
 
+//Variable for frog lives
+let frogLives = 3;
+
+//Variable for visualization of frog lives(hearts)
+let frogHearts = 3;
 
 
 /**
@@ -109,7 +114,7 @@ function setup() {
         data: planeData.planes[1],
         x: random(20, 820),
         y: -185,
-        speed: 3
+        speed: 4
     }
 
     greenPlane = {
@@ -117,7 +122,7 @@ function setup() {
         data: planeData.planes[2],
         x: random(20, 820),
         y: -175,
-        speed: 4.5
+        speed: 5
     }
 
 
@@ -126,7 +131,7 @@ function setup() {
         data: planeData.planes[3],
         x: random(20, 300),
         y: -2500,
-        speed: 1.5
+        speed: 2
     }
 }
 
@@ -154,23 +159,13 @@ function draw() {
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
     drawPlanes(yellowPlane.data, yellowPlane.x, yellowPlane.y)
-
+    drawHeart();
 
 
     //If statement to handle the different screens
     if (whichScreen === "start") {
         startScreen();
-    }
-
-    //Displaying the score at the top left of the screen, only during the game
-    if (whichScreen === "game") {
-        fill(0);
-        textSize(20);
-        textAlign(LEFT, TOP);
-        textFont('Arial');
-        textStyle(BOLD);
-        text("SCORE: " + score, 10, 10);
-    }
+    };
 
     //Cloud spawn logic, calls the creatCloud function 
     cloudSpawner--;
@@ -202,6 +197,20 @@ function draw() {
             clouds.splice(i, 1);
         }
     }
+
+    //Displaying the score at the top left of the screen, only during the game
+    if (whichScreen === "game") {
+        fill(0);
+        textSize(20);
+        textAlign(LEFT, TOP);
+        textFont('Arial');
+        textStyle(BOLD);
+        text("SCORE: " + score, 10, 10);
+    };
+
+    if (whichScreen === "game") {
+        drawHearts();
+    };
 }
 
 /**
@@ -236,6 +245,23 @@ function startScreen() {
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 80);
 
+}
+
+//Game Over screen
+function gameoverScreen() {
+
+    //Setting the background to black 
+    background(0);
+
+    //Adding text with fade effect
+    textAlign(CENTER, CENTER);
+    fill(255);
+    textSize(30);
+    fill(74, 1, 3);
+    textFont('Courier New');
+    textStyle(BOLD);
+    textSize(40);
+    text("Click Any Key To Restart", 420, 320);
 }
 
 /**
@@ -361,6 +387,12 @@ function bombFrogCollision() {
         if (d <= frogRadius + bombRadius) {
 
             bombs.splice(i, 1);
+
+            frogLives--;
+
+            if (frogLives <= 0) {
+                whichScreen = "gameover";
+            }
         }
     }
 }
@@ -473,7 +505,7 @@ function movePlanes() {
     }
     if (bluePlane.y > height + 20) {
         resetBluePlane();
-        score -= 1;
+        score -= 2;
     }
     if (greenPlane.y > height + 20) {
         resetGreenPlane();
@@ -541,6 +573,7 @@ function moveRocket() {
     }
 
 }
+
 
 
 
