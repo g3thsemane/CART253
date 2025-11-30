@@ -159,7 +159,7 @@ function draw() {
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
     drawPlanes(yellowPlane.data, yellowPlane.x, yellowPlane.y)
-    drawHeart();
+
 
 
     //If statement to handle the different screens
@@ -208,9 +208,20 @@ function draw() {
         text("SCORE: " + score, 10, 10);
     };
 
+    //Only draw the hearts on the game screen
     if (whichScreen === "game") {
         drawHearts();
     };
+
+    //When frog has no lives, game over screen
+    if (frogLives <= 0) {
+        gameoverScreen();
+    }
+
+    //If score goes below 0, game over screen
+    if (score < 0) {
+        gameoverScreen();
+    }
 }
 
 /**
@@ -388,6 +399,7 @@ function bombFrogCollision() {
 
             bombs.splice(i, 1);
 
+            //Logic to remove a life if hit by a bomb
             frogLives--;
 
             if (frogLives <= 0) {
@@ -515,6 +527,15 @@ function movePlanes() {
         resetYellowPlane();
         score -= 15;
     }
+
+    //After a certain amountas of points are reached some planes will move faster
+    if (score >= 50) {
+        greenPlane.speed += 1;
+        //Adding constrains so it doesn't get out of control
+        greenPlane.speed = constrain(greenPlane.speed, 0, 6);
+        yellowPlane.speed += 1;
+        yellowPlane.speed = constrain(yellowPlane.speed, 0, 3);
+    }
 }
 
 
@@ -574,7 +595,44 @@ function moveRocket() {
 
 }
 
+/**
+ * Function to draw heart shape
+ */
 
+function drawHeart(x, y) {
+
+    push();
+    //Centering at (0, 0)
+    translate(x, y)
+    noStroke();
+    fill("#ff0000")
+
+    circle(-24 * 0.25, 0, 24 * 0.5);
+    circle(24 * 0.25, 0, 24 * 0.5);
+    triangle(-24 * 0.5, 0, 24 * 0.5, 0, 0, 24 * 0.8);
+
+    pop();
+}
+
+/**
+ * function draw the multiple hearts using a loop
+ */
+function drawHearts() {
+
+    //Looping up until the maximum(frogHearts) which is 3
+    for (let i = 0; i < frogHearts; i++) {
+        //Position each heart, spacing them horizontally 
+        const x = 24 + i * (32);
+        //All on the same Y-axis
+        const y = 34;
+
+        //Only draw hearts corresponding to remaining lives
+        if (i < frogLives) {
+            drawHeart(x, y, 24);
+        }
+
+    }
+}
 
 
 /**

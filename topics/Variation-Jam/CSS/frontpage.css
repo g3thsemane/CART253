@@ -72,14 +72,14 @@ body {
 
 
     background:
-        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6), transparent 55%),
-        radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.6), transparent 55%),
-        radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.6), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.6), transparent 55%);
+        radial-gradient(circle at 0% 0%, rgba(0, 140, 255, 0.6), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(0, 255, 64, 0.6), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(187, 0, 0, 0.6), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(247, 0, 255, 0.6), transparent 55%);
 
     filter: blur(80px);
     opacity: 0.8;
-    animation: auroraMove 18s linear infinite;
+    animation: auroraMove 24s linear infinite;
     pointer-events: none;
 
 }
@@ -93,7 +93,7 @@ body {
     }
 
     50% {
-        transform: translate3d(-10%, -5%, 0) scale(1.1);
+        transform: translate3d(-10%, -10%, 0) scale(1.1);
     }
 
     100% {

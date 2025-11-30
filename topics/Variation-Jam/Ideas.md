@@ -9,3 +9,7 @@ A play on Plato's "Allegory of The Cave". The game would follow the same philoso
 -Anti Aircraft Frog
 
 A game in which the frog is an anti-aircraft gun, and the user must shootdown planes
+
+-Sword Frog 
+
+A 1v1 multiplayer frog game that involves two sword wielding frogs that must battle to the death
