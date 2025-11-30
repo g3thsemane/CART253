@@ -140,6 +140,23 @@ function setup() {
  */
 function draw() {
 
+    //If statement for title screen, making sure game does not run during title screen
+    if (whichScreen === "start") {
+        startScreen();
+        return;
+    };
+
+    //When frog has no lives or score is less than zero, game over
+    if (frogLives <= 0 || score < 0) {
+        gameoverScreen();
+        return;
+    }
+
+    //Only drawing when the game screen is present
+    if (whichScreen !== "game") {
+        return;
+    }
+
     //Giving the canvas a background
     background("#87ceeb");
 
@@ -159,13 +176,6 @@ function draw() {
     drawPlanes(bluePlane.data, bluePlane.x, bluePlane.y);
     drawPlanes(greenPlane.data, greenPlane.x, greenPlane.y);
     drawPlanes(yellowPlane.data, yellowPlane.x, yellowPlane.y)
-
-
-
-    //If statement to handle the different screens
-    if (whichScreen === "start") {
-        startScreen();
-    };
 
     //Cloud spawn logic, calls the creatCloud function 
     cloudSpawner--;
@@ -198,30 +208,17 @@ function draw() {
         }
     }
 
-    //Displaying the score at the top left of the screen, only during the game
-    if (whichScreen === "game") {
-        fill(0);
-        textSize(20);
-        textAlign(LEFT, TOP);
-        textFont('Arial');
-        textStyle(BOLD);
-        text("SCORE: " + score, 10, 10);
-    };
+    //Adding the hearts and score last so they are visible above the clouds
+    drawHearts();
 
-    //Only draw the hearts on the game screen
-    if (whichScreen === "game") {
-        drawHearts();
-    };
+    //Score at the top left
+    fill(0);
+    textSize(20);
+    textAlign(LEFT, TOP);
+    textFont('Arial');
+    textStyle(BOLD);
+    text("SCORE: " + score, 10, 10);
 
-    //When frog has no lives, game over screen
-    if (frogLives <= 0) {
-        gameoverScreen();
-    }
-
-    //If score goes below 0, game over screen
-    if (score < 0) {
-        gameoverScreen();
-    }
 }
 
 /**
@@ -536,6 +533,7 @@ function movePlanes() {
         yellowPlane.speed += 1;
         yellowPlane.speed = constrain(yellowPlane.speed, 0, 3);
     }
+
 }
 
 
