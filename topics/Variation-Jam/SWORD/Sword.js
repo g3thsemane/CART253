@@ -48,6 +48,7 @@ const fly = {
  */
 function setup() {
     createCanvas(1920, 920);
+    //Making the angle mode degrees
     angleMode(DEGREES);
     // Give the fly its first random position
     resetFly();
@@ -176,11 +177,38 @@ function drawFrog() {
     // Draw the frog's body
     push();
     translate(frog.body.x, frog.body.y);
+
+    //Corresponds to setup(), angles are tracked in degrees
     angleMode(DEGREES);
     rotate(frog.direction)
     fill("#0fbd0fff");
     noStroke();
+
+    //Centering at origin
     ellipse(0, 0, frog.body.size);
+
+    //Eye offsets so that they rotate and follow frog
+    const eyeOffsetX = frog.body.size * 0.2;
+    const eyeOffsetY = -frog.body.size * 0.2;
+    const eyeSize = frog.body.size * 0.2;
+    const pupilSize = eyeSize * 0.5;
+    const eyeAreaSize = eyeSize * 1.3
+
+    //Eye area(bulges)
+    fill("#0fbd0fff")
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeAreaSize)
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeAreaSize)
+
+    //Eyes
+    fill(255);
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeSize);
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeSize);
+
+    //Pupils
+    fill(0);
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, pupilSize);
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, pupilSize);
+
     pop();
 }
 
