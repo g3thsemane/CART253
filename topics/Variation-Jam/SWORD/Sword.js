@@ -25,8 +25,10 @@ const frog = {
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
+        //Measuring distance of frog tongue, at 0, frogue tongue is fully retracted
+        length: 0,
         //Maximum travel distance of the tongue
-        maxLength: 300,
+        maxLength: 200,
         size: 20,
         speed: 20,
         // Determines how the tongue moves each frame
@@ -144,7 +146,7 @@ function moveFrog() {
     };
     //When the "D" key is down, frog moves to the right and faces the right
     if (keyIsDown(68)) {
-        frog.direction = 80;
+        frog.direction = 90;
         frog.body.x += speed
     }
 }
@@ -160,7 +162,7 @@ function moveTongue() {
     }
     // If the tongue is outbound, it moves up
     else if (frog.tongue.state === "outbound") {
-        frog.tongue.length += -frog.tongue.speed;
+        frog.tongue.length += frog.tongue.speed;
         // The tongue bounces back once max length is achieved
         if (frog.tongue.length >= frog.tongue.maxLength) {
             frog.tongue.state = "inbound";
@@ -169,7 +171,7 @@ function moveTongue() {
     // If the tongue is inbound, it moves down
     else if (frog.tongue.state === "inbound") {
         frog.tongue.length -= frog.tongue.speed;
-        // The tongue stops if it hits the bottom
+        //Frog tongue is idle when it's length is equal to zero
         if (frog.tongue.length <= 0) {
             frog.tongue.length = 0;
             frog.tongue.state = "idle";
@@ -181,32 +183,33 @@ function moveTongue() {
  * Displays the tongue (tip and line connection) and the frog (body)
  */
 function drawFrog() {
-    // Draw the tongue tip
-    push();
-    fill("#ff0000");
-    noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
 
-    // Draw the rest of the tongue
-    push();
-    stroke("#ff0000");
-    strokeWeight(frog.tongue.size);
-    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
 
     // Draw the frog's body
     push();
+    //Drawing at the origin of the frog, rather than the canvas, just easier
     translate(frog.body.x, frog.body.y);
-
     //Corresponds to setup(), angles are tracked in degrees
     angleMode(DEGREES);
     rotate(frog.direction)
+
+    //Drawing the tongue tip and tongue so that it corresponds with frog rotation
+    const lngth = frog.tongue.length;
+
+    fill("#ff0000");
+    noStroke();
+    ellipse(0, -lngth, frog.tongue.size);
+
+    stroke("#ff0000");
+    strokeWeight(frog.tongue.size);
+    line(0, 0, 0, -lngth);
+
     fill("#0fbd0fff");
     noStroke();
 
     //Centering at origin
     ellipse(0, 0, frog.body.size);
+
 
     //Eye offsets so that they rotate and follow frog
     const eyeOffsetX = frog.body.size * 0.2;
@@ -229,6 +232,7 @@ function drawFrog() {
     fill(0);
     ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, pupilSize);
     ellipse(eyeOffsetX + 10, eyeOffsetY - 20, pupilSize);
+
 
     pop();
 }
