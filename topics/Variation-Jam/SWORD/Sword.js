@@ -25,8 +25,8 @@ const frog = {
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
-        x: undefined,
-        y: 480,
+        //Maximum travel distance of the tongue
+        maxLength: 300,
         size: 20,
         speed: 20,
         // Determines how the tongue moves each frame
@@ -69,11 +69,32 @@ function draw() {
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
-    // Move the fly
-    fly.x += fly.speed;
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
+
+    //Direction angel for the frog
+    fly.direction = 0;
+    //Speed for the frog
+    const speedFly = 6;
+
+    //When "W" key is down, frog moves upwards and faces upwards
+    if (keyIsDown(38)) {
+        fly.direction = 0;
+        fly.y -= speedFly
+    };
+    //When the "A" is down, frog moves to the left and faces the left
+    if (keyIsDown(37)) {
+        fly.direction = 270;
+        fly.x -= speedFly
+    };
+    //When the "S" key is down, frog moves downwards and faces downwards
+    if (keyIsDown(40)) {
+        fly.direction = 180;
+        fly.y += speedFly
+    };
+    //When the "D" key is down, frog moves to the right and faces the right
+    if (keyIsDown(39)) {
+        fly.direction = 80;
+        fly.x += speedFly
+
     }
 }
 
@@ -132,25 +153,25 @@ function moveFrog() {
  * Handles moving the tongue based on its state
  */
 function moveTongue() {
-    // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
-        // Do nothing
+        //Tongue is stored
+        frog.tongue.length = 0;
     }
     // If the tongue is outbound, it moves up
     else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
-        if (frog.tongue.y <= 0) {
+        frog.tongue.length += -frog.tongue.speed;
+        // The tongue bounces back once max length is achieved
+        if (frog.tongue.length >= frog.tongue.maxLength) {
             frog.tongue.state = "inbound";
         }
     }
     // If the tongue is inbound, it moves down
     else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += frog.tongue.speed;
+        frog.tongue.length -= frog.tongue.speed;
         // The tongue stops if it hits the bottom
-        if (frog.tongue.y >= height) {
+        if (frog.tongue.length <= 0) {
+            frog.tongue.length = 0;
             frog.tongue.state = "idle";
         }
     }
