@@ -153,6 +153,7 @@ function draw() {
 
     //When frog has no lives or score is less than zero, game over
     if (frogLives <= 0 || score < 0) {
+        whichScreen = "gameover";
         gameoverScreen();
         return;
     }
@@ -295,10 +296,10 @@ function gameoverScreen() {
     fill(255);
     textSize(30);
     fill(74, 1, 3);
-    textFont('Courier New');
+    textFont('IMPACT');
     textStyle(BOLD);
     textSize(40);
-    text("Click Any Key To Restart", 420, 320);
+    text("Click Space To Restart", 420, 320);
 }
 
 /**
@@ -845,4 +846,40 @@ function mousePressed() {
         frog.rocket.state = "outbound"
     }
 
+}
+
+/**
+ * Resetting the game after gameover
+ */
+function resetGame() {
+
+    //Resetting score and lives
+    score = 0;
+    frogLives = 3;
+    frogHearts = 3;
+    //Resetting arrays
+    bombs = [];
+    clouds = [];
+    //Resetting frog
+    frog.body.x = width / 2;
+    frog.body.y = 700;
+    frog.rocket.state = "idle";
+    frog.rocket.traveled = 0;
+    //Resetting planes
+    resetBluePlane();
+    resetGreenPlane();
+    resetYellowPlane();
+    resetRedPlane();
+    //Back to start screen
+    whichScreen = "start"
+}
+
+/**
+ * Calling reset function with space key
+ */
+function keyPressed() {
+    //If gameover and space key is pressed, reset the game
+    if (whichScreen === "gameover" && keyCode === 32) {
+        resetGame();
+    }
 }
