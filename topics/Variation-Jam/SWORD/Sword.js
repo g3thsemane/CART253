@@ -104,6 +104,11 @@ function draw() {
         return;
     }
 
+    if (whichScreen === "gameover") {
+        gameoverScreen();
+        return;
+    }
+
     if (whichScreen !== "game") {
         return;
     }
@@ -145,6 +150,11 @@ function draw() {
     //Score for frog2
     textAlign(RIGHT, TOP);
     text("Yellow Frog: " + frog2.score, width - 20, 20)
+
+    //Checking who won the game
+    if (frog1.score >= 15 || frog2.score >= 15) {
+        whichScreen = "gameover";
+    }
 }
 
 /**
@@ -167,6 +177,33 @@ function startScreen() {
     text("Click to Start", width / 2, height / 2 + 200);
 
 }
+/**
+ * Function for the game over screen
+ */
+function gameoverScreen() {
+
+    //Setting the background to black 
+    background(0);
+
+    textAlign(CENTER, CENTER);
+    fill(255);
+    textFont('ARIAL');
+    textStyle(BOLD);
+    textSize(40);
+
+    //Deciding text based on game winner
+    if (frog1.score >= 15) {
+        text("Green Frog Wins!", width / 2, height / 2);
+    } else if (frog2.score >= 15) {
+        text("Yellow Frog Wins!", width / 2, height / 2);
+
+    }
+
+    textSize(30)
+    text("Click Space To Restart", width / 2, 800);
+}
+
+
 /**
  * Adding points to each frog
  */
@@ -354,5 +391,34 @@ function mousePressed() {
     //Transfer from start screen to game
     if (whichScreen === "start") {
         whichScreen = "game";
+    }
+}
+
+/**
+ * Reset of the game, back to original values and positions
+ */
+function resetGame() {
+
+    frog1.score = 0;
+    frog2.score = 0;
+
+    resetFrog(frog1, 320, 460, 90);
+    resetFrog(frog2, 1600, 460, 270);
+
+    whichScreen = "start";
+}
+
+/**
+ * Calling reset function with space key
+ */
+function keyPressed() {
+    //If gameover and space key is pressed, reset the game
+    if (whichScreen === "gameover" && keyCode === 32) {
+        resetGame();
+    }
+
+    if (whichScreen === "game") {
+        if (key === ' ' && frog1.tongue.state === "idle") frog1.tongue.state = "outbound";
+        if (keyCode === ENTER && frog2.tongue.state === "idle") frog2.tongue.state = "outbound";
     }
 }

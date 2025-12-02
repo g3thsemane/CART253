@@ -261,6 +261,9 @@ function startScreen() {
 
 }
 
+/**
+ * Instructions screen function
+ */
 function instructionsScreen() {
 
     background("#ffffffff");
@@ -285,7 +288,9 @@ function instructionsScreen() {
 
 }
 
-//Game Over screen
+/**
+ * Game over screen
+ */
 function gameoverScreen() {
 
     //Setting the background to black 
