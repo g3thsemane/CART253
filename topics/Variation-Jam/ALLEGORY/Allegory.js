@@ -128,7 +128,7 @@ function drawCave() {
     moveFrog();
     moveTongue();
     drawFrog();
-    checkTongueShadowOverlap();
+    checkTongueOverlap();
 }
 
 /**
@@ -166,14 +166,14 @@ function resetFly(fly) {
 /**
  * Moves the frog to the mouse position on x
  */
-function moveFrog() {
+function moveFrog(frog) {
     frog.body.x = mouseX;
 }
 
 /**
  * Handles moving the tongue based on its state
  */
-function moveTongue() {
+function moveTongue(frog) {
     // Tongue matches the frog's x
     frog.tongue.x = frog.body.x;
     // If the tongue is idle, it doesn't do anything
@@ -201,33 +201,54 @@ function moveTongue() {
 /**
  * Displays the tongue (tip and line connection) and the frog (body)
  */
-function drawFrog() {
+function drawFrog(frog) {
     // Draw the tongue tip
     push();
-    fill("#ff0000");
+    fill(frog.tongue.color);
     noStroke();
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
 
     // Draw the rest of the tongue
     push();
-    stroke("#ff0000");
+    stroke(frog.tongue.color);
     strokeWeight(frog.tongue.size);
     line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
 
     // Draw the frog's body
-    push();
-    fill("#00ff00");
+    fill(frog.body.color);
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
+
+    //Eye offsets so that they rotate and follow frog
+    const eyeOffsetX = frog.body.size * 0.2;
+    const eyeOffsetY = -frog.body.size * 0.2;
+    const eyeSize = frog.body.size * 0.2;
+    const pupilSize = eyeSize * 0.5;
+    const eyeAreaSize = eyeSize * 1.3
+
+    //Eye area(bulges)
+    fill(frog.body.color)
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeAreaSize)
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeAreaSize)
+
+    //Eyes
+    fill(255);
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeSize);
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeSize);
+
+    //Pupils
+    fill(0);
+    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, pupilSize);
+    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, pupilSize);
+
+
     pop();
 }
 
 /**
  * Handles the tongue overlapping the fly
  */
-function checkTongueFlyOverlap() {
+function checkTongueFlyOverlap(frog, fly) {
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
