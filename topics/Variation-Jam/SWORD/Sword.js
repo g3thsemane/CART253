@@ -102,7 +102,7 @@ function setup() {
 /**
  * Preloading assets
  */
-function preLoad() {
+function preload() {
     //Loading hit sound
     thudHit = loadSound('../ASSETS/Sounds/thud.mp3');
 }
@@ -137,6 +137,8 @@ function draw() {
 
     //Checking if frog1 hit frog2 and calling the reset function to reset them to original positions
     if (tongueHit(frog1, frog2)) {
+        //Playing sound effect
+        thudHit.play();
         //Adding a point to frog1
         addScore(frog1, 1);
         //Frog is reset to original coordinates and angle
@@ -145,6 +147,8 @@ function draw() {
     }
     //Checking if frog2 hit frog1 and calling the reset function to reset them to original positions
     if (tongueHit(frog2, frog1)) {
+        //Playing sound effect
+        thudHit.play()
         //Adding a point to frog2
         addScore(frog2, 1);
         //Frog is reset to original coordinates and angle

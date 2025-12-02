@@ -75,6 +75,9 @@ let frogLives = 3;
 //Variable for visualization of frog lives(hearts)
 let frogHearts = 3;
 
+//Variable for sounds
+let boomBoom;
+
 
 /**
  * Preloads assets to ensure they appear in the program. Includes data, images, and sounds. 
@@ -82,7 +85,10 @@ let frogHearts = 3;
 function preload() {
 
     //Load plane data from JSON file (assets are at project root)
-    planeData = loadJSON("../ASSETS/Data/AAfrog.json");
+    planeData = loadJSON('../ASSETS/Data/AAfrog.json');
+    boomBoom = loadSound('../ASSETS/Sounds/boom.mp3')
+    //Regulating volume of boom
+    boomBoom.setVolume(0.1)
 }
 
 /**
@@ -122,7 +128,7 @@ function setup() {
         data: planeData.planes[2],
         x: random(20, 820),
         y: -175,
-        speed: 5
+        speed: 5.5
     }
 
 
@@ -849,6 +855,7 @@ function mousePressed() {
 
         //Firing the rocket
         frog.rocket.state = "outbound"
+        boomBoom.play();
     }
 
 }
