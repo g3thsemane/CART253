@@ -18,6 +18,9 @@
 //Variable for screen selection
 let whichScreen = "start"
 
+//Variables for sounds
+let thudHit;
+
 // Our frog
 const frog1 = {
     //Initial score value
@@ -94,6 +97,14 @@ function setup() {
     createCanvas(1920, 920);
     //Making the angle mode degrees
     angleMode(DEGREES);
+}
+
+/**
+ * Preloading assets
+ */
+function preLoad() {
+    //Loading hit sound
+    thudHit = loadSound('../ASSETS/Sounds/thud.mp3');
 }
 
 
