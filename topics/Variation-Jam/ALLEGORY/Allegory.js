@@ -100,6 +100,7 @@ function setup() {
  */
 function draw() {
 
+    //Different screens, returning so they don't run all at once
     if (whichScreen === "start") {
         startScreen();
         return;
@@ -114,6 +115,18 @@ function draw() {
         drawReal();
         return;
     }
+}
+
+function startScreen() {
+    background("#000000");
+    textAlign(CENTER, CENTER);
+    textFont("Arial");
+    fill(255);
+    textSize(40);
+    text("Allegory of the Frog", width / 2, height / 2 - 40);
+
+    textSize(18);
+    text("Click to begin", width / 2, height / 2 + 50);
 }
 
 /**
