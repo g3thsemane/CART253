@@ -47,7 +47,7 @@ const frog1 = {
 const frog2 = {
     // The frog's body has a position and size
     body: {
-        x: 320,
+        x: 640,
         y: 520,
         size: 100
     },
@@ -71,14 +71,6 @@ const frog2 = {
     }
 };
 
-// Our fly
-// Has a position, size, and speed of horizontal movement
-const fly = {
-    x: 0,
-    y: 200, // Will be random
-    size: 10,
-    speed: 3
-};
 
 /**
  * Creates the canvas and initializes the fly
@@ -87,80 +79,25 @@ function setup() {
     createCanvas(1920, 920);
     //Making the angle mode degrees
     angleMode(DEGREES);
-    // Give the fly its first random position
-    resetFly();
 }
 
 function draw() {
     background("#87ceeb");
-    moveFly();
-    drawFly();
-    moveFrog();
-    moveTongue();
-    drawFrog();
-    checkTongueFlyOverlap();
+
+    moveFrog(frog1);
+    moveFrog(frog2);
+    moveTongue(frog1);
+    moveTongue(frog2);
+    drawFrog(frog1);
+    drawFrog(frog2);
 }
 
-/**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
- */
-function moveFly() {
-
-    //Direction angel for the frog
-    fly.direction = 0;
-    //Speed for the frog
-    const speedFly = 6;
-
-    //When "W" key is down, frog moves upwards and faces upwards
-    if (keyIsDown(38)) {
-        fly.direction = 0;
-        fly.y -= speedFly
-    };
-    //When the "A" is down, frog moves to the left and faces the left
-    if (keyIsDown(37)) {
-        fly.direction = 270;
-        fly.x -= speedFly
-    };
-    //When the "S" key is down, frog moves downwards and faces downwards
-    if (keyIsDown(40)) {
-        fly.direction = 180;
-        fly.y += speedFly
-    };
-    //When the "D" key is down, frog moves to the right and faces the right
-    if (keyIsDown(39)) {
-        fly.direction = 80;
-        fly.x += speedFly
-
-    }
-}
-
-/**
- * Draws the fly as a black circle
- */
-function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
-}
-
-/**
- * Resets the fly to the left with a random y
- */
-function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
-}
 
 /**
  * Moves the frog based on WASD keys or arrow keys. General function so that it can take both frogs
  */
 function moveFrog(frog) {
 
-    //Direction angel for the frog
-    frog.direction = 0;
     //Speed for the frog
     const speed = 6;
 
@@ -189,7 +126,7 @@ function moveFrog(frog) {
 /**
  * Handles moving the tongue based on its state
  */
-function moveTongue() {
+function moveTongue(frog) {
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
         //Tongue is stored
@@ -215,9 +152,9 @@ function moveTongue() {
 }
 
 /**
- * Displays the tongue (tip and line connection) and the frog (body)
+ * Displays the tongue (tip and line connection) and the frog (body). General frog function
  */
-function drawFrog() {
+function drawFrog(frog) {
 
 
     // Draw the frog's body
@@ -273,26 +210,15 @@ function drawFrog() {
 }
 
 /**
- * Handles the tongue overlapping the fly
+ * Handling the different tongue launching for both frogs
  */
-function checkTongueFlyOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        // Reset the fly
-        resetFly();
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
+function keyPressed() {
+    //Spacebar launches frog1 tongue
+    if (key === ' ') {
+        if (frog1.tongue.state === "idle") frog1.tongue.state = "outbound";
     }
-}
-
-/**
- * Launch the tongue on click (if it's not launched yet)
- */
-function mousePressed() {
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
+    //Enter launches frog2 tongue
+    if (keyCode === ENTER) {
+        if (frog2.tongue.state === "idle") frog2.tongue.state = "outbound";
     }
 }
