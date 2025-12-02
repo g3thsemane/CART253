@@ -1,13 +1,14 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Sword Frog
+ * Benjamin Merhi
  * 
- * A game of catching flies with your frog-tongue
+ * A 1v1 game where two plays battle it out as frogs
  * 
  * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch flies
+ * - Move with WASD for Green Frog, and arrow keys for Yellow Frog
+ * - Click space to launch tongue for Green Frog, click enter to launch tongue for Yellow Frog
+ * - Hit the other frongue to gain points
+ * - First to 15 points wins
  * 
  * Made with p5
  * https://p5js.org/

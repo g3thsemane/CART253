@@ -1,8 +1,8 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Allegory of The Frog
+ * Benjamin Merhi
  * 
- * A game of catching flies with your frog-tongue
+ * Find enlightenment
  * 
  * Instructions:
  * - Move the frog with your mouse
@@ -14,6 +14,12 @@
  */
 
 "use strict";
+
+//Variable for screens
+let whichScreen = "start"
+
+//Boolean for enlightment phase
+let enlightened = false;
 
 // Our frog
 const frog = {
