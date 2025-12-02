@@ -22,7 +22,28 @@ let whichScreen = "start"
 let enlightened = false;
 
 // Our frog
-const frog = {
+const shadowFrog = {
+    // The frog's body has a position and size
+    body: {
+        color: "#3a3a3aff",
+        x: 320,
+        y: 520,
+        size: 150
+    },
+    // The frog's tongue has a position, size, speed, and state
+    tongue: {
+        color: "#252525ff",
+        x: undefined,
+        y: 480,
+        size: 20,
+        speed: 20,
+        // Determines how the tongue moves each frame
+        state: "idle" // State can be: idle, outbound, inbound
+    }
+};
+
+// Our frog
+const realFrog = {
     // The frog's body has a position and size
     body: {
         x: 320,
@@ -49,7 +70,7 @@ const shadowFly = {
     speed: 3
 };
 
-//
+//The real fly and it's properties
 const realFly = {
     color: "rgba(0, 0, 0, 1)",
     x: 0,
@@ -101,8 +122,8 @@ function drawCave() {
 
     background("#4b3917ff");
 
-    moveFly();
-    drawFly();
+    moveFly(shadowFly);
+    drawFly(shadowFly);
 
     moveFrog();
     moveTongue();
