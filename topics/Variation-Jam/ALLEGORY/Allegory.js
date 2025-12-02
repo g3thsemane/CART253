@@ -60,6 +60,22 @@ function setup() {
 }
 
 function draw() {
+
+    if (whichScreen === "start") {
+        startScreen();
+        return;
+    }
+
+    if (whichScreen === "cave") {
+        drawCave();
+        return;
+    }
+
+    if (whichScreen === "real") {
+        drawReal();
+        return;
+    }
+
     background("#87ceeb");
     moveFly();
     drawFly();
