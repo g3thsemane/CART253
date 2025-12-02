@@ -125,10 +125,26 @@ function drawCave() {
     moveFly(shadowFly);
     drawFly(shadowFly);
 
-    moveFrog();
-    moveTongue();
-    drawFrog();
-    checkTongueOverlap();
+    moveFrog(frog);
+    moveTongue(frog);
+    drawFrog(frog);
+    checkTongueOverlap(frog, fly);
+}
+
+/**
+ * Function to draw the enlightened, real world
+ */
+function drawReal() {
+
+    background("#87ceeb")
+
+    moveFly(realFly);
+    drawFly(realFly);
+
+    moveFrog(frog);
+    moveTongue(frog);
+    drawFrog(frog);
+    checkTongueFlyOverlap(frog, fly);
 }
 
 /**
