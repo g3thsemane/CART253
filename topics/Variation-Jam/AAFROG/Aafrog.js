@@ -235,7 +235,7 @@ function drawSun() {
 }
 
 /**
- * Function for the creatin of the start screen
+ * Function for the creation of the start screen
  */
 function startScreen() {
     background("#ffffffff");

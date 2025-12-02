@@ -15,6 +15,9 @@
 
 "use strict";
 
+//Variable for screen selection
+let whichScreen = "start"
+
 // Our frog
 const frog1 = {
     //Initial direction value
@@ -85,21 +88,62 @@ function setup() {
     angleMode(DEGREES);
 }
 
+
 function draw() {
+
+    if (whichScreen === "start") {
+        startScreen();
+        return;
+    }
+
+    if (whichScreen !== "game") {
+        return;
+    }
+
     background("#87ceeb");
 
+    //Logic
     moveFrog(frog1);
     moveFrog(frog2);
     moveTongue(frog1);
     moveTongue(frog2);
+    //Draw 
     drawFrog(frog1);
     drawFrog(frog2);
 
-    //Checking if frog1 hit frog2
+    //Checking if frog1 hit frog2 and calling the reset function to reset them to original positions
     if (tongueHit(frog1, frog2)) {
-
+        //Frog is reset to original coordinates and angle
         resetFrog(frog2, 1600, 460, 270);
+        resetFrog(frog1, 320, 460, 90);
     }
+    //Checking if frog2 hit frog1 and calling the reset function to reset them to original positions
+    if (tongueHit(frog2, frog1)) {
+        //Frog is reset to original coordinates and angle
+        resetFrog(frog2, 1600, 460, 270);
+        resetFrog(frog1, 320, 460, 90);
+    }
+}
+
+/**
+ * Function for the creation of the start screen
+ */
+function startScreen() {
+    background("#886fb1ff");
+    textAlign(CENTER, CENTER);
+    textSize(60);
+    fill(0);
+    textFont('ARIAL');
+    textStyle(BOLD);
+
+    //Title
+    text("Sword Frog", width / 2, height / 2);
+
+    //Prompt
+    textStyle(NORMAL);
+    textSize(20);
+    text("Click to Start", width / 2, height / 2 + 200);
+
 }
 
 /**
@@ -267,5 +311,16 @@ function keyPressed() {
     //Enter launches frog2 tongue
     if (keyCode === ENTER) {
         if (frog2.tongue.state === "idle") frog2.tongue.state = "outbound";
+    }
+}
+
+/**
+ * Alternating between different screens
+ */
+function mousePressed() {
+
+    //Transfer from start screen to game
+    if (whichScreen === "start") {
+        whichScreen = "game";
     }
 }
