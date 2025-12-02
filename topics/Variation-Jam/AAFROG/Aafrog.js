@@ -28,7 +28,7 @@ const frog = {
         x: undefined,
         y: 480,
         size: 20,
-        speed: 20,
+        speed: 15,
         //X and Y velocities
         vx: 0,
         vy: 0,
@@ -120,7 +120,7 @@ function setup() {
         data: planeData.planes[1],
         x: random(20, 820),
         y: -185,
-        speed: 4
+        speed: 5
     }
 
     greenPlane = {
@@ -128,7 +128,7 @@ function setup() {
         data: planeData.planes[2],
         x: random(20, 820),
         y: -175,
-        speed: 5.5
+        speed: 7
     }
 
 
