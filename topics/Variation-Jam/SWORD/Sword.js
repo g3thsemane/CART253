@@ -24,12 +24,14 @@ const frog1 = {
     direction: 90,
     // The frog's body has a position and size
     body: {
+        color: "#0fbd0fff",
         x: 320,
         y: 460,
         size: 100
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
+        color: "#af0000ff",
         //Measuring distance of frog tongue, at 0, frogue tongue is fully retracted
         length: 0,
         //Maximum travel distance of the tongue
@@ -54,12 +56,14 @@ const frog2 = {
     direction: 270,
     // The frog's body has a position and size
     body: {
+        color: "#f5d000ff",
         x: 1600,
         y: 460,
         size: 100
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
+        color: "#4a0086ff",
         //Measuring distance of frog tongue, at 0, frogue tongue is fully retracted
         length: 0,
         //Maximum travel distance of the tongue
@@ -259,15 +263,15 @@ function drawFrog(frog) {
     //Drawing the tongue tip and tongue so that it corresponds with frog rotation
     const lngth = frog.tongue.length;
 
-    fill("#ff0000");
+    fill(frog.tongue.color);
     noStroke();
     ellipse(0, -lngth, frog.tongue.size);
 
-    stroke("#ff0000");
+    stroke(frog.tongue.color);
     strokeWeight(frog.tongue.size);
     line(0, 0, 0, -lngth);
 
-    fill("#0fbd0fff");
+    fill(frog.body.color);
     noStroke();
 
     //Centering at origin
@@ -282,7 +286,7 @@ function drawFrog(frog) {
     const eyeAreaSize = eyeSize * 1.3
 
     //Eye area(bulges)
-    fill("#0fbd0fff")
+    fill(frog.body.color)
     ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeAreaSize)
     ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeAreaSize)
 
