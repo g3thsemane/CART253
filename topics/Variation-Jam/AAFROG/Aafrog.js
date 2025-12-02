@@ -146,6 +146,11 @@ function draw() {
         return;
     };
 
+    if (whichScreen === "instructions") {
+        instructionsScreen();
+        return;
+    }
+
     //When frog has no lives or score is less than zero, game over
     if (frogLives <= 0 || score < 0) {
         gameoverScreen();
@@ -252,6 +257,30 @@ function startScreen() {
     textStyle(NORMAL);
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 80);
+
+}
+
+function instructionsScreen() {
+
+    background("#ffffffff");
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill(0);
+    textFont('IMPACT');
+
+    //Instructions Title
+    textStyle(BOLD);
+    text("Instructions", width / 2, 100);
+
+    //Actual Instructions
+    textStyle(NORMAL);
+    textSize(20);
+    textWrap(WORD);
+    const instr = "Move the frog with A and D keys\n" + "Shoot planes to gain points\n" + "Avoid the bombs\n" + "If the planes pass:\n" + "Green Plane = -1 point,\n" + "Blue Plane = -2 points,\n" + "Red Plane = -5 points,\n" + "Yellow Plane = -15 points\n";
+
+    text(instr, width / 2, height / 2,);
+    textSize(20);
+    text("Click to continue", width / 2, 600);
 
 }
 
@@ -776,6 +805,8 @@ function mousePressed() {
 
     //Transfer from start screen to game
     if (whichScreen === "start") {
+        whichScreen = "instructions";
+    } else if (whichScreen === "instructions") {
         whichScreen = "game";
     }
 
