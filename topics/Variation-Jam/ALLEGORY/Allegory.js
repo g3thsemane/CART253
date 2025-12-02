@@ -21,6 +21,9 @@ let whichScreen = "start"
 //Boolean for enlightment phase
 let enlightened = false;
 
+//Variable to count score of shadow flies eaten
+let shadowScore = 0;
+
 // Our frog
 const shadowFrog = {
     // The frog's body has a position and size
@@ -46,12 +49,14 @@ const shadowFrog = {
 const realFrog = {
     // The frog's body has a position and size
     body: {
+        color: "#234423ff",
         x: 320,
         y: 520,
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
+        color: "#851919ff",
         x: undefined,
         y: 480,
         size: 20,
@@ -86,9 +91,13 @@ function setup() {
     createCanvas(640, 480);
 
     // Give the fly its first random position
-    resetFly();
+    resetFly(shadowFly);
+    resetFly(realFly);
 }
 
+/**
+ *Draw function going through the different screens
+ */
 function draw() {
 
     if (whichScreen === "start") {
@@ -105,14 +114,6 @@ function draw() {
         drawReal();
         return;
     }
-
-    background("#87ceeb");
-    moveFly();
-    drawFly();
-    moveFrog();
-    moveTongue();
-    drawFrog();
-    checkTongueFlyOverlap();
 }
 
 /**
@@ -125,10 +126,10 @@ function drawCave() {
     moveFly(shadowFly);
     drawFly(shadowFly);
 
-    moveFrog(frog);
-    moveTongue(frog);
-    drawFrog(frog);
-    checkTongueOverlap(frog, fly);
+    moveFrog(shadowFrog);
+    moveTongue(shadowFrog);
+    drawFrog(shadowFrog);
+    checkTongueFlyOverlap(shadowFrog, shadowFly);
 }
 
 /**
@@ -141,10 +142,10 @@ function drawReal() {
     moveFly(realFly);
     drawFly(realFly);
 
-    moveFrog(frog);
-    moveTongue(frog);
-    drawFrog(frog);
-    checkTongueFlyOverlap(frog, fly);
+    moveFrog(realFrog);
+    moveTongue(realFrog);
+    drawFrog(realFrog);
+    checkTongueFlyOverlap(realFrog, realFly);
 }
 
 /**
@@ -156,7 +157,7 @@ function moveFly(fly) {
     fly.x += fly.speed;
     // Handle the fly going off the canvas
     if (fly.x > width) {
-        resetFly();
+        resetFly(fly);
     }
 }
 
@@ -166,7 +167,7 @@ function moveFly(fly) {
 function drawFly(fly) {
     push();
     noStroke();
-    fill(color);
+    fill(fly.color);
     ellipse(fly.x, fly.y, fly.size);
     pop();
 }
@@ -271,9 +272,17 @@ function checkTongueFlyOverlap(frog, fly) {
     const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
         // Reset the fly
-        resetFly();
+        resetFly(fly);
         // Bring back the tongue
         frog.tongue.state = "inbound";
+        if (whichScreen === "cave") {
+            shadowScore++;
+
+            if (shadowScore >= 10 && !enlightened) {
+                enlightened = true;
+                whichScreen = "real";
+            }
+        }
     }
 }
 
@@ -281,7 +290,13 @@ function checkTongueFlyOverlap(frog, fly) {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
+    if (whichScreen === "cave") {
+        if (shadowFrog.tongue.state === "idle") {
+            shadowFrog.tongue.state = "outbound";
+        }
+    } else if (whichScreen === "real") {
+        if (realFrog.tongue.state === "idle") {
+            realFrog.tongue.state = "outbound";
+        }
     }
 }
