@@ -20,6 +20,8 @@ let whichScreen = "start"
 
 // Our frog
 const frog1 = {
+    //Initial score value
+    score: 0,
     //Initial direction value
     direction: 90,
     // The frog's body has a position and size
@@ -52,6 +54,8 @@ const frog1 = {
 
 //The second frog 
 const frog2 = {
+    //Initial score value
+    score: 0,
     //Initial direction value
     direction: 270,
     // The frog's body has a position and size
@@ -117,16 +121,30 @@ function draw() {
 
     //Checking if frog1 hit frog2 and calling the reset function to reset them to original positions
     if (tongueHit(frog1, frog2)) {
+        //Adding a point to frog1
+        addScore(frog1, 1);
         //Frog is reset to original coordinates and angle
         resetFrog(frog2, 1600, 460, 270);
         resetFrog(frog1, 320, 460, 90);
     }
     //Checking if frog2 hit frog1 and calling the reset function to reset them to original positions
     if (tongueHit(frog2, frog1)) {
+        //Adding a point to frog2
+        addScore(frog2, 1);
         //Frog is reset to original coordinates and angle
         resetFrog(frog2, 1600, 460, 270);
         resetFrog(frog1, 320, 460, 90);
     }
+
+    //Scoreboard
+    textSize(32);
+    fill(0);
+    //Score for frog1
+    textAlign(LEFT, TOP);
+    text("Green Frog: " + frog1.score, 20, 20)
+    //Score for frog2
+    textAlign(RIGHT, TOP);
+    text("Yellow Frog: " + frog2.score, width - 20, 20)
 }
 
 /**
@@ -148,6 +166,12 @@ function startScreen() {
     textSize(20);
     text("Click to Start", width / 2, height / 2 + 200);
 
+}
+/**
+ * Adding points to each frog
+ */
+function addScore(frog, amount) {
+    frog.score += amount;
 }
 
 /**
