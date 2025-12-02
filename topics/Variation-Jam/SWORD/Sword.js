@@ -240,6 +240,10 @@ function moveFrog(frog) {
         frog.direction = 90;
         frog.body.x += speed
     }
+
+    //Constrains so that the frog does not go off the canvas
+    frog.body.x = constrain(frog.body.x, 0, width);
+    frog.body.y = constrain(frog.body.y, 0, height);
 }
 
 /**
