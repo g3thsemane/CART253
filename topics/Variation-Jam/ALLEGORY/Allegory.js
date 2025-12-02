@@ -40,14 +40,23 @@ const frog = {
     }
 };
 
-// Our fly
-// Has a position, size, and speed of horizontal movement
-const fly = {
+//The Shadow fly and its properties
+const shadowFly = {
+    color: "#1f1f1fff",
     x: 0,
     y: 200, // Will be random
-    size: 10,
+    size: 15,
     speed: 3
 };
+
+//
+const realFly = {
+    color: "rgba(0, 0, 0, 1)",
+    x: 0,
+    y: 200,
+    size: 10,
+    speed: 3
+}
 
 /**
  * Creates the canvas and initializes the fly
@@ -86,10 +95,26 @@ function draw() {
 }
 
 /**
+ * Function to make up the first portion of the game, the inside of the cave
+ */
+function drawCave() {
+
+    background("#4b3917ff");
+
+    moveFly();
+    drawFly();
+
+    moveFrog();
+    moveTongue();
+    drawFrog();
+    checkTongueShadowOverlap();
+}
+
+/**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
-function moveFly() {
+function moveFly(fly) {
     // Move the fly
     fly.x += fly.speed;
     // Handle the fly going off the canvas
@@ -101,10 +126,10 @@ function moveFly() {
 /**
  * Draws the fly as a black circle
  */
-function drawFly() {
+function drawFly(fly) {
     push();
     noStroke();
-    fill("#000000");
+    fill(color);
     ellipse(fly.x, fly.y, fly.size);
     pop();
 }
@@ -112,7 +137,7 @@ function drawFly() {
 /**
  * Resets the fly to the left with a random y
  */
-function resetFly() {
+function resetFly(fly) {
     fly.x = 0;
     fly.y = random(0, 300);
 }
