@@ -16,7 +16,7 @@
 "use strict";
 
 // Our frog
-const frog = {
+const frog1 = {
     // The frog's body has a position and size
     body: {
         x: 320,
@@ -33,6 +33,41 @@ const frog = {
         speed: 20,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
+    },
+    //The controls for the 1st frog, using WASD keys(keycodes)
+    controls: {
+        up: 87,
+        down: 83,
+        left: 65,
+        right: 68
+    }
+};
+
+//The second frog 
+const frog2 = {
+    // The frog's body has a position and size
+    body: {
+        x: 320,
+        y: 520,
+        size: 100
+    },
+    // The frog's tongue has a position, size, speed, and state
+    tongue: {
+        //Measuring distance of frog tongue, at 0, frogue tongue is fully retracted
+        length: 0,
+        //Maximum travel distance of the tongue
+        maxLength: 200,
+        size: 20,
+        speed: 20,
+        // Determines how the tongue moves each frame
+        state: "idle" // State can be: idle, outbound, inbound
+    },
+    //The controls for the 2nd frog, using arrow keys(keycodes)
+    controls: {
+        up: 38,
+        down: 40,
+        left: 37,
+        right: 39
     }
 };
 
@@ -120,9 +155,9 @@ function resetFly() {
 }
 
 /**
- * Moves the frog based on WASD keys
+ * Moves the frog based on WASD keys or arrow keys. General function so that it can take both frogs
  */
-function moveFrog() {
+function moveFrog(frog) {
 
     //Direction angel for the frog
     frog.direction = 0;
@@ -130,22 +165,22 @@ function moveFrog() {
     const speed = 6;
 
     //When "W" key is down, frog moves upwards and faces upwards
-    if (keyIsDown(87)) {
+    if (keyIsDown(frog.controls.up)) {
         frog.direction = 0;
         frog.body.y -= speed
     };
     //When the "A" is down, frog moves to the left and faces the left
-    if (keyIsDown(65)) {
+    if (keyIsDown(frog.controls.left)) {
         frog.direction = 270;
         frog.body.x -= speed
     };
     //When the "S" key is down, frog moves downwards and faces downwards
-    if (keyIsDown(83)) {
+    if (keyIsDown(frog.controls.down)) {
         frog.direction = 180;
         frog.body.y += speed
     };
     //When the "D" key is down, frog moves to the right and faces the right
-    if (keyIsDown(68)) {
+    if (keyIsDown(frog.controls.right)) {
         frog.direction = 90;
         frog.body.x += speed
     }
