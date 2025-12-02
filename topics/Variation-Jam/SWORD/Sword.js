@@ -17,10 +17,12 @@
 
 // Our frog
 const frog1 = {
+    //Initial direction value
+    direction: 90,
     // The frog's body has a position and size
     body: {
         x: 320,
-        y: 520,
+        y: 460,
         size: 100
     },
     // The frog's tongue has a position, size, speed, and state
@@ -45,10 +47,12 @@ const frog1 = {
 
 //The second frog 
 const frog2 = {
+    //Initial direction value
+    direction: 270,
     // The frog's body has a position and size
     body: {
-        x: 640,
-        y: 520,
+        x: 1600,
+        y: 460,
         size: 100
     },
     // The frog's tongue has a position, size, speed, and state
@@ -69,7 +73,7 @@ const frog2 = {
         left: 37,
         right: 39
     }
-};
+}
 
 
 /**
@@ -90,8 +94,51 @@ function draw() {
     moveTongue(frog2);
     drawFrog(frog1);
     drawFrog(frog2);
+
+    //Checking if frog1 hit frog2
+    if (tongueHit(frog1, frog2)) {
+
+        resetFrog(frog2, 1600, 460, 270);
+    }
 }
 
+/**
+ * Resetting the frog upon a hit
+ */
+function resetFrog(frog, x, y, direction) {
+
+    frog.body.x = x;
+    frog.body.y = y;
+    frog.direction = direction;
+
+    frog.tongue.length = 0;
+    frog.tongue.state = "idle";
+}
+
+/**
+ * Function to get location of tongue tip for collision
+ */
+function locateTip(frog) {
+
+    const angle = frog.direction - 90;
+    const tipX = frog.body.x + cos(angle) * frog.tongue.length;
+    const tipY = frog.body.y + sin(angle) * frog.tongue.length;
+    return { x: tipX, y: tipY };
+}
+
+/**
+ * Checking for tongue and frog overlap
+ */
+function tongueHit(attacker, target) {
+
+    if (attacker.tongue.state === "idle") return false;
+
+    const tip = locateTip(attacker);
+    const frogRadius = target.body.size / 2;
+    const d = dist(tip.x, tip.y, target.body.x, target.body.y);
+
+    return d < frogRadius;
+}
 
 /**
  * Moves the frog based on WASD keys or arrow keys. General function so that it can take both frogs
