@@ -178,12 +178,13 @@ function drawCave() {
 
     background("#292319ff");
 
-    moveFly(shadowFly);
+    //Draw
     drawFly(shadowFly);
-
+    drawFrog(shadowFrog);
+    //Logic
     moveFrog(shadowFrog);
     moveTongue(shadowFrog);
-    drawFrog(shadowFrog);
+    moveFly(shadowFly);
     checkTongueFlyOverlap(shadowFrog, shadowFly);
 }
 
@@ -194,13 +195,35 @@ function drawReal() {
 
     background("#87ceeb")
 
+    //Sun
+    noStroke();
+    fill("#FF0")
+    ellipse(0, 0, 100, 100)
+
+    //Hill
+    noStroke();
+    fill("#0a960aff");
+    ellipse(width + 100, height + 50, width * 3, 300);
+
+    //Tree trunk
+    fill("#5b3a1b");
+    rectMode(CENTER);
+    rect(550, 350, 30, 120);
+
+    //Tree foliage
+    fill("#2f6b2f");
+    ellipse(550, 270, 120, 90);
+
+    //Logic
     moveFly(realFly);
     drawFly(realFly);
-
     moveFrog(realFrog);
     moveTongue(realFrog);
-    drawFrog(realFrog);
     checkTongueFlyOverlap(realFrog, realFly);
+    //Draw
+    drawFrog(realFrog);
+    drawFly(realFly);
+
 }
 
 /**

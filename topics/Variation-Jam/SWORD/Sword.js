@@ -116,6 +116,11 @@ function draw() {
         return;
     }
 
+    if (whichScreen === "instructions") {
+        instructionsScreen();
+        return;
+    }
+
     if (whichScreen === "gameover") {
         gameoverScreen();
         return;
@@ -193,6 +198,36 @@ function startScreen() {
     text("Click to Start", width / 2, height / 2 + 200);
 
 }
+
+/**
+ * Instructions screen
+ */
+function instructionsScreen() {
+
+    background("#886fb1ff");
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill(0);
+    textFont('Arial');
+
+    //Instructions Title
+    textStyle(BOLD);
+    text("Instructions", width / 2, 100);
+
+    //Actual Instructions
+    textStyle(NORMAL);
+    textSize(20);
+    textWrap(WORD);
+    const instr = "1. Move the Green Frog with WASD and the Yellow Frog with the arrow keys\n" + "2. Use space key to launch tongue for Green Frog and enter key to launch tongue for Yellow Frog\n" + "3. Hit the enemy with your tongue to gain points\n" + "4. First to 15 points wins\n";
+
+    text(instr, width / 2, height / 2,);
+    textSize(20);
+    textStyle(BOLD);
+    text("Click to continue", width / 2, 600);
+
+}
+
+
 /**
  * Function for the game over screen
  */
@@ -406,7 +441,9 @@ function mousePressed() {
 
     //Transfer from start screen to game
     if (whichScreen === "start") {
-        whichScreen = "game";
+        whichScreen = "instructions";
+    } else if (whichScreen === "instructions") {
+        whichScreen = "game"
     }
 }
 
