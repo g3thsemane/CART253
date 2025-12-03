@@ -24,6 +24,9 @@ let enlightened = false;
 //Variable to count score of shadow flies eaten
 let shadowScore = 0;
 
+//Typed input variable for keyTyped function
+let typedInput = "";
+
 // Our frog
 const shadowFrog = {
     // The frog's body has a position and size
@@ -142,7 +145,7 @@ function startScreen() {
  */
 function drawCave() {
 
-    background("#4b3917ff");
+    background("#292319ff");
 
     moveFly(shadowFly);
     drawFly(shadowFly);
@@ -349,11 +352,6 @@ function checkTongueFlyOverlap(frog, fly) {
         frog.tongue.traveled = 0;
         if (whichScreen === "cave") {
             shadowScore++;
-
-            if (shadowScore >= 10 && !enlightened) {
-                enlightened = true;
-                whichScreen = "real";
-            }
         }
     }
 }
@@ -381,5 +379,22 @@ function mousePressed() {
     else if (whichScreen === "real") {
         //Calling launch tongue function for real frog
         launchTongue(realFrog);
+    }
+}
+
+/**
+ * Making the "reality" only appear when the word "reality" is typed
+ */
+function keyTyped() {
+    //Only active during cave screen
+    if (whichScreen !== "cave") return;
+
+    //Characters are automatically lower cased, just in case
+    typedInput += key.toLowerCase();
+
+    //If not enlightened screen and the word "enlightenment" is typed out, enlightment becomes a reality
+    if (!enlightened && typedInput.includes("enlightenment")) {
+        enlightened = true;
+        whichScreen = "real";
     }
 }
