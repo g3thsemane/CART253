@@ -829,7 +829,7 @@ function mousePressed() {
         const mouthX = frog.body.x
         const mouthY = frog.body.y - 40;
 
-        //Acquiring direction of the mouse to the mouth so that launch goes from mouth to mouse
+        //Acquiring displacement of the mouse to the mouth so that launch goes from mouth to mouse
         let dx = mouseX - mouthX
         let dy = mouseY - mouthY
 

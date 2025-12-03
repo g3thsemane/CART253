@@ -30,7 +30,7 @@ const shadowFrog = {
     body: {
         color: "#3a3a3aff",
         x: 320,
-        y: 520,
+        y: 500,
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
@@ -40,6 +40,10 @@ const shadowFrog = {
         y: 480,
         size: 20,
         speed: 20,
+        vx: 0,
+        vy: 0,
+        maxDistance: 460,
+        traveled: 0,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
@@ -51,7 +55,7 @@ const realFrog = {
     body: {
         color: "#234423ff",
         x: 320,
-        y: 520,
+        y: 500,
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
@@ -61,6 +65,10 @@ const realFrog = {
         y: 480,
         size: 20,
         speed: 20,
+        vx: 0,
+        vy: 0,
+        maxDistance: 460,
+        traveled: 0,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
@@ -194,38 +202,87 @@ function resetFly(fly) {
 }
 
 /**
- * Moves the frog to the mouse position on x
+ * Moves the frog with the "A" and "D"
  */
 function moveFrog(frog) {
-    frog.body.x = mouseX;
+
+    //Assigning a speed to the key movement
+    const speed = 9
+
+    //When the "A" is down, negative speed is produced, bringing the frog to the left
+    if (keyIsDown(65)) {
+        frog.body.x -= speed;
+    }
+
+    //When the "D" is down, positive speed is produced, bringing the frog to the right
+    if (keyIsDown(68)) {
+        frog.body.x += speed;
+    }
+
+    //Preventing the frog from leaving the canvas with a constrain 
+    frog.body.x = constrain(frog.body.x, 0, width)
 }
 
 /**
  * Handles moving the tongue based on its state
  */
 function moveTongue(frog) {
-    // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
-    // If the tongue is idle, it doesn't do anything
+    //Centering tongue at frogue body
+    const mouthX = frog.body.x;
+    const mouthY = frog.body.y - 40;
+    //When idle, the tongue is stuck to the body of the frog and doesn't move
     if (frog.tongue.state === "idle") {
-        // Do nothing
+        frog.tongue.x = mouthX;
+        frog.tongue.y = mouthY;
+        frog.tongue.traveled = 0;
     }
-    // If the tongue is outbound, it moves up
+    //If the tongue is outbound, it moves up. Velocity and speed are added
     else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
-        if (frog.tongue.y <= 0) {
-            frog.tongue.state = "inbound";
-        }
-    }
-    // If the tongue is inbound, it moves down
-    else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += frog.tongue.speed;
-        // The tongue stops if it hits the bottom
-        if (frog.tongue.y >= height) {
+        frog.tongue.x += frog.tongue.vx;
+        frog.tongue.y += frog.tongue.vy;
+        frog.tongue.traveled += frog.tongue.speed;
+        //The tongue bounces back if it reaches too far
+        if (
+            frog.tongue.x < 0 || frog.tongue.x > width ||
+            frog.tongue.y < 0 || frog.tongue.y > height ||
+            frog.tongue.traveled >= frog.tongue.maxDistance
+        ) {
             frog.tongue.state = "idle";
+            frog.tongue.traveled = 0;
         }
     }
+}
+
+/**
+ * Multi directional launch of the tongue, same as AAfrog.js
+ */
+function launchTongue(frog) {
+    //If tongue is not idle do nothing
+    if (frog.tongue.state !== "idle") return;
+
+    //Tongue is launched from constants that are in line with the frog's body
+    const mouthX = frog.body.x;
+    const mouthY = frog.body.y - 40;
+    //Displacement of mouth to mouse
+    let dx = mouseX - mouthX;
+    let dy = mouseY - mouthY;
+    //Pythagorean to accquire distance
+    const d = sqrt(dx * dx + dy * dy);
+    //Turned into a unit direction vector, directly from mouse to mouth
+    if (d > 0) {
+
+        dx /= d;
+        dy /= d;
+    }
+    //Tongue position
+    frog.tongue.x = mouthX;
+    frog.tongue.y = mouthY;
+    //Moving the tongue
+    frog.tongue.vx = dx * frog.tongue.speed;
+    frog.tongue.vy = dy * frog.tongue.speed;
+    frog.tongue.traveled = 0;
+    frog.tongue.state = "outbound";
+
 }
 
 /**
@@ -237,6 +294,7 @@ function drawFrog(frog) {
     fill(frog.tongue.color);
     noStroke();
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
+    pop();
 
     // Draw the rest of the tongue
     push();
@@ -287,7 +345,8 @@ function checkTongueFlyOverlap(frog, fly) {
         // Reset the fly
         resetFly(fly);
         // Bring back the tongue
-        frog.tongue.state = "inbound";
+        frog.tongue.state = "idle";
+        frog.tongue.traveled = 0;
         if (whichScreen === "cave") {
             shadowScore++;
 
@@ -315,14 +374,12 @@ function mousePressed() {
     }
     //Switch to the cave
     else if (whichScreen === "cave") {
-        if (shadowFrog.tongue.state === "idle") {
-            shadowFrog.tongue.state = "outbound";
-        }
+        //Calling launch tongue function for shadow frog
+        launchTongue(shadowFrog);
     }
     //Switch to reality
     else if (whichScreen === "real") {
-        if (realFrog.tongue.state === "idle") {
-            realFrog.tongue.state = "outbound";
-        }
+        //Calling launch tongue function for real frog
+        launchTongue(realFrog);
     }
 }
