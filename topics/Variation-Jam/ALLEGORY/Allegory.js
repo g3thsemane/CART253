@@ -5,9 +5,8 @@
  * Find enlightenment
  * 
  * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch flies
+ * - Move with A and D
+ * - Click mouse to launch tongue
  * 
  * Made with p5
  * https://p5js.org/
