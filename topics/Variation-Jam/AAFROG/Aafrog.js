@@ -561,7 +561,7 @@ function movePlanes() {
         resetGreenPlane();
         score -= 1;
     }
-    if (yellowPlane.y > height + 50) {
+    if (yellowPlane.y > height + 20) {
         resetYellowPlane();
         score -= 15;
     }
