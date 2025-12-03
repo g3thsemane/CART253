@@ -257,19 +257,19 @@ function drawFrog(frog) {
     const eyeAreaSize = eyeSize * 1.3
 
     //Eye area(bulges)
-    fill(frog.body.color)
-    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeAreaSize)
-    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeAreaSize)
+    fill(frog.body.color);
+    ellipse(frog.body.x - eyeOffsetX - 10, frog.body.y + eyeOffsetY - 30, eyeAreaSize);
+    ellipse(frog.body.x + eyeOffsetX + 10, frog.body.y + eyeOffsetY - 30, eyeAreaSize);
 
     //Eyes
     fill(255);
-    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, eyeSize);
-    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, eyeSize);
+    ellipse(frog.body.x - eyeOffsetX - 10, frog.body.y + eyeOffsetY - 30, eyeSize);
+    ellipse(frog.body.x + eyeOffsetX + 10, frog.body.y + eyeOffsetY - 30, eyeSize);
 
     //Pupils
     fill(0);
-    ellipse(-eyeOffsetX - 10, eyeOffsetY - 20, pupilSize);
-    ellipse(eyeOffsetX + 10, eyeOffsetY - 20, pupilSize);
+    ellipse(frog.body.x - eyeOffsetX - 10, frog.body.y + eyeOffsetY - 30, pupilSize);
+    ellipse(frog.body.x + eyeOffsetX + 10, frog.body.y + eyeOffsetY - 30, pupilSize);
 
 
     pop();
@@ -303,11 +303,24 @@ function checkTongueFlyOverlap(frog, fly) {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (whichScreen === "cave") {
+    //Switching to start screen
+    if (whichScreen === "start") {
+        shadowScore = 0;
+        enlightened = false;
+        resetFly(shadowFly);
+        resetFly(realFly);
+        shadowFrog.tongue.state = "idle";
+
+        whichScreen = "cave";
+    }
+    //Switch to the cave
+    else if (whichScreen === "cave") {
         if (shadowFrog.tongue.state === "idle") {
             shadowFrog.tongue.state = "outbound";
         }
-    } else if (whichScreen === "real") {
+    }
+    //Switch to reality
+    else if (whichScreen === "real") {
         if (realFrog.tongue.state === "idle") {
             realFrog.tongue.state = "outbound";
         }
