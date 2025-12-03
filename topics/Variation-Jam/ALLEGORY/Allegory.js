@@ -117,6 +117,11 @@ function draw() {
         return;
     }
 
+    if (whichScreen === "instructions") {
+        instructionsScreen();
+        return;
+    }
+
     if (whichScreen === "cave") {
         drawCave();
         return;
@@ -138,6 +143,32 @@ function startScreen() {
 
     textSize(18);
     text("Click to begin", width / 2, height / 2 + 50);
+}
+
+/**
+ * Instructions screen
+ */
+function instructionsScreen() {
+
+    background("#000000");
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill(255);
+    textFont('Arial');
+
+    //Instructions Title
+    textStyle(BOLD);
+    text("Instructions", width / 2, 100);
+
+    //Actual Instructions
+    textStyle(NORMAL);
+    textSize(20);
+    textWrap(WORD);
+    const instr = "You press inspect and get a glimpse of the true world";
+    const boxW = 500;
+    text(instr, width / 2 - boxW / 2, height / 2, boxW);
+    textSize(20);
+    text("Click to continue", width / 2, 350);
 }
 
 /**
@@ -367,8 +398,9 @@ function mousePressed() {
         resetFly(shadowFly);
         resetFly(realFly);
         shadowFrog.tongue.state = "idle";
-
-        whichScreen = "cave";
+        whichScreen = "instructions";
+    } else if (whichScreen === "instructions") {
+        whichScreen = "cave"
     }
     //Switch to the cave
     else if (whichScreen === "cave") {
