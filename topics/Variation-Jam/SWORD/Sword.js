@@ -280,9 +280,13 @@ function resetFrog(frog, x, y, direction) {
  */
 function locateTip(frog) {
 
+    //Matching frog angle with tongue
     const angle = frog.direction - 90;
+    //Horizontal tongue component(X)
     const tipX = frog.body.x + cos(angle) * frog.tongue.length;
+    //Verical tongue component(Y)
     const tipY = frog.body.y + sin(angle) * frog.tongue.length;
+    //Coordinates of the tongue tip
     return { x: tipX, y: tipY };
 }
 
@@ -291,12 +295,15 @@ function locateTip(frog) {
  */
 function tongueHit(attacker, target) {
 
+    //Frog is harmless at this moment
     if (attacker.tongue.state === "idle") return false;
-
+    //Calling on locateTip function to find tongue tip's current position
     const tip = locateTip(attacker);
+    //Radius of frog
     const frogRadius = target.body.size / 2;
+    //Finding distance between tip and target
     const d = dist(tip.x, tip.y, target.body.x, target.body.y);
-
+    //True or false based on overlap
     return d < frogRadius;
 }
 
@@ -439,7 +446,7 @@ function keyPressed() {
  */
 function mousePressed() {
 
-    //Transfer from start screen to game
+    //Transfer from start screen to instructions to game
     if (whichScreen === "start") {
         whichScreen = "instructions";
     } else if (whichScreen === "instructions") {
@@ -469,7 +476,7 @@ function keyPressed() {
     if (whichScreen === "gameover" && keyCode === 32) {
         resetGame();
     }
-
+    //Actions for attacks
     if (whichScreen === "game") {
         if (key === ' ' && frog1.tongue.state === "idle") frog1.tongue.state = "outbound";
         if (keyCode === ENTER && frog2.tongue.state === "idle") frog2.tongue.state = "outbound";

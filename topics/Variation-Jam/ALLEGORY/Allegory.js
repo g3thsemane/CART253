@@ -27,7 +27,8 @@ let shadowScore = 0;
 //Typed input variable for keyTyped function
 let typedInput = "";
 
-//Variables for sound
+//Variables for sound and images
+let platoImage;
 let scarySong;
 let happySong;
 
@@ -113,7 +114,8 @@ function setup() {
 function preload() {
 
     scarySong = loadSound('../ASSETS/Sounds/scary.mp3');
-    happySong = loadSound('../ASSETS/Sounds/happy.mp3')
+    happySong = loadSound('../ASSETS/Sounds/happy.mp3');
+    platoImage = loadImage('../ASSETS/Images/plato.png');
 }
 
 /**
@@ -204,6 +206,18 @@ function drawCave() {
 function drawReal() {
 
     background("#87ceeb")
+
+    //Inserting plato
+    if (platoImage) {
+        imageMode(CORNER);
+        image(platoImage, width - 110, 10, 100, 100);
+    }
+
+    //Text
+    fill(0);
+    textAlign(LEFT, TOP);
+    textSize(14);
+    text("Good Job Frog!", width - 100, 100);
 
     //Sun
     noStroke();
