@@ -27,6 +27,10 @@ let shadowScore = 0;
 //Typed input variable for keyTyped function
 let typedInput = "";
 
+//Variables for sound
+let scarySong;
+let happySong;
+
 // Our frog
 const shadowFrog = {
     // The frog's body has a position and size
@@ -104,6 +108,12 @@ function setup() {
     // Give the fly its first random position
     resetFly(shadowFly);
     resetFly(realFly);
+}
+
+function preload() {
+
+    scarySong = loadSound('../ASSETS/Sounds/scary.mp3');
+    happySong = loadSound('../ASSETS/Sounds/happy.mp3')
 }
 
 /**
@@ -424,11 +434,15 @@ function mousePressed() {
         whichScreen = "instructions";
     } else if (whichScreen === "instructions") {
         whichScreen = "cave"
+        //Playing scary song and looping it
+        if (scarySong && !scarySong.isPlaying());
+        scarySong.loop();
     }
     //Switch to the cave
     else if (whichScreen === "cave") {
         //Calling launch tongue function for shadow frog
         launchTongue(shadowFrog);
+
     }
     //Switch to reality
     else if (whichScreen === "real") {
@@ -451,5 +465,12 @@ function keyTyped() {
     if (!enlightened && typedInput.includes("enlightenment")) {
         enlightened = true;
         whichScreen = "real";
+        //Playing happy song and looping it
+        if (happySong && !happySong.isPlaying());
+        happySong.loop();
+        //Stopping scary music
+        if (scarySong && scarySong.isPlaying()) {
+            scarySong.stop();
+        }
     }
 }
